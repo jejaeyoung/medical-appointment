@@ -3,13 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <>
-    <p>Name/Position/GithubUsername</p>
-      <hr/>
-      <p>Daniel Sebastian G. Quilatan</p>
-      <p>Project Manager</p>
-      <p>jejaeyoung</p>
-      <p>asdadasd</p>
+    
       asdkashjdklllxvm
       asdfafafgfgfgf ang cute
       <hr/>
@@ -19,3 +13,10 @@ function App() {
 }
 
 export default App;
+<>
+    <p>Name/Position/GithubUsername</p>
+      <hr/>
+      <p>Daniel Sebastian G. Quilatan</p>
+      <p>Project Manager</p>
+      <p>jejaeyoung</p>
+      <p>asdadasd</p>
