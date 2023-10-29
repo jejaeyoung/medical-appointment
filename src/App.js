@@ -13,7 +13,7 @@ function App() {
       <p>jejaeyoung</p>
      
       <hr/>
-
+    <p>Mali</p>
     <LandingPage/>
     <Login/>
     </>
