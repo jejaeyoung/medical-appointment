@@ -5,7 +5,7 @@ function App() {
   return (
     <>
     <p>Name/Position/GithubUsername</p>
-  
+      <hr/>
       <p>Daniel Sebastian G. Quilatan</p>
       <p>Project Manager</p>
       <p>jejaeyoung</p>
