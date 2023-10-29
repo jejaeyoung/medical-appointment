@@ -21,4 +21,5 @@ function App() {
   );
 }
 
+//add muna ako ng comment
 export default App;
