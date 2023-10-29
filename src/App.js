@@ -9,11 +9,6 @@ function App() {
       <p>Daniel Sebastian G. Quilatan</p>
       <p>Project Manager</p>
       <p>jejaeyoung</p>
-      
-      <p>a askdjaskdjweo zsklmc</p>
-      <p>asdakoldjkwodkjflmdf,.gm</p><p>a askdjaskdjweo zsklmc</p>
-      <p>asdakoldjkwodkjflmdf,.gm</p><p>a askdjaskdjweo zsklmc</p>
-      <p>asdakoldjkwodkjflmdf,.gm</p>
       <hr/>
 
     </>
