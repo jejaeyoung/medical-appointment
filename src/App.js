@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import LandingPage from './components/landpage/LandingPage';
+import Login from './components/login/Login';
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
      
       <hr/>
 
+    <LandingPage/>
+    <Login/>
     </>
   );
 }
