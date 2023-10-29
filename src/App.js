@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import LandingPage from './components/landpage/LandingPage';
 import Login from './components/login/Login';
-import React from 'react';
+
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <p>jejaeyoung</p>
      
       <hr/>
-    <p>Mali</p>
+   
     <LandingPage/>
     <Login/>
     </>
