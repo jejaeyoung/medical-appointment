@@ -24,6 +24,10 @@ function App() {
       <p>dashrin</p>
       <hr/>
       
+      <p> Alliah Maye T. Orca </p>
+      <p> Programmer </p>
+      <p> allitootz </p>
+      <hr/>
     <LandingPage/>
     <Login/>
     </>
