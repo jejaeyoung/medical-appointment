@@ -14,7 +14,7 @@ function App() {
       <p>jejaeyoung</p>
      
       <hr/>
-   
+    <p>Tae ka</p>
     <LandingPage/>
     <Login/>
     </>
