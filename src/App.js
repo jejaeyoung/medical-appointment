@@ -13,6 +13,12 @@ function App() {
       <p>Project Manager</p>
       <p>jejaeyoung</p>
       <hr/>
+
+      <p>Kiddah Ceri C. Nubla</p>
+      <p>Documentor</p>
+      <p>kiddahceri</p>
+      <hr/>
+      
     <LandingPage/>
     <Login/>
     </>
