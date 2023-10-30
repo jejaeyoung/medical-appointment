@@ -7,12 +7,11 @@ import Login from './components/login/Login';
 function App() {
   return (
     <>
-    <p>Name/Position/GithubUsername</p>
+    <h1>Name/Position/GithubUsername</h1>
       <hr/>
       <p>Daniel Sebastian G. Quilatan</p>
       <p>Project Manager</p>
       <p>jejaeyoung</p>
-     
       <hr/>
     <LandingPage/>
     <Login/>
