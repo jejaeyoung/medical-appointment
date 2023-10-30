@@ -18,6 +18,11 @@ function App() {
       <p>Documentor</p>
       <p>kiddahceri</p>
       <hr/>
+
+      <p>Jazrene Vernique M. Aquino</p>
+      <p>System Analyst</p>
+      <p>dashrin</p>
+      <hr/>
       
     <LandingPage/>
     <Login/>
