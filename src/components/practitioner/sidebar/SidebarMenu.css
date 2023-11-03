@@ -1,0 +1,31 @@
+.gaTCvF {
+    background: rgb(26, 32, 59)!important;
+    color: rgb(255, 255, 255);
+    height: 100%;
+    width: 270px;
+    min-width: 270px;
+    text-align: left;
+    transition: width 0s ease 0s, left 0s ease 0s, right 0s ease 0s, all 0.3s ease 0s;
+    position: relative;
+    z-index: 1009;
+}
+
+.gmeTLe .side-icon {
+    margin-right: 10px;
+    width: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.CDBSidebarMenuItem:hover {
+    background-color: white !important;
+    color: #000 !important; 
+  }
+
+  .gmeTLe:hover {
+    background-color: white !important;
+    color: #000 !important; 
+    border-radius: 9px;
+}  
+
+

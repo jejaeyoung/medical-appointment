@@ -1,35 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+
+
+//Components
 import LandingPage from './components/landpage/LandingPage';
 import Login from './components/login/Login';
+import Dashboard from './components/practitioner/Dashboard';
 
 
 function App() {
   return (
     <>
-    <h1>Name/Position/Github Username</h1>
-      <hr/>
-      <p>Daniel Sebastian G. Quilatan</p>
-      <p>Project Manager</p>
-      <p>jejaeyoung</p>
-      <hr/>
+   
+   
 
-      <p>Kiddah Ceri C. Nubla</p>
-      <p>Documentor</p>
-      <p>kiddahceri</p>
-      <hr/>
+    <BrowserRouter>
+      <Routes>
+        <Route path={"/"}element={<Dashboard/>}/> 
+      </Routes>
+    </BrowserRouter>
 
-      <p>Jazrene Vernique M. Aquino</p>
-      <p>System Analyst</p>
-      <p>dashrin</p>
-      <hr/>
-      
-      <p> Alliah Maye T. Orca </p>
-      <p> Programmer </p>
-      <p> allitootz </p>
-      <hr/>
-    <LandingPage/>
-    <Login/>
+
+
     </>
   );
 }
