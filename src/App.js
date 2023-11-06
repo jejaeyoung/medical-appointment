@@ -14,9 +14,6 @@ import Dashboard from './components/practitioner/Dashboard';
 function App() {
   return (
     <>
-   
-   
-
     <BrowserRouter>
       <Routes>
         <Route path={"/"}element={<Dashboard/>}/> 
