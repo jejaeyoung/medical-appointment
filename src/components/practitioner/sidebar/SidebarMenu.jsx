@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
-import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Link } from 'react-router-dom';
 import './SidebarMenu.css';
 
 
 
-import { CDBSidebar, CDBSidebarContent, CDBSidebarHeader, CDBSidebarMenu, CDBSidebarMenuItem,CDBSidebarFooter, CDBIcon} from 'cdbreact';
+import { CDBSidebar, CDBSidebarContent, CDBSidebarHeader, CDBSidebarMenu, CDBSidebarMenuItem,CDBSidebarFooter, CDBIcon,  CDBBadge} from 'cdbreact';
 
 
 const SidebarMenu = () => {
@@ -18,22 +17,27 @@ const SidebarMenu = () => {
   return (
     <>
       <CDBSidebar>
-        <CDBSidebarHeader prefix={<i className={`fa ${isLeftIcon ? "fa-angle-left" : "fa-angle-right"}`} onClick={()=>{toggleIcon()}} />}>
-          Contrast 
+        <CDBSidebarHeader   prefix={<i className={`fa ${isLeftIcon ? "fa-angle-left" : "fa-angle-right"}`} onClick={()=>{toggleIcon()}}  />}  >
+           <span className="headercustom">Hello! Doc, Daniel Sebastian</span> 
         </CDBSidebarHeader>
         
         <CDBSidebarContent>
           <CDBSidebarMenu>
-              <CDBSidebarMenuItem icon="th-large"> Dashboard </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem  suffix={
+                  <CDBBadge  size="small" borderType="pill">
+                    10+
+                  </CDBBadge>
+                }
+               icon="th-large"> Dashboard </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="chess-bishop"> Appointment </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card" > Notification </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card"> Calendar </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Account Information </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
 
-              <NavLink exact to="/tables" activeClassName="activeClicked">
+              <Link exact to="/tables" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
-              </NavLink>
+              </Link>
 
           </CDBSidebarMenu>
         </CDBSidebarContent>

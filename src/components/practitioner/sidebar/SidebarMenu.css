@@ -8,6 +8,7 @@
     transition: width 0s ease 0s, left 0s ease 0s, right 0s ease 0s, all 0.3s ease 0s;
     position: relative;
     z-index: 1009;
+    border-radius: 0px 25px 25px 0 !important;
 }
 
 .gmeTLe .side-icon {
@@ -28,4 +29,6 @@
     border-radius: 9px;
 }  
 
-
+.headercustom {
+    white-space: break-spaces !important;    
+  }
