@@ -1,3 +1,68 @@
-.removegatter{
+.removegutter{
     --bs-gutter-x: 0rem !important;
 }
+.container1 {
+  
+    height: 100vh;
+  }
+  
+.container2 {
+  display: inline-flex;
+}
+.container3 {
+  --bs-gutter-x: 0rem !important;
+  margin-left: 10px;
+}
+
+.btn1 {
+  background:#F2F4F8 !important;
+  color: rgb(0, 0, 0);
+  width: 50px;
+  text-align: center;
+}
+
+.p1{
+  text-align: center;
+}
+
+
+.dOaoyM {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(226, 226, 226) !important;
+  padding: 15px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  height: 100px;
+
+}
+.compact-card {
+  margin-bottom: 0.5rem; /* Adjust the value to your preference */
+}
+.ccp1, .cch2 {
+  margin-bottom: 0.5rem; /* Adjust the value to your preference */
+}
+
+.compact-card .cc1 {
+  margin:0;
+
+  font-family: "Roboto-Regular", Helvetica !important;
+  font-size: 16px !important;
+  font-style: unset !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  line-height: 22.4px !important;
+}
+
+.cch2-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px !important; 
+}
+
+.cch2 {
+  margin-right: 5px; 
+  line-height: 0.2 !important;
+}
+
+
