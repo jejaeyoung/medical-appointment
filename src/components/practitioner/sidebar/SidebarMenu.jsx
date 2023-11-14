@@ -12,7 +12,7 @@ const SidebarMenu = () => {
 
   const [isLeftIcon, setIsLeftIcon] = useState(true);
   const toggleIcon = () => {
-    setIsLeftIcon((prevState) => !prevState);
+    setIsLeftIcon(!isLeftIcon);
   };
   return (
     <>
@@ -29,10 +29,10 @@ const SidebarMenu = () => {
                   </CDBBadge>
                 }
                icon="th-large"> Dashboard </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="chess-bishop"> Appointment </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="credit-card" > Notification </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="credit-card"> Calendar </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Account Information </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="bell" > Notification </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
 
               <Link exact to="/tables" activeClassName="activeClicked">

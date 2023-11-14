@@ -31,4 +31,9 @@
 
 .headercustom {
     white-space: break-spaces !important;    
+    font-family: 'Roboto', sans-serif !important;
   }
+
+.item-content{
+    font-family: 'Roboto', sans-serif !important;
+}
