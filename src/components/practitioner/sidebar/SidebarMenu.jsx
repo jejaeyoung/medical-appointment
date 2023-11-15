@@ -23,28 +23,22 @@ const SidebarMenu = () => {
         
         <CDBSidebarContent>
           <CDBSidebarMenu>
-              <CDBSidebarMenuItem  suffix={
-                  <CDBBadge  size="small" borderType="pill">
-                    10+
-                  </CDBBadge>
-                }
-               icon="th-large"> Dashboard </CDBSidebarMenuItem>
+              <Link to={`/practitioner/dashboard`}>
+                <CDBSidebarMenuItem  suffix={<CDBBadge  size="small" borderType="pill">10+</CDBBadge>}icon="th-large"> Dashboard </CDBSidebarMenuItem>
+              </Link>
+
               <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="bell" > Notification </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
 
-              <Link exact to="/tables" activeClassName="activeClicked">
-                <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
-              </Link>
-
           </CDBSidebarMenu>
         </CDBSidebarContent>
 
         <CDBSidebarFooter style={{ textAlign: "center" }}>
           <div className="sidebar-btn-wrapper" style={{ padding: "20px 5px" }}>
-            Sidebar Footer
+            Medical Appointment
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>

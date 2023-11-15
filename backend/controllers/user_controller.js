@@ -1,4 +1,6 @@
 const User = require('../models/user_collection');
+
+
 const NewUserSignUp = (req, res) => {
     User.create(req.body)
     .then((newUser) => {

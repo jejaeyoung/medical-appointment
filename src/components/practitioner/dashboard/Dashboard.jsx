@@ -142,7 +142,6 @@ function Dashboard() {
           <div>
             <h3>Posted Announcements:</h3>
             <hr className=" divider d-lg" />
-
             <div>
               {allPost.reverse().map((post, index) => (
               <div key={post}>

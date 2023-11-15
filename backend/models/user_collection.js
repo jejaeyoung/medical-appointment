@@ -30,7 +30,14 @@ const UserSchema = new Schema ({
         type: String,
         enum: ['Patient', 'Practitioner'],
         default:'Patient',
-    }
+    },
+    post:[
+        { 
+            type: String
+        },
+    ]
+       
+    
 
 })
 
