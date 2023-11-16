@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path={'/'} element={<LandingPage/>}></Route>
         <Route path={"/practitioner/dashboard"}element={<Dashboard/>}/>
-        <Route path={"/practitioner/dashboard/edit"}element={<EditMode/>}/>  
+        <Route path={"/practitioner/dashboard/edit/:uid"}element={<EditMode/>}/>  
       </Routes>
     </BrowserRouter>
 

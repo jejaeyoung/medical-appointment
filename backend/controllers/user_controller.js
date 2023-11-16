@@ -10,31 +10,104 @@ const NewUserSignUp = (req, res) => {
     .catch((err) => {
         res.json({ message: 'Something went wrong. Please try again.', error:err})
     });
+} 
+
+//getuser
+const findUserById = (req, res) => {
+  Users.User.findOne({_id:req.params.id})
+      .then((theUser) => {
+          res.json({theUser})
+      })
+      .catch((err) => {
+          res.json({ message: 'Something went wrong', error: err })
+      });
 }
 
-const userEmail = 'user@example.com';
 
-const addNewPost = (req, res) => {
-    const userEmail = req.body.email; // Assuming you pass user email in the request body
-    const newPostContent = req.body.post; // Assuming you pass new post content in the request body
+// Array New Post
+const addNewPostById = (req, res) => {
+    Users.User.findById({_id:req.params.id})
+      .then((user) => {
+        if (!user) {
+          res.json({ message: 'User not found' });
+        }
+        user.post.unshift(req.body.post);
+        return user.save();
+      })
+      .then((updatedUser) => {
+        res.json({ updatedUser, message: 'New post added successfully' });
+      })
+      .catch((error) => {
+        res.json({ message: 'Error adding post', error });
+      });
+  };
+  
 
-    Users.User.findOne({ email: userEmail })
-        .then(user => {
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-            user.post.push(newPostContent);
-            return user.save();
-        })
-        .then(updatedUser => {
-            res.json({ updatedUser, message: 'New post added successfully' });
-        })
-        .catch(error => {
-            res.json({ message: 'Error adding post', error });
-        });
-}
+//find posts by id
+const getAllPostbyId = (req, res) => {
+    Users.User.findOne({ _id: req.params.id })
+      .then((user) => {
+        if (!user) {
+          res.json({ message: 'User not found' });
+        }
+  
+        res.json({ posts: user.post }); 
+      })
+      .catch((err) => {
+        res.json({ message: 'Error retrieving posts', error: err });
+      });
+};
+
+//updateId
+const findPostByIdDelete = (req, res) => {
+  Users.User.findById(req.params.uid)
+    .then((user) => {
+      if (!user) {
+        return res.json({ message: 'User not found' });
+      }
+        user.post.splice(req.params.index, 1); 
+        return user.save()
+          .then((updatedUser) => {
+            res.json({ updatedUser, message: 'Post deleted successfully' });
+          })
+          .catch((error) => {
+            res.json({ message: 'Error deleting post', error });
+          });
+
+    })
+    .catch((error) => {
+      res.json({ message: 'Error finding user', error });
+    });
+};
+
+const updatePostAtIndex = (req, res) => {
+  Users.User.findById(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.json({ message: 'User not found' });
+      }
+        user.post[req.params.index] = req.body.updatedPost; 
+        return user.save()
+          .then((updatedUser) => {
+            res.json({ updatedUser, message: 'Post updated successfully' });
+          })
+          .catch((error) => {
+            res.json({ message: 'Error updating post', error });
+          });
+     
+    })
+    .catch((error) => {
+      res.json({ message: 'Error finding user', error });
+    });
+};
+
+
 
 module.exports = {
     NewUserSignUp,
-    addNewPost
+    addNewPostById,
+    getAllPostbyId,
+    findPostByIdDelete,
+    findUserById,
+    updatePostAtIndex
 }
