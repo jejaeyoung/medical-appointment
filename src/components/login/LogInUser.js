@@ -55,37 +55,36 @@ const LogInUser = () => {
     return (
         <>
             <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Card className="container">
-            <Card.Body>
+
             <div className="container">
 
             <h1> Log In </h1>
             <Form>
-                <Row className="align-items-right">
+                <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="formEmail">
                             <Form.Label>Email Address</Form.Label>
                             <Form.Control type="email" value="Enter Email Address" onChange={(e)=>{setTheUserMail(e.target.value)}} />
                     </Form.Group>
                 </Row>
                     
-                <Row className="aligh-items right">
+                <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="formPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" value="Enter Password" onChange={(e)=>{setThePass(e.target.value)}} />
                         </Form.Group>
                 </Row>
 
-                <Row className="align-items-right">
+                <Row className="mb-3">
                 <Form.Check type="checkbox" id="autoSizingCheck" className="mb-2"label="Remember me"/>
                 <a href>Forgot Password?</a>
                 </Row>
 
-                <div  className="d-lg-flex justify-content-between align-items-center mt-3">
-                <Row className="align-items-right">
+                <div className="d-lg-flex justify-content-between align-items-center mt-3">
+                    <div className="d-flex"> 
                         <Button type="submit" className="mb-2" onClick={(e) => {loginuser(e)}}>
                             Log In
                         </Button>
-                </Row>
+                    </div>
                 </div>
 
                 <div className="mb-0">
@@ -94,8 +93,6 @@ const LogInUser = () => {
             </Form>
             </div>
 
-        </Card.Body> 
-        </Card>
         </Container>
 
         </>
