@@ -27,7 +27,6 @@ function App() {
         <Route path={'/'} element={<LandingPage/>}></Route>
         <Route path={'/medapp/signup'} element={<NewSignUp/>}> </Route>
         <Route path={'/medapp/login'} element={<LogInUser/>}> </Route>
-        {/* mag add ng id sa gitna ng practition and dashboard para makuha yung id ng nag login */}
         <Route path={"/practitioner/dashboard/:userId"}element={<Dashboard/>}/>
         <Route path={"/practitioner/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
       </Routes>
