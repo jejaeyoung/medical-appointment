@@ -21,6 +21,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<LandingPage/>}></Route>
+        <Route path='medapp/signup' element={<NewSignUp/>}> </Route>
         <Route path={"/practitioner/dashboard"}element={<Dashboard/>}/>
         <Route path={"/practitioner/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
       </Routes>
