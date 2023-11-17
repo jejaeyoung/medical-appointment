@@ -4,12 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 3d574036cc085be9b98ce84b49153fad9f1805ad
-//Components
+//Component
 import LandingPage from './components/landpage/LandingPage';
 import LogInUser from './components/login/LogInUser';
 import NewSignUp from './components/login/NewSignUp';
