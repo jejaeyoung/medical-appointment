@@ -32,11 +32,10 @@ const UserSchema = new Schema ({
         default:'Patient',
     },
 
-    post:[
-      {
-        type:String
-      },
-    ]
+    post:{
+        type:Array,
+        default: ()=> []
+    }
  
     
 
@@ -48,11 +47,7 @@ UserSchema.method({
     },
   }); 
 
-  
-
-
 const User = mongoose.model('User', UserSchema);
-
 
 module.exports = {
     User,

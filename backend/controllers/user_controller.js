@@ -1,7 +1,5 @@
 const Users = require('../models/user_model');
 
-
-
 const NewUserSignUp = (req, res) => {
     Users.User.create(req.body)
     .then((newUser) => {
@@ -43,22 +41,21 @@ const addNewPostById = (req, res) => {
   };
   
 
-//find posts by id
+//find posts by id Array 
 const getAllPostbyId = (req, res) => {
     Users.User.findOne({ _id: req.params.id })
       .then((user) => {
         if (!user) {
           res.json({ message: 'User not found' });
         }
-  
-        res.json({ posts: user.post }); 
+          res.json({ posts: user.post }); 
       })
       .catch((err) => {
         res.json({ message: 'Error retrieving posts', error: err });
       });
 };
 
-//updateId
+//Deleting by Id Array Post
 const findPostByIdDelete = (req, res) => {
   Users.User.findById(req.params.uid)
     .then((user) => {
@@ -80,21 +77,21 @@ const findPostByIdDelete = (req, res) => {
     });
 };
 
+
 const updatePostAtIndex = (req, res) => {
   Users.User.findById(req.params.id)
     .then((user) => {
       if (!user) {
         return res.json({ message: 'User not found' });
       }
-        user.post[req.params.index] = req.body.updatedPost; 
-        return user.save()
+            user.post[req.params.index] = req.body.post; 
+            return user.save()
           .then((updatedUser) => {
             res.json({ updatedUser, message: 'Post updated successfully' });
           })
           .catch((error) => {
             res.json({ message: 'Error updating post', error });
           });
-     
     })
     .catch((error) => {
       res.json({ message: 'Error finding user', error });

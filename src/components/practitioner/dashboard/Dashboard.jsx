@@ -21,6 +21,8 @@ function Dashboard() {
   const [thePosts, setThePosts] = useState([]);
 
   const [theId, setTheId] =useState("");
+
+  const [selectedPostIndex, setSelectedPostIndex] = useState(null);
   const navigate = useNavigate();
 
 
@@ -37,10 +39,8 @@ function Dashboard() {
     setPostDropdowns(updatedDropdowns);
   };
 
-  const editPost = (index) => {
-    navigate(`/practitioner/dashboard/edit/${theId}`);
-    
-  };
+  
+
 
  //Setting a State for Id
  axios.get(`http://localhost:8000/api/medapp/finduser/6554ed67204615e200e4c204`)
@@ -80,18 +80,23 @@ function Dashboard() {
   const submitPost = (e) => {
     if (thePost.length > 3) {
       axios.post("http://localhost:8000/api/medapp/addpost/6554ed67204615e200e4c204", {
-        email: 'dasdad@gmail.com', // Replace with the user's email
         post: thePost
       })
       .then((res) => {
-        setThePosts([...thePosts, thePost]); // Update the frontend with the new post
-        setThePost(""); // Clear the input field after submitting
+        setThePosts([...thePosts, thePost]); 
+        setThePost(""); 
       })
       .catch((err) => {
         console.log(err);
       });
     }
   };
+
+  const editPost = (id, index ) => {
+    setSelectedPostIndex(index);
+    navigate(`/practitioner/dashboard/edit/${theId}/`+index);
+  };
+
 
 
 
@@ -140,8 +145,7 @@ function Dashboard() {
                 <CDBBadge
                   size="small"
                   borderType="pill"
-                  className="btn1 ms-2 mb-0 d-flex align-items-center"
-                >
+                  className="btn1 ms-2 mb-0 d-flex align-items-center">
                   <p className="mb-0 mx-auto">+2.5224</p>
                 </CDBBadge>
               </div>
@@ -175,14 +179,14 @@ function Dashboard() {
             {thePosts.map((post, index) => (
               <div key={index}>
                 <div className="d-flex align-items-center justify-content-between">
-                  <li key={index}>{post}</li>
+                  <li className="list-unstyled decoration-none" key={index}>{post}</li>
                   
                   <Dropdown show={postDropdowns[index]} onToggle={() => handleDropdownToggle(index)}>
                     <Dropdown.Toggle variant="link" className="text-decoration-none">
                       <Icon.ThreeDots className="threedots" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => editPost(post._id)}>Edit</Dropdown.Item>
+                      <Dropdown.Item onClick={() => editPost(post._id, index)}>Edit</Dropdown.Item>
                       <Dropdown.Item onClick={() => deletePost(index)}>Delete</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
@@ -200,8 +204,8 @@ function Dashboard() {
           
         </div>
 
-          <div className="container thirdcontainer">
-        Right side bar
+        <div className="container thirdcontainer">
+          
         </div>
       </div>
     </>

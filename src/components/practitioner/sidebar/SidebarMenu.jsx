@@ -18,7 +18,7 @@ const SidebarMenu = () => {
     <>
       <CDBSidebar>
         <CDBSidebarHeader   prefix={<i className={`fa ${isLeftIcon ? "fa-angle-left" : "fa-angle-right"}`} onClick={()=>{toggleIcon()}}  />}  >
-           <span className="headercustom">Hello! Doc, Daniel Sebastian</span> 
+           <span className="headercustom">Hello! Doc, Daniel</span> 
         </CDBSidebarHeader>
         
         <CDBSidebarContent>
