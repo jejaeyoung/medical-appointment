@@ -80,10 +80,12 @@ const LogInUser = () => {
                 <a href>Forgot Password?</a>
                 </Row>
 
-                <div  className="d-lg-flex justify-content-between align-items-center mt-3">
+                <div className="d-lg-flex justify-content-between align-items-center mt-3">
+                    <div className="d-flex"> 
                         <Button type="submit" className="mb-2" onClick={(e) => {loginuser(e)}}>
                             Log In
                         </Button>
+                    </div>
                 </div>
 
                 <div className="mb-0">
