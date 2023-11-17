@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 //Components
 import LandingPage from './components/landpage/LandingPage';
-import Login from './components/login/Login';
+import LogInUser from '.components/login/LogInUser';
 import NewSignUp from './components/login/NewSignUp';
 
 //Practitioner
