@@ -1,14 +1,17 @@
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
 function LandingPage () {
+  const navigate = useNavigate();
+
   const onButtonContainerClick = useCallback(() => {
-    // Please sync "Sign Up" to the project
-  }, []);
+    navigate("/medapp/signup");
+  }, [navigate]);
 
   const onButtonContainer1Click = useCallback(() => {
-    // Please sync "Log In" to the project
-  }, []);
+    navigate("/login");
+  }, [navigate]);
 
   return (
     <div className="landing-page">
