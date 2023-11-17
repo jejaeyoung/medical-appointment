@@ -55,8 +55,7 @@ const LogInUser = () => {
     return (
         <>
             <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Card className="container">
-            <Card.Body>
+
             <div className="container">
 
             <h1> Log In </h1>
@@ -94,8 +93,6 @@ const LogInUser = () => {
             </Form>
             </div>
 
-        </Card.Body> 
-        </Card>
         </Container>
 
         </>
