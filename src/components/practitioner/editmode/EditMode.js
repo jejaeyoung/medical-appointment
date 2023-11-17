@@ -36,7 +36,7 @@ function EditMode() {
     const newPost ={
       post:post,
     }
-    navigate('/practitioner/dashboard');
+    navigate('/practitioner/dashboard/'+uid);
     axios.put(`http://localhost:8000/api/medapp/post/updatepost/${uid}/${index}`,newPost)
     .then((response)=>{
       console.log(response.data);

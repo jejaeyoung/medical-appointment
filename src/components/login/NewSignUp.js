@@ -27,7 +27,7 @@ const NewSignUp = () => {
         .then((response) => {
             console.log(response);
             window.alert("Successfully registered User");
-            // navigate ('medapp/login');
+             navigate ('/medapp/login');
             // response.render("medapp/login");
         })
         .catch((err)=> {

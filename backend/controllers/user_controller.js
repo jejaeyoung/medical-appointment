@@ -32,9 +32,9 @@ const findUserById = (req, res) => {
 }
 
 const findUserByEmail = (req, res) => {
-  Users.User.findOne({u_email:req.params.email})
+  Users.User.findOne({email:req.params.email})
       .then((theUser) => {
-          res.json({theUser})
+          res.json({theEmail : theUser})
       })
       .catch((err) => {
           res.json({ message: 'Something went wrong', error: err })
