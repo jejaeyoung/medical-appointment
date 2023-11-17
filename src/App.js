@@ -18,6 +18,7 @@ import EditMode from './components/practitioner/editmode/EditMode';
 function App() {
   return (
     <>
+    <p>dsadadd</p>
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<LandingPage/>}></Route>
