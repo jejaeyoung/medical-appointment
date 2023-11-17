@@ -3,8 +3,9 @@
 }
 
 .container1 {
-  margin-top: 10px;
-  min-height: 100vh; /* Use min-height instead of height for better responsiveness */
+  margin-top: 10px !important;
+  min-height: 100vh !important;
+  background-color: white !important; 
 }
 
 .container2 {
