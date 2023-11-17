@@ -10,7 +10,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import LandingPage from './components/landpage/LandingPage';
 import LogInUser from './components/login/LogInUser';
 import NewSignUp from './components/login/NewSignUp';
-import LogInUser from './components/login/LogInUser';
+
 
 //Practitioner
 import Dashboard from './components/practitioner/dashboard/Dashboard';
