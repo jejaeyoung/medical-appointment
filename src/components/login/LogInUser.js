@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FormLabel, Row, Form, Col, Button } from "react-bootstrap";
+import { FormLabel, Row, Form, Col, Button , Container} from "react-bootstrap";
 
 
 
@@ -37,11 +37,11 @@ const LogInUser = () => {
     const loginuser = (e) => {
         e.preventDefault();
 
-        
+
         const emailIndex = UsernameArr.indexOf(oneEmail);
 
         if (emailIndex !== -1 && OnePass === allPass[emailIndex]) {
-           
+
             const user = allUsers[emailIndex];
             window.alert("Successfully logged in");
             console.log(user._id);
@@ -55,9 +55,13 @@ const LogInUser = () => {
 
     return (
         <>
+            <Container className="d-flex justify-content-center align-items-center vh-100">
+
+            <div className="container">
+
             <h1> Log In </h1>
-            <form>
-                <Row className="align-items-right">
+            <Form>
+                <Row className="mb-3">
                     <Form.Group className="mb-3" controlId="formEmail">
                         <Form.Label>Email Address</Form.Label>
                         <Form.Control
@@ -83,18 +87,26 @@ const LogInUser = () => {
                     </Form.Group>
                 </Row>
 
-                <Row className="align-items-right">
-                    <Form.Check type="checkbox" id="autoSizingCheck" className="mb-2" label="Remember me" />
-                    <a href="/">Forgot Password?</a>
+                <Row className="mb-3">
+                <Form.Check type="checkbox" id="autoSizingCheck" className="mb-2"label="Remember me"/>
+                <a href>Forgot Password?</a>
                 </Row>
 
-                <Row className="align-items-right">
-                    <Button type="submit" className="mb-2" onClick={(e) => loginuser(e)}>
-                        Log In
-                    </Button>
-                </Row>
-            </form>
-            <hr />
+                <div className="d-lg-flex justify-content-between align-items-center mt-3">
+                    <div className="d-flex"> 
+                        <Button type="submit" className="mb-2" onClick={(e) => {loginuser(e)}}>
+                            Log In
+                        </Button>
+                    </div>
+                </div>
+
+                <div className="mb-0">
+                <a href="medapp/signup">No account yet? Sign up</a>
+                </div>
+            </Form>
+            </div>
+
+        </Container>
 
             <p>
                 <Link to="/medapp/signup">No account yet? Sign up </Link>
