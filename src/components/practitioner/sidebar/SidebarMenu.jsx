@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, navigate, useNavigate, useParams } from "react-router-dom";
 
-import { Link } from 'react-router-dom';
 import './SidebarMenu.css';
 
 
@@ -8,17 +9,22 @@ import './SidebarMenu.css';
 import { CDBSidebar, CDBSidebarContent, CDBSidebarHeader, CDBSidebarMenu, CDBSidebarMenuItem,CDBSidebarFooter, CDBIcon,  CDBBadge} from 'cdbreact';
 
 
-const SidebarMenu = () => {
+const SidebarMenu = (props) => {
 
   const [isLeftIcon, setIsLeftIcon] = useState(true);
   const toggleIcon = () => {
     setIsLeftIcon(!isLeftIcon);
   };
+
+
+  
+
+
   return (
     <>
       <CDBSidebar>
         <CDBSidebarHeader   prefix={<i className={`fa ${isLeftIcon ? "fa-angle-left" : "fa-angle-right"}`} onClick={()=>{toggleIcon()}}  />}  >
-           <span className="headercustom">Hello! Doc, Daniel</span> 
+           <span className="headercustom">Hello! Doc, {props.p_name}</span> 
         </CDBSidebarHeader>
         
         <CDBSidebarContent>
@@ -31,7 +37,9 @@ const SidebarMenu = () => {
               <CDBSidebarMenuItem icon="bell" > Notification </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
+              <Link to={`/`}>
+                <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
+              </Link>
 
           </CDBSidebarMenu>
         </CDBSidebarContent>

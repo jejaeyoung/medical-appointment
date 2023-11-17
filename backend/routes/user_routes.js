@@ -4,6 +4,8 @@ const UserController = require ('../controllers/user_controller');
 module.exports = app => { 
     app.get('/api/test',(req,res)=>{res.json({message:"the api is working"})});
     app.post('/api/medapp/signup', UserController.NewUserSignUp);
+    app.get('/api/medapp/allusers', UserController.findAllUsers);
+    app.get('/api/medapp/user/:email', UserController.findUserByEmail);
 
 
     //For Post

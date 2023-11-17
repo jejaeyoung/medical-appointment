@@ -27,7 +27,7 @@ const NewSignUp = () => {
         .then((response) => {
             console.log(response);
             window.alert("Successfully registered User");
-            // navigate ('medapp/login');
+             navigate ('/medapp/login');
             // response.render("medapp/login");
         })
         .catch((err)=> {
@@ -53,6 +53,7 @@ const NewSignUp = () => {
         <Card.Body>
         <div className="container ">
             <h1> Sign Up </h1>
+            <hr/>
             <Form>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formFName">

@@ -14,7 +14,8 @@ import axios from "axios";
 
 function Dashboard() {
   //to store the state
-  
+  const {userId} = useParams();
+
   const [thePost, setThePost] = useState("");
 
   const [postDropdowns, setPostDropdowns] = useState([]);
@@ -22,6 +23,7 @@ function Dashboard() {
 
   const [theId, setTheId] =useState("");
 
+  const [theName, setTheName] =useState("");
   const [selectedPostIndex, setSelectedPostIndex] = useState(null);
   const navigate = useNavigate();
 
@@ -43,10 +45,11 @@ function Dashboard() {
 
 
  //Setting a State for Id
- axios.get(`http://localhost:8000/api/medapp/finduser/6554ed67204615e200e4c204`)
+ axios.get(`http://localhost:8000/api/medapp/finduser/`+userId)
  .then((res) => {
-   console.log(res.data.theUser._id)
+  
    setTheId(res.data.theUser._id)
+   setTheName(res.data.theUser.firstName)
  })
  .catch((err) => {
    console.log(err);
@@ -54,7 +57,7 @@ function Dashboard() {
 
   //deleting post
   const deletePost = (index) => {
-    axios.delete(`http://localhost:8000/api/medapp/post/deletepost/${theId}/`+index)
+    axios.delete(`http://localhost:8000/api/medapp/post/deletepost/${userId}/`+index)
         .then((res) => {
           console.log(res)
           window.location.reload();
@@ -66,7 +69,7 @@ function Dashboard() {
 
   //display all posts
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/medapp/post/getallpost/6554ed67204615e200e4c204`)
+    axios.get(`http://localhost:8000/api/medapp/post/getallpost/${userId}`)
       .then((res) => {
         console.log(res.data.posts);
         setThePosts(res.data.posts);
@@ -79,7 +82,7 @@ function Dashboard() {
   //creating new post
   const submitPost = (e) => {
     if (thePost.length > 3) {
-      axios.post("http://localhost:8000/api/medapp/addpost/6554ed67204615e200e4c204", {
+      axios.post("http://localhost:8000/api/medapp/addpost/"+userId, {
         post: thePost
       })
       .then((res) => {
@@ -106,10 +109,10 @@ function Dashboard() {
       <div
         style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden",}}
       >
-        <SidebarMenu />
+        <SidebarMenu p_name={theName} />
 
         <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
-          
+
           <div className="removegutter">
             <h1 className="dashboard-title">Dashboard</h1>
             <p>Overview</p>

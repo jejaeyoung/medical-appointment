@@ -10,6 +10,16 @@ const NewUserSignUp = (req, res) => {
     });
 } 
 
+const findAllUsers = (req, res) => {
+    Users.User.find()
+    .then((allDataUsers) => {
+      res.json({ theUser: allDataUsers })
+  })
+  .catch((err) => {
+      res.json({ message: 'Something went wrong', error: err })
+  });
+}
+
 //getuser
 const findUserById = (req, res) => {
   Users.User.findOne({_id:req.params.id})
@@ -21,6 +31,15 @@ const findUserById = (req, res) => {
       });
 }
 
+const findUserByEmail = (req, res) => {
+  Users.User.findOne({email:req.params.email})
+      .then((theUser) => {
+          res.json({theEmail : theUser})
+      })
+      .catch((err) => {
+          res.json({ message: 'Something went wrong', error: err })
+      });
+}
 
 // Array New Post
 const addNewPostById = (req, res) => {
@@ -102,6 +121,8 @@ const updatePostAtIndex = (req, res) => {
 
 module.exports = {
     NewUserSignUp,
+    findAllUsers,
+    findUserByEmail,
     addNewPostById,
     getAllPostbyId,
     findPostByIdDelete,
