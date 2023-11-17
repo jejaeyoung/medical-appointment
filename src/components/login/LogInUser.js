@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FormLabel, Row, Form, Col, Button } from "react-bootstrap";
 import NewSignUp from "./NewSignUp";
+import { Container } from "react-bootstrap/lib/Tab";
 
 const LogInUser = () => {
     const navigate = useNavigate();
@@ -53,8 +54,13 @@ const LogInUser = () => {
 
     return (
         <>
+            <Container className="d-flex justify-content-center align-items-center vh-100">
+            <Card className="container">
+            <Card.Body>
+            <div className="container">
+
             <h1> Log In </h1>
-            <form>
+            <Form>
                 <Row className="align-items-right">
                     <Form.Group className="mb-3" controlId="formEmail">
                             <Form.Label>Email Address</Form.Label>
@@ -74,16 +80,23 @@ const LogInUser = () => {
                 <a href>Forgot Password?</a>
                 </Row>
 
+                <div  className="d-lg-flex justify-content-between align-items-center mt-3">
                 <Row className="align-items-right">
                         <Button type="submit" className="mb-2" onClick={(e) => {loginuser(e)}}>
                             Log In
                         </Button>
                 </Row>
+                </div>
 
-            </form>
-            <hr/>
+                <div className="mb-0">
+                <a href="medapp/signup">No account yet? Sign up</a>
+                </div>
+            </Form>
+            </div>
 
-            <p><a href="medapp/signup"> <Link to="medapp/signup">No account yet? Sign up </Link></a></p>
+        </Card.Body> 
+        </Card>
+        </Container>
 
         </>
     )
