@@ -31,6 +31,15 @@ const findUserById = (req, res) => {
       });
 }
 
+const findUserByEmail = (req, res) => {
+  Users.User.findOne({u_email:req.params.email})
+      .then((theUser) => {
+          res.json({theUser})
+      })
+      .catch((err) => {
+          res.json({ message: 'Something went wrong', error: err })
+      });
+}
 
 // Array New Post
 const addNewPostById = (req, res) => {
@@ -113,6 +122,7 @@ const updatePostAtIndex = (req, res) => {
 module.exports = {
     NewUserSignUp,
     findAllUsers,
+    findUserByEmail,
     addNewPostById,
     getAllPostbyId,
     findPostByIdDelete,
