@@ -26,7 +26,7 @@ const LogInUser = () => {
 
     const loginuser = (e) => {
         e.preventDefault();
-        if(UsernameArr.includes(oneUsername) === true) {
+        if(UsernameArr.includes(user) === true) {
             
             axios.get("http://localhost:8000/api/medapp/user/" +oneEmail)
             .then((response) => {

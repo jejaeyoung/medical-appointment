@@ -10,7 +10,8 @@ function LandingPage () {
   });
 
   const onButtonContainer1Click = (() => {
-    navigate("/login");
+    navigate("/medapp/loginn");
+  
   });
 
   return (
