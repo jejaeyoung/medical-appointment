@@ -10,7 +10,8 @@ import { CDBSidebar, CDBSidebarContent, CDBSidebarHeader, CDBSidebarMenu, CDBSid
 
 
 const SidebarMenu = (props) => {
-
+ 
+  
   const [isLeftIcon, setIsLeftIcon] = useState(true);
   const toggleIcon = () => {
     setIsLeftIcon(!isLeftIcon);

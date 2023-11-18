@@ -14,7 +14,7 @@ import axios from "axios";
 
 function Dashboard() {
   //to store the state
-  const {userId} = useParams();
+  const {userId,role} = useParams();
 
   const [thePost, setThePost] = useState("");
 

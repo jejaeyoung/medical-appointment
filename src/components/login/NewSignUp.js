@@ -27,8 +27,8 @@ const NewSignUp = () => {
         .then((response) => {
             console.log(response);
             window.alert("Successfully registered User");
-             navigate ('/medapp/login');
-            // response.render("medapp/login");
+             navigate('/medapp/login');
+   
         })
         .catch((err)=> {
             console.log(err);
@@ -84,9 +84,9 @@ const NewSignUp = () => {
                 <Row>
                     <Form.Group as={Col} controlId="formChoose">
                         <Form.Label>Choose what to register:</Form.Label>
-                        <Form.Select onChange={(e)=>{setAllRole(e.target.value)}} defaultValue="Choose">
-                            <option onChange={(e)=> {setURole(e.target.value)}} >Patient</option>
-                            <option onChange={(e)=> {setURole(e.target.value)}}>Practitioner</option>
+                        <Form.Select onChange={(e) => setURole(e.target.value)} defaultValue="Choose">
+                            <option value="Patient">Patient</option>
+                             <option value="Practitioner">Practitioner</option>
                         </Form.Select>
                     </Form.Group>
                 </Row>
@@ -98,7 +98,7 @@ const NewSignUp = () => {
                         </Button>
                     </div>
                     <div className="mb-0">
-                        <a href="medapp/login">Already have an account?</a>
+                        <a href="/medapp/login">Already have an account?</a>
                     </div>
                 </div>
             </Form>

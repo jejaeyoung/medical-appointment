@@ -14,9 +14,18 @@ import axios from "axios";
 
 function EditMode() {
   const navigate = useNavigate();
-  const { uid,index } = useParams();
+  const { uid,index,role } = useParams();
   const [post, setPost] = useState([""]);
 
+  const [theName, setTheName] =useState("");
+  axios.get(`http://localhost:8000/api/medapp/finduser/`+uid)
+  .then((res) => {
+
+    setTheName(res.data.theUser.firstName)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
   useEffect(()=>{
     axios.get("http://localhost:8000/api/medapp/finduser/"+uid)
@@ -54,7 +63,7 @@ function EditMode() {
     <div
       style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden",}}
     >
-      <SidebarMenu />
+      <SidebarMenu p_name={theName} />
 
       <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
         <div className=" removegutter container4 container-fluid ">

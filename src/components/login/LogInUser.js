@@ -11,6 +11,7 @@ const LogInUser = () => {
     const [OnePass, setThePass] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [allPass, setAllPass] = useState([]);
+    const [allRoles, setAllRoles] = useState([]);
     const [UsernameArr, setUArr] = useState([]);
 
 
@@ -27,6 +28,10 @@ const LogInUser = () => {
             const passwords = userData.map(user => user.password);
             setAllPass(passwords);
             console.log(passwords);
+
+            const roles = userData.map(user => user.role);
+            setAllRoles(roles);
+            console.log(roles);
         })
         .catch((err)=> {
             console.log(err)
@@ -39,13 +44,16 @@ const LogInUser = () => {
 
 
         const emailIndex = UsernameArr.indexOf(oneEmail);
+  
 
         if (emailIndex !== -1 && OnePass === allPass[emailIndex]) {
 
             const user = allUsers[emailIndex];
+            console.log(user.role);
+           
             window.alert("Successfully logged in");
             console.log(user._id);
-            navigate(`/practitioner/dashboard/${user._id}`); 
+            navigate(`/${user.role}/dashboard/${user._id}`); 
         } else {
 
             window.alert("Wrong Email or Password");
@@ -101,7 +109,7 @@ const LogInUser = () => {
                 </div>
 
                 <div className="mb-0">
-                <a href="medapp/signup">No account yet? Sign up</a>
+                <a href="/medapp/signup">No account yet? Sign up</a>
                 </div>
             </Form>
             </div>
