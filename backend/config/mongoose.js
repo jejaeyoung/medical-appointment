@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/Usersdb', {
+mongoose.connect('mongodb://127.0.0.1:27017/PIMSdb', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(() => console.log('Established a connection to the database'))
+    .then(() => console.log('You have been connected to Practitioner Database'))
     .catch(err => console.log('Something went wrong when connecting to the database ', err));
     

@@ -30,11 +30,14 @@ const SidebarMenu = (props) => {
         
         <CDBSidebarContent>
           <CDBSidebarMenu>
-              <Link to={`/practitioner/dashboard`}>
+              <Link to={`/practitioner/dashboard/${props.uid}`}>
                 <CDBSidebarMenuItem  suffix={<CDBBadge  size="small" borderType="pill">10+</CDBBadge>}icon="th-large"> Dashboard </CDBSidebarMenuItem>
               </Link>
 
-              <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
+              <Link to={`/practitioner/patient/all`}>
+                <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
+              </Link>
+
               <CDBSidebarMenuItem icon="bell" > Notification </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const {Schema, model} = mongoose
 
-const UserSchema = new Schema ({
+const PractitionerSchema = new Schema ({
     firstName: {
         type: String,
         require: true,
@@ -28,8 +28,8 @@ const UserSchema = new Schema ({
     },
     role: {
         type: String,
-        enum: ['Patient', 'Practitioner'],
-        default:'Patient',
+        enum: ['Practitioner'],
+        default:'Practitioner',
     },
 
     post:{
@@ -41,13 +41,14 @@ const UserSchema = new Schema ({
 
 })
 
-UserSchema.method({
+PractitionerSchema.method({
     async authenticate(password) {
        return bcrypt.compare(password, this.password);
     },
   }); 
 
-const User = mongoose.model('User', UserSchema);
+  //collection
+const User = mongoose.model('practitioner', PractitionerSchema);
 
 module.exports = {
     User,

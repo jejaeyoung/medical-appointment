@@ -2,8 +2,10 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Appointment.css';
+import SidebarMenu from "../sidebar/SidebarMenu";
 
 const Appointment =()=>{
+  
 const [allPatient,setAllpatient] = useState([]);
 const [thePatient,setThepatient] = useState({});
 
@@ -14,7 +16,9 @@ const [thePatient,setThepatient] = useState({});
     const [pbloodtype,setPbloodtype]=useState("");
     const [phealthstatus,setPhealthstatus]=useState("");
     const [paction,setPaction]=useState("");
+    const [theId, setTheId] =useState("");
 
+    const [theName, setTheName] =useState("");
     useEffect(()=>{
         axios.get("http://localhost:8000/api/patient/all")
         .then((res)=>{
@@ -26,9 +30,17 @@ const [thePatient,setThepatient] = useState({});
         })
     },[])
 
+
+
     return(
-       <>
-       <div > 
+      <>
+      <div
+        style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden",}}
+      >
+
+
+        <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
+        <div > 
        <h1 className="Appointment"> Appointment </h1>
        <ul className="Tab">
         Appointment   Your Patient   Overview
@@ -56,7 +68,20 @@ const [thePatient,setThepatient] = useState({});
             })}
         </table>
        </div>
-       </>
+            
+
+
+
+
+
+          
+        </div>
+
+        <div className="container thirdcontainer">
+          
+        </div>
+      </div>
+    </>
     )
 
 }

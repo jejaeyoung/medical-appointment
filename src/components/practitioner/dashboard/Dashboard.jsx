@@ -109,7 +109,7 @@ function Dashboard() {
       <div
         style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden",}}
       >
-        <SidebarMenu p_name={theName} />
+        <SidebarMenu p_name={theName} uid={theId} />
 
         <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
 

@@ -25,17 +25,22 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-      <Route path='/patient/all' element={<Appointment/>}></Route>
-      <Route path='/patient/accept/:id' element={<YourPatient/>}></Route>
+     
         <Route path={'/'} element={<LandingPage/>}></Route>
         <Route path={'/medapp/signup'} element={<NewSignUp/>}> </Route>
         <Route path={'/medapp/login'} element={<LogInUser/>}> </Route>
         <Route path={"/practitioner/dashboard/:userId"}element={<Dashboard/>}/>
         <Route path={"/practitioner/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
+        <Route path={'/practitioner/patient/all'} element={<Appointment/>}></Route>
+        <Route path={'/practitioner/patient/accept/:id'} element={<YourPatient/>}></Route>
+
       </Routes>
     </BrowserRouter>
 
-    <Appointment/>
+
+    
+
+  
 
 
 

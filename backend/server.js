@@ -9,7 +9,7 @@ const cors = require("cors");
  
 app.use(express.json(), express.urlencoded({ extended: true }),cors());
  
-const AllMyUserRoutes = require("./routes/user_routes");
+const AllMyUserRoutes = require("./routes/practitioner_routes");
 AllMyUserRoutes(app);
    
 app.listen(port, () => console.log("The server is all fired up on port 8000"));

@@ -310,3 +310,8 @@
   --bs-btn-disabled-border-color: #0d6efd;
   margin-right: 10px !important;
 }
+
+.btn {
+  
+  margin-right: 15px !important;
+}

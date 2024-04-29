@@ -44,8 +44,6 @@ const LogInUser = () => {
 
 
         const emailIndex = UsernameArr.indexOf(oneEmail);
-  
-
         if (emailIndex !== -1 && OnePass === allPass[emailIndex]) {
 
             const user = allUsers[emailIndex];
@@ -97,7 +95,7 @@ const LogInUser = () => {
 
                 <Row className="mb-3">
                 <Form.Check type="checkbox" id="autoSizingCheck" className="mb-2"label="Remember me"/>
-                <a href>Forgot Password?</a>
+                    <a href>Forgot Password?</a>
                 </Row>
 
                 <div className="d-lg-flex justify-content-between align-items-center mt-3">
