@@ -6,14 +6,14 @@ require("./config/mongoose")
 require('dotenv').config();
 
 const cors = require("cors");
- 
+
 app.use(express.json(), express.urlencoded({ extended: true }),cors());
  
-const AllMyUserRoutes = require("./routes/practitioner_routes");
-AllMyUserRoutes(app);
-   
+//routes
+const DoctorRoutes = require("./doctor/doctor_routes");
+DoctorRoutes(app);
+const PatientRoutes = require("./patient/patient_routes");
+PatientRoutes(app);
+
 app.listen(port, () => console.log("The server is all fired up on port 8000"));
 
-app.get("/newuser", (req,res) => {
-    res.render("signup")
-})

@@ -2,27 +2,27 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const {Schema, model} = mongoose
 
-const UserSchema = new Schema ({
+const PatientSchema = new Schema ({
 
     //personal info
 
-    user_firstName: {
+    patient_firstName: {
         type: String,
         required: true, //requireD daw dapat sabi sa google
         minlength: 3,
         maxlength: 20
     },
-    user_middleInitial: {
+    patient_middleInitial: {
         type: String,
         maxlength: 1
     },
-    user_lastName: {
+    patient_lastName: {
         type: String,
         required: true,
         minlength: 2,
         maxlength: 20
     },
-    user_email: {
+    patient_email: {
         type: String,
         required: true,
         unique: true,
@@ -34,20 +34,20 @@ const UserSchema = new Schema ({
             message: props => `${props.value} is not a valid email address.`
         }
     },
-    user_password: {
+    patient_password: {
         type: String,
         required: true,
         minlength: 6,
     },
-    user_dob: {
+    patient_dob: {
         type: Date,
         required: true,
     },
-    user_joinedAt: {
+    patient_joinedAt: {
         type: Date,
         required: true,
     },
-    user_contactNumber: {
+    patient_contactNumber: {
         type: String,
         required: true,
         unique: true,
@@ -58,7 +58,7 @@ const UserSchema = new Schema ({
             message: props => `${props.value} has to be 11 characters long.`
         }
     },
-    user_gender: {
+    patient_gender: {
         type: String,
         required: true,
         enum: ['Male', 'Female', 'Other']
@@ -72,22 +72,18 @@ const UserSchema = new Schema ({
 
     //not personal
 
-    user_post:{
-        type:Array,
-        default: ()=> []
-    },
-    // user_appts: {
+    // patient_appts: {
     //     type: [AppointmentSchema]
     // }
 
 })
 
-UserSchema.method({
+PatientSchema.method({
     async authenticate(password) {
        return bcrypt.compare(password, this.password);
     },
   }); 
 
-const User = mongoose.model('Dummy', UserSchema);
+const Patient = mongoose.model('Patient', PatientSchema);
 
-module.exports = User;
+module.exports = Patient;

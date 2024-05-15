@@ -1,4 +1,4 @@
-const PractitionerController = require ('../controllers/practitioner_controller');
+const PractitionerController = require ('../user/user_controller');
 
 
 module.exports = app => { 

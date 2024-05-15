@@ -31,15 +31,20 @@ const PractitionerSchema = new Schema ({
         enum: ['Practitioner'],
         default:'Practitioner',
     },
-
+    patients: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Patient' 
+    }],
     post:{
         type:Array,
         default: ()=> []
-    }
+    },
+    appointments: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Appointment' }]
+        }, { timestamps: true });
  
-    
 
-})
 
 PractitionerSchema.method({
     async authenticate(password) {

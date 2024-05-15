@@ -49,7 +49,20 @@ const DoctorSchema = new Schema({
         required: true,
         unique: true,
         
-    }
-})
+    },
+
+    dr_patients: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Patient' 
+    }],
+    post:{
+        type:Array,
+        default: ()=> []
+    },
+    dr_appointments: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Appointment' }]
+        }, { timestamps: true });
+
 
 const Doctor = model('Doctor', DoctorSchema)
