@@ -5,10 +5,13 @@ const {Schema, model} = mongoose
 const PatientSchema = new Schema ({
 
     //personal info
-
+    patient_ID:{
+        type: String,
+        unique: true
+    },
     patient_firstName: {
         type: String,
-        required: true, //requireD daw dapat sabi sa google
+       
         minlength: 3,
         maxlength: 20
     },
@@ -18,13 +21,13 @@ const PatientSchema = new Schema ({
     },
     patient_lastName: {
         type: String,
-        required: true,
+       
         minlength: 2,
         maxlength: 20
     },
     patient_email: {
         type: String,
-        required: true,
+       
         unique: true,
         lowercase: true,
         validate: {
@@ -36,20 +39,15 @@ const PatientSchema = new Schema ({
     },
     patient_password: {
         type: String,
-        required: true,
+       
         minlength: 6,
     },
     patient_dob: {
         type: Date,
-        required: true,
     },
-    patient_joinedAt: {
-        type: Date,
-        required: true,
-    },
+
     patient_contactNumber: {
         type: String,
-        required: true,
         unique: true,
         validate: {
             validator: function(v) {
@@ -60,9 +58,8 @@ const PatientSchema = new Schema ({
     },
     patient_gender: {
         type: String,
-        required: true,
         enum: ['Male', 'Female', 'Other']
-    },
+    }, 
     // role: {
     //     type: String,
     //     enum: ['Patient', 'Practitioner'],
@@ -76,7 +73,32 @@ const PatientSchema = new Schema ({
     //     type: [AppointmentSchema]
     // }
 
-})
+}, { timestamps: true })
+
+//for Patient ID
+PatientSchema.pre('save', async function (next) {
+    if (!this.isNew) {
+        return next();
+    }
+    const currentYear = new Date().getFullYear();
+
+    try {
+        const highestPatient = await this.constructor.findOne({ patient_ID: new RegExp(`^Patient ${currentYear}`, 'i') })
+            .sort({ patient_ID: -1 })
+            .limit(1);
+        let nextNumber = 1;
+        if (highestPatient) {
+            const lastNumber = parseInt(highestPatient.patient_ID.split(' - ')[1]);
+            nextNumber = lastNumber + 1;
+        }
+        const paddedNumber = nextNumber.toString().padStart(6, '0');
+        this.patient_ID = `P${currentYear}-${paddedNumber}`;
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 PatientSchema.method({
     async authenticate(password) {

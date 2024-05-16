@@ -4,9 +4,11 @@ const NewPatientSignUp = (req, res) => {
     Patient.create(req.body)
     .then((newPatient) => {
         res.json({newPatient: newPatient, status:"Successfully registered Patient."})
+        console.log(newPatient)
     })
     .catch((err) => {
         res.json({ message: 'Something went wrong. Please try again.', error:err})
+        console.log(err)
     });
 } 
 
@@ -22,7 +24,7 @@ const findAllPatient = (req, res) => {
 
 //getPatient
 const findPatientById = (req, res) => {
-  Patient.Patient.findOne({_id:req.params.id})
+  Patient.findOne({_id:req.params.id})
       .then((thePatient) => {
           res.json({thePatient})
       })
@@ -32,7 +34,7 @@ const findPatientById = (req, res) => {
 }
 
 const findPatientByEmail = (req, res) => {
-  Patient.Patient.findOne({email:req.params.email})
+  Patient.findOne({email:req.params.email})
       .then((thePatient) => {
           res.json({theEmail : thePatient})
       })
@@ -43,7 +45,7 @@ const findPatientByEmail = (req, res) => {
 
 // Array New Post
 const addNewPostById = (req, res) => {
-    Patient.Patient.findById({_id:req.params.id})
+    Patient.findById({_id:req.params.id})
       .then((Patient) => {
         if (!Patient) {
           res.json({ message: 'Patient not found' });
@@ -62,7 +64,7 @@ const addNewPostById = (req, res) => {
 
 //find posts by id Array 
 const getAllPostbyId = (req, res) => {
-    Patient.Patient.findOne({ _id: req.params.id })
+    Patient.findOne({ _id: req.params.id })
       .then((Patient) => {
         if (!Patient) {
           res.json({ message: 'Patient not found' });
@@ -76,7 +78,7 @@ const getAllPostbyId = (req, res) => {
 
 //Deleting by Id Array Post
 const findPostByIdDelete = (req, res) => {
-  Patient.Patient.findById(req.params.uid)
+  Patient.findById(req.params.uid)
     .then((Patient) => {
       if (!Patient) {
         return res.json({ message: 'Patient not found' });
@@ -98,7 +100,7 @@ const findPostByIdDelete = (req, res) => {
 
 
 const updatePostAtIndex = (req, res) => {
-  Patient.Patient.findById(req.params.id)
+  Patient.findById(req.params.id)
     .then((Patient) => {
       if (!Patient) {
         return res.json({ message: 'Patient not found' });

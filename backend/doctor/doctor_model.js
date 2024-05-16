@@ -37,18 +37,13 @@ const DoctorSchema = new Schema({
     },
     dr_dob: {
         type: Date,
+       
         required: true,
-    },
-    dr_joinedAt: {
-        type: Date,
-        required: true,
-
     },
     dr_contactNumber: {
         type: String,
         required: true,
-        unique: true,
-        
+        unique: true, 
     },
 
     dr_patients: [{ 
@@ -65,4 +60,5 @@ const DoctorSchema = new Schema({
         }, { timestamps: true });
 
 
-const Doctor = model('Doctor', DoctorSchema)
+const Doctor = model('Doctor', DoctorSchema);
+module.exports = Doctor;

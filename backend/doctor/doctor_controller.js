@@ -1,9 +1,9 @@
 const Doctors = require('./doctor_model');
 
-const NewDoctorsignUp = (req, res) => {
-    Doctors.User.create(req.body)
-    .then((newUser) => {
-        res.json({newUser: newUser, status:"Successfully registered user."})
+const NewDoctorSignUp = (req, res) => {
+    Doctors.create(req.body)
+    .then((newDoctor) => {
+        res.json({newDoctor: newDoctor, status:"Successfully registered Doctor."})
     })
     .catch((err) => {
         res.json({ message: 'Something went wrong. Please try again.', error:err})
@@ -11,30 +11,30 @@ const NewDoctorsignUp = (req, res) => {
 } 
 
 const findAllDoctors = (req, res) => {
-    Doctors.User.find()
+    Doctors.find()
     .then((allDataDoctors) => {
-      res.json({ theUser: allDataDoctors })
+      res.json({ theDoctor: allDataDoctors })
   })
   .catch((err) => {
       res.json({ message: 'Something went wrong', error: err })
   });
 }
 
-//getuser
-const findUserById = (req, res) => {
-  Doctors.User.findOne({_id:req.params.id})
-      .then((theUser) => {
-          res.json({theUser})
+//getDoctor
+const findDoctorById = (req, res) => {
+  Doctors.findOne({_id:req.params.id})
+      .then((theDoctor) => {
+          res.json({theDoctor})
       })
       .catch((err) => {
           res.json({ message: 'Something went wrong', error: err })
       });
 }
 
-const findUserByEmail = (req, res) => {
-  Doctors.User.findOne({email:req.params.email})
-      .then((theUser) => {
-          res.json({theEmail : theUser})
+const findDoctorByEmail = (req, res) => {
+  Doctors.findOne({email:req.params.email})
+      .then((theDoctor) => {
+          res.json({theEmail : theDoctor})
       })
       .catch((err) => {
           res.json({ message: 'Something went wrong', error: err })
@@ -43,16 +43,16 @@ const findUserByEmail = (req, res) => {
 
 // Array New Post
 const addNewPostById = (req, res) => {
-    Doctors.User.findById({_id:req.params.id})
-      .then((user) => {
-        if (!user) {
-          res.json({ message: 'User not found' });
+    Doctors.findById({_id:req.params.id})
+      .then((Doctor) => {
+        if (!Doctor) {
+          res.json({ message: 'Doctor not found' });
         }
-        user.post.unshift(req.body.post);
-        return user.save();
+        Doctor.post.unshift(req.body.post);
+        return Doctor.save();
       })
-      .then((updatedUser) => {
-        res.json({ updatedUser, message: 'New post added successfully' });
+      .then((updatedDoctor) => {
+        res.json({ updatedDoctor, message: 'New post added successfully' });
       })
       .catch((error) => {
         res.json({ message: 'Error adding post', error });
@@ -62,12 +62,12 @@ const addNewPostById = (req, res) => {
 
 //find posts by id Array 
 const getAllPostbyId = (req, res) => {
-    Doctors.User.findOne({ _id: req.params.id })
-      .then((user) => {
-        if (!user) {
-          res.json({ message: 'User not found' });
+    Doctors.findOne({ _id: req.params.id })
+      .then((Doctor) => {
+        if (!Doctor) {
+          res.json({ message: 'Doctor not found' });
         }
-          res.json({ posts: user.post }); 
+          res.json({ posts: Doctor.post }); 
       })
       .catch((err) => {
         res.json({ message: 'Error retrieving posts', error: err });
@@ -76,15 +76,15 @@ const getAllPostbyId = (req, res) => {
 
 //Deleting by Id Array Post
 const findPostByIdDelete = (req, res) => {
-  Doctors.User.findById(req.params.uid)
-    .then((user) => {
-      if (!user) {
-        return res.json({ message: 'User not found' });
+  Doctors.findById(req.params.uid)
+    .then((Doctor) => {
+      if (!Doctor) {
+        return res.json({ message: 'Doctor not found' });
       }
-        user.post.splice(req.params.index, 1); 
-        return user.save()
-          .then((updatedUser) => {
-            res.json({ updatedUser, message: 'Post deleted successfully' });
+        Doctor.post.splice(req.params.index, 1); 
+        return Doctor.save()
+          .then((updatedDoctor) => {
+            res.json({ updatedDoctor, message: 'Post deleted successfully' });
           })
           .catch((error) => {
             res.json({ message: 'Error deleting post', error });
@@ -92,40 +92,40 @@ const findPostByIdDelete = (req, res) => {
 
     })
     .catch((error) => {
-      res.json({ message: 'Error finding user', error });
+      res.json({ message: 'Error finding Doctor', error });
     });
 };
 
 
 const updatePostAtIndex = (req, res) => {
-  Doctors.User.findById(req.params.id)
-    .then((user) => {
-      if (!user) {
-        return res.json({ message: 'User not found' });
+  Doctors.findById(req.params.id)
+    .then((Doctor) => {
+      if (!Doctor) {
+        return res.json({ message: 'Doctor not found' });
       }
-            user.post[req.params.index] = req.body.post; 
-            return user.save()
-          .then((updatedUser) => {
-            res.json({ updatedUser, message: 'Post updated successfully' });
+            Doctor.post[req.params.index] = req.body.post; 
+            return Doctor.save()
+          .then((updatedDoctor) => {
+            res.json({ updatedDoctor, message: 'Post updated successfully' });
           })
           .catch((error) => {
             res.json({ message: 'Error updating post', error });
           });
     })
     .catch((error) => {
-      res.json({ message: 'Error finding user', error });
+      res.json({ message: 'Error finding Doctor', error });
     });
 };
 
 
 
 module.exports = {
-    NewDoctorsignUp,
+    NewDoctorSignUp,
     findAllDoctors,
-    findUserByEmail,
+    findDoctorByEmail,
     addNewPostById,
     getAllPostbyId,
     findPostByIdDelete,
-    findUserById,
+    findDoctorById,
     updatePostAtIndex
 }

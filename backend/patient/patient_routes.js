@@ -1,6 +1,6 @@
 const PatientController = require ('../patient/patient_controller');
 // const { validationResult } = require('express-validator');
-
+console.log("Patient routes connected");
 module.exports = app => { 
     app.get('/patient/api/test',(req,res)=>{res.json({message:"the api is working"})});
     
