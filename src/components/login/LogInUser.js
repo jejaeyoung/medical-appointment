@@ -62,7 +62,7 @@ const LogInUser = () => {
         const emailIndex = UsernameArr.indexOf(oneEmail);
         if (emailIndex !== -1 && OnePass === allPass[emailIndex]) {
             const user = allUsers[emailIndex];
-            console.log(user.role);
+
 
             window.alert("Successfully logged in");
             console.log(user._id);

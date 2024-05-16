@@ -30,7 +30,7 @@ const SidebarMenu = (props) => {
         
         <CDBSidebarContent>
           <CDBSidebarMenu>
-              <Link to={`/practitioner/dashboard/${props.uid}`}>
+              <Link to={`/dashboard/${props.uid}`}>
                 <CDBSidebarMenuItem  suffix={<CDBBadge  size="small" borderType="pill">10+</CDBBadge>}icon="th-large"> Dashboard </CDBSidebarMenuItem>
               </Link>
 

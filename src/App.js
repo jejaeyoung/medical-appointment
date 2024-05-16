@@ -30,8 +30,8 @@ function App() {
         <Route path={'/medapp/signup'} element={<NewSignUp/>}> </Route>
         <Route path={'/medapp/login'} element={<LogInUser/>}> </Route>
         {/* Practitioner Routes */}
-        <Route path={"/dashboard/:userId"}element={<Dashboard/>}/>
-        <Route path={"/practitioner/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
+        <Route path={"/dashboard/:uid"} element={<Dashboard />}/>
+        <Route path={"/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
         <Route path={'/practitioner/patient/all'} element={<Appointment/>}></Route>
         <Route path={'/practitioner/patient/accept/:id'} element={<YourPatient/>}></Route>
 

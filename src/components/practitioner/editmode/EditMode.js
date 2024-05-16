@@ -18,7 +18,7 @@ function EditMode() {
   const [post, setPost] = useState([""]);
 
   const [theName, setTheName] =useState("");
-  axios.get(`http://localhost:8000/api/medapp/finduser/`+uid)
+  axios.get(`http://localhost:8000/doctor/api/finduser/`+uid)
   .then((res) => {
 
     setTheName(res.data.theUser.firstName)
@@ -28,7 +28,7 @@ function EditMode() {
   });
 
   useEffect(()=>{
-    axios.get("http://localhost:8000/api/medapp/finduser/"+uid)
+    axios.get("http://localhost:8000/doctor/api/finduser/"+uid)
     .then((res)=>{
         console.log(index);
         console.log(uid);
@@ -45,8 +45,8 @@ function EditMode() {
     const newPost ={
       post:post,
     }
-    navigate('/practitioner/dashboard/'+uid);
-    axios.put(`http://localhost:8000/api/medapp/post/updatepost/${uid}/${index}`,newPost)
+    navigate('/dashboard/'+uid);
+    axios.put(`http://localhost:8000/doctor/api/post/updatepost/${uid}/${index}`,newPost)
     .then((response)=>{
       console.log(response.data);
       window.location.reload();

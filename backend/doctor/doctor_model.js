@@ -1,5 +1,5 @@
-const mongoose = require ('mongoose')
-const {Schema, model} = mongoose
+const mongoose = require('mongoose');
+const { Schema, model } = mongoose;
 
 const DoctorSchema = new Schema({
     dr_firstName: {
@@ -24,10 +24,10 @@ const DoctorSchema = new Schema({
         unique: true,
         lowercase: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /\S+@\S+\.\S+/.test(v); //regex to validate __@__.__ i.e. xyz@abc.com
             },
-            message: props => '${props.value} is not a valid email address.'
+            message: props => `${props.value} is not a valid email address.`
         }
     },
     dr_password: {
@@ -37,28 +37,26 @@ const DoctorSchema = new Schema({
     },
     dr_dob: {
         type: Date,
-       
         required: true,
     },
     dr_contactNumber: {
         type: String,
         required: true,
-        unique: true, 
+        unique: true,
     },
-
-    dr_patients: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Patient' 
+    dr_patients: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Patient'
     }],
-    post:{
-        type:Array,
-        default: ()=> []
-    },
-    dr_appointments: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Appointment' }]
-        }, { timestamps: true });
-
+    dr_posts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    dr_appointments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Appointment'
+    }]
+}, { timestamps: true });
 
 const Doctor = model('Doctor', DoctorSchema);
 module.exports = Doctor;
