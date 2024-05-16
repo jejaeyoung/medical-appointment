@@ -7,7 +7,7 @@ module.exports = app => {
     app.post('/doctor/api/signup', DoctorController.NewDoctorSignUp);
  
     //For LogIn
-    app.get('/doctor/api/allusers', DoctorController.findAllDoctors);
+    app.get('/doctor/api/alldoctor', DoctorController.findAllDoctors);
 
     //For Post
     app.post('/doctor/api/addpost/:id', DoctorController.addNewPostById);

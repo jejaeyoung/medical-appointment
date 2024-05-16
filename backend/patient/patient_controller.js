@@ -13,7 +13,7 @@ const NewPatientSignUp = (req, res) => {
 } 
 
 const findAllPatient = (req, res) => {
-    Patient.Patient.find()
+    Patient.find()
     .then((allDataPatient) => {
       res.json({ thePatient: allDataPatient })
   })

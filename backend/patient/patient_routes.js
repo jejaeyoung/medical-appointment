@@ -6,4 +6,7 @@ module.exports = app => {
     
     //New Patient Sign Up
     app.post('/patient/api/signup', PatientController.NewPatientSignUp);
+
+    //Patient Log In
+    app.get('/patient/api/allpatient', PatientController.findAllPatient);
 }
