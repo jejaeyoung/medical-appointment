@@ -1,4 +1,7 @@
 const Patient = require('./patient_model');
+const Doctor = require('../doctor/doctor_model');
+const Appointment = require('../appointments/appointment_model');
+const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
 
 const NewPatientSignUp = (req, res) => {
     Patient.create(req.body)
@@ -119,7 +122,42 @@ const updatePostAtIndex = (req, res) => {
     });
 };
 
+const createAppointment = async (req, res) => {
+  try {
+      const { patientId, doctorId, date, time, reason, secretaryId } = req.body;
 
+      const newAppointment = new Appointment({
+          patient: patientId,
+          doctor: doctorId,
+          date,
+          time,
+          reason
+      });
+
+      await newAppointment.save();
+
+      // Update Doctor's appointments
+      await Doctor.findByIdAndUpdate(doctorId, {
+          $push: { dr_appointments: newAppointment._id }
+      });
+
+      // Update Patient's appointments
+      await Patient.findByIdAndUpdate(patientId, {
+          $push: { patient_appointments: newAppointment._id }
+      });
+
+      // Update Medical Secretary's appointments (if applicable)
+      if (secretaryId) {
+          await MedicalSecretary.findByIdAndUpdate(secretaryId, {
+              $push: { appointments: newAppointment._id }
+          });
+      }
+
+      res.status(201).json(newAppointment);
+  } catch (error) {
+      res.status(400).json({ message: error.message });
+  }
+};
 
 module.exports = {
     NewPatientSignUp,
@@ -129,5 +167,6 @@ module.exports = {
     getAllPostbyId,
     findPostByIdDelete,
     findPatientById,
-    updatePostAtIndex
+    updatePostAtIndex,
+    createAppointment
 }

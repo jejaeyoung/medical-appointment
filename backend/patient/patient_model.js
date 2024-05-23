@@ -5,13 +5,12 @@ const {Schema, model} = mongoose
 const PatientSchema = new Schema ({
 
     //personal info
-    patient_ID:{
+    patient_ID: {
         type: String,
         unique: true
     },
     patient_firstName: {
         type: String,
-       
         minlength: 3,
         maxlength: 20
     },
@@ -21,37 +20,33 @@ const PatientSchema = new Schema ({
     },
     patient_lastName: {
         type: String,
-       
         minlength: 2,
         maxlength: 20
     },
     patient_email: {
         type: String,
-       
         unique: true,
         lowercase: true,
         validate: {
             validator: function(v) {
-                return /\S+@\S+\.\S+/.test(v); //regex to validate __@__.__ i.e. xyz@abc.com
+                return /\S+@\S+\.\S+/.test(v);
             },
             message: props => `${props.value} is not a valid email address.`
         }
     },
     patient_password: {
         type: String,
-       
         minlength: 6,
     },
     patient_dob: {
         type: Date,
     },
-
     patient_contactNumber: {
         type: String,
         unique: true,
         validate: {
             validator: function(v) {
-                return v.length == 11
+                return v.length == 11;
             },
             message: props => `${props.value} has to be 11 characters long.`
         }
@@ -59,21 +54,15 @@ const PatientSchema = new Schema ({
     patient_gender: {
         type: String,
         enum: ['Male', 'Female', 'Other']
-    }, 
-    // role: {
-    //     type: String,
-    //     enum: ['Patient', 'Practitioner'],
-    //     default:'Patient',
-    //     required: true
-    // },
-
-    //not personal
-
-    // patient_appts: {
-    //     type: [AppointmentSchema]
-    // }
-
-}, { timestamps: true })
+    },
+    patient_appointments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Appointment'
+    }],
+    post: [{
+        type: String
+    }]
+}, { timestamps: true });
 
 //for Patient ID
 PatientSchema.pre('save', async function (next) {

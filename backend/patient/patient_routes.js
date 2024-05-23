@@ -9,4 +9,7 @@ module.exports = app => {
 
     //Patient Log In
     app.get('/patient/api/allpatient', PatientController.findAllPatient);
+
+    //Create Appointment
+    app.post('/patient/api/createappointment', PatientController.createAppointment);
 }

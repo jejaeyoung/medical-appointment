@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 

@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FormLabel, Row, Form, Col, Button, Container } from "react-bootstrap";
+import { FormLabel, Row, Form, Col, Button, Container, Nav } from "react-bootstrap";
+import './LogIn.css'
+import TheImage from './images/LoginImage.png'
+import NavigationalBar from '../landpage/navbar'
+
 
 const LogInUser = () => {
     const navigate = useNavigate();
@@ -74,68 +78,79 @@ const LogInUser = () => {
 
     return (
         <>
-            <Container className="d-flex justify-content-center align-items-center vh-100">
-                <div className="container">
-                    <h1>Log In</h1>
-                    <Form>
-                        <Row className="mb-3">
-                            <Form.Group className="mb-3" controlId="formEmail">
-                                <Form.Label>Email Address</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    placeholder="Enter Email Address"
-                                    onChange={(e) => {
-                                        setTheUserMail(e.target.value);
-                                    }}
-                                />
-                            </Form.Group>
-                        </Row>
+        <NavigationalBar/>
+        <div className="align-items-center  d-flex vh-100">
+                    
+            <Container fluid className="maincontainer d-flex justify-content-center align-items-center ">
+                    {/* <div className="imageContainer">
+                        <Col   Col md={6} className="text-center">
+                            <img className="col-md-6 image1" alt="" src={TheImage} />
+                        </Col>
+                    </div> */}
+                  
+                    <div className="container">
+                        <h1>Welcome Back!</h1>
+                        <Form>
+                            <Row className="mb-3">
+                                <Form.Group className="mb-3" controlId="formEmail">
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter Email Address"
+                                        onChange={(e) => {
+                                            setTheUserMail(e.target.value);
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Row>
 
-                        <Row className="align-items right">
-                            <Form.Group className="mb-3" controlId="formPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Enter Password"
-                                    onChange={(e) => {
-                                        setThePass(e.target.value);
-                                    }}
-                                />
-                            </Form.Group>
-                        </Row>
+                            <Row className="align-items right">
+                                <Form.Group className="mb-3" controlId="formPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter Password"
+                                        onChange={(e) => {
+                                            setThePass(e.target.value);
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Row>
 
-                        <Row>
-                            <Form.Group as={Col} controlId="formChoose">
-                                <Form.Label>Choose what to register:</Form.Label>
-                                <Form.Select onChange={(e) => setuRole(e.target.value)} defaultValue="Choose">
-                                    <option value="Patient">Patient</option>
-                                    <option value="Practitioner">Practitioner</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Row>
+                            <Row>
+                                <Form.Group as={Col} controlId="formChoose">
+                                    <Form.Label>Choose what to register:</Form.Label>
+                                    <Form.Select onChange={(e) => setuRole(e.target.value)} defaultValue="Choose">
+                                        <option value="Patient">Patient</option>
+                                        <option value="Practitioner">Practitioner</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Row>
 
-                        <Row className="mb-3">
-                            <Form.Check type="checkbox" id="autoSizingCheck" className="mb-2" label="Remember me" />
-                            <a href>Forgot Password?</a>
-                        </Row>
+                            <Row className="mb-3">
+                                
+                                
+                            </Row>
 
-                        <div className="d-lg-flex justify-content-between align-items-center mt-3">
-                            <div className="d-flex">
-                                <Button type="submit" className="mb-2" onClick={(e) => { loginuser(e) }}>
-                                    Log In
-                                </Button>
+                            
+                                <div className="justify-content-center">
+                                    <Button type="submit" className="mb-2 buttonStyle" onClick={(e) => { loginuser(e) }}>
+                                        Log In
+                                    </Button>
+                                </div>
+                        
+
+                            <div className="mb-0">
+                                <a href="/medapp/signup">No account yet? Sign up</a>
                             </div>
-                        </div>
-
-                        <div className="mb-0">
-                            <a href="/medapp/signup">No account yet? Sign up</a>
-                        </div>
-                    </Form>
-                </div>
-            </Container>
+                        </Form>
+                    </div>
+                </Container>
+        </div>
+            
 
             <p>
-                <Link to="/medapp/signup">No account yet? Sign up </Link>
+                
             </p>
         </>
     );

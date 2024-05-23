@@ -1,9 +1,10 @@
-const Doctors = require('./doctor_model');
+
 const Post = require('../announcement/announcement_model');
 const mongoose = require('mongoose');
+const MedicalSecretary = require('./medicalsecretary_model');
 
-const NewDoctorSignUp = (req, res) => {
-    Doctors.create(req.body)
+const NewMedicalSecretaryignUp = (req, res) => {
+    MedicalSecretary.create(req.body)
         .then((newDoctor) => {
             res.json({ newDoctor: newDoctor, status: "Successfully registered Doctor." });
         })
@@ -12,11 +13,11 @@ const NewDoctorSignUp = (req, res) => {
         });
 };
 
-const findAllDoctors = (req, res) => {
-    Doctors.find()
+const findAllMedicalSecretary = (req, res) => {
+    MedicalSecretary.find()
         .populate('dr_posts')
-        .then((allDataDoctors) => {
-            res.json({ theDoctor: allDataDoctors });
+        .then((allDataMedicalSecretary) => {
+            res.json({ theDoctor: allDataMedicalSecretary });
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err });
@@ -25,7 +26,7 @@ const findAllDoctors = (req, res) => {
 
 // Get Doctor by ID
 const findDoctorById = (req, res) => {
-    Doctors.findOne({ _id: req.params.id })
+    MedicalSecretary.findOne({ _id: req.params.id })
         .populate('dr_posts')
         .then((theDoctor) => {
             res.json({ theDoctor });
@@ -36,7 +37,7 @@ const findDoctorById = (req, res) => {
 };
 
 const findDoctorByEmail = (req, res) => {
-    Doctors.findOne({ email: req.params.email })
+    MedicalSecretary.findOne({ email: req.params.email })
         .populate('dr_posts')
         .then((theDoctor) => {
             res.json({ theEmail: theDoctor });
@@ -50,12 +51,12 @@ const findDoctorByEmail = (req, res) => {
 const addNewPostById = (req, res) => {
     const newPost = new Post({
         content: req.body.content, 
-        doctor_id: req.params.id,
+        doctor: req.params.id,
     });
 
     newPost.save()
         .then((post) => {
-            return Doctors.findByIdAndUpdate(
+            return MedicalSecretary.findByIdAndUpdate(
                 req.params.id,
                 { $push: { dr_posts: post._id } },
                 { new: true }
@@ -70,7 +71,7 @@ const addNewPostById = (req, res) => {
 };
 // Retrieve all posts for a doctor
 const getAllPostbyId = (req, res) => {
-    Doctors.findOne({ _id: req.params.id })
+    MedicalSecretary.findOne({ _id: req.params.id })
         .populate('dr_posts')
         .then((Doctor) => {
             if (!Doctor) {
@@ -88,7 +89,7 @@ const findPostByIdDelete = async (req, res) => {
 
     try {
         // Find the doctor document
-        const doctor = await Doctors.findById(doctorId);
+        const doctor = await MedicalSecretary.findById(doctorId);
 
         if (!doctor) {
             return res.status(404).json({ message: 'Doctor not found' });
@@ -136,7 +137,7 @@ const updatePostAtIndex = async (req, res) => {
     }
 
     try {
-        const doctor = await Doctors.findById(doctorId);
+        const doctor = await MedicalSecretary.findById(doctorId);
 
         if (!doctor) {
             return res.status(404).json({ message: 'Doctor not found' });
@@ -167,8 +168,8 @@ const updatePostAtIndex = async (req, res) => {
 
 
 module.exports = {
-    NewDoctorSignUp,
-    findAllDoctors,
+    NewMedicalSecretaryignUp,
+    findAllMedicalSecretary,
     findDoctorByEmail,
     addNewPostById,
     getAllPostbyId,
