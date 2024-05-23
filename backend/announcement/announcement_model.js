@@ -7,7 +7,8 @@ const PostSchema = new Schema({
     required: true,
     minlength: 3,
   },
-  doctor: {
+  doctor_id: {
+    //referencing the doctor_id
     type: Schema.Types.ObjectId,
     ref: 'Doctor',
     required: true,

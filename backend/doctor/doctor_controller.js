@@ -1,5 +1,6 @@
 const Doctors = require('./doctor_model');
 const Post = require('../announcement/announcement_model');
+const mongoose = require('mongoose');
 
 const NewDoctorSignUp = (req, res) => {
     Doctors.create(req.body)
@@ -48,7 +49,7 @@ const findDoctorByEmail = (req, res) => {
 // Add a new post
 const addNewPostById = (req, res) => {
     const newPost = new Post({
-        content: req.body.post, // Make sure the content is coming from req.body.post
+        content: req.body.content, 
         doctor: req.params.id,
     });
 
@@ -67,7 +68,6 @@ const addNewPostById = (req, res) => {
             res.json({ message: 'Error adding post', error });
         });
 };
-
 // Retrieve all posts for a doctor
 const getAllPostbyId = (req, res) => {
     Doctors.findOne({ _id: req.params.id })
@@ -82,35 +82,89 @@ const getAllPostbyId = (req, res) => {
             res.json({ message: 'Error retrieving posts', error: err });
         });
 };
+const findPostByIdDelete = async (req, res) => {
+    const postIndex = req.params.index;
+    const doctorId = req.params.id;
 
-// Delete a post
-const findPostByIdDelete = (req, res) => {
-    Post.findByIdAndDelete(req.params.index)
-        .then((deletedPost) => {
-            return Doctors.findByIdAndUpdate(
-                req.params.uid,
-                { $pull: { dr_posts: req.params.index } },
-                { new: true }
-            ).populate('dr_posts');
-        })
-        .then((updatedDoctor) => {
-            res.json({ updatedDoctor, message: 'Post deleted successfully' });
-        })
-        .catch((error) => {
-            res.json({ message: 'Error deleting post', error });
-        });
+    try {
+        // Find the doctor document
+        const doctor = await Doctors.findById(doctorId);
+
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+
+        // Ensure that the postIndex is a valid index in the dr_posts array
+        if (postIndex < 0 || postIndex >= doctor.dr_posts.length) {
+            return res.status(400).json({ message: 'Invalid post index' });
+        }
+
+        // Extract the post ID to be deleted
+        const postIdToDelete = doctor.dr_posts[postIndex];
+
+        // Delete the post from the Post collection
+        const deletedPost = await Post.findByIdAndDelete(postIdToDelete);
+
+        if (!deletedPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        // Remove the post reference from the doctor's dr_posts array
+        doctor.dr_posts.splice(postIndex, 1);
+
+        // Save the updated doctor document
+        const updatedDoctor = await doctor.save();
+
+        res.json({ updatedDoctor, message: 'Post deleted successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error deleting post', error });
+    }
 };
 
-// Update a post
-const updatePostAtIndex = (req, res) => {
-    Post.findByIdAndUpdate(req.params.index, { content: req.body.post }, { new: true })
-        .then((updatedPost) => {
-            res.json({ updatedPost, message: 'Post updated successfully' });
-        })
-        .catch((error) => {
-            res.json({ message: 'Error updating post', error });
-        });
+
+
+//This isnt working putangiona
+const updatePostAtIndex = async (req, res) => {
+    const { id: doctorId, index } = req.params;
+    console.log('Received Doctor ID:', doctorId);
+    console.log('Received Post Index:', index);
+
+    // Validate Doctor ID
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+        return res.status(400).json({ message: 'Invalid doctor ID' });
+    }
+
+    try {
+        const doctor = await Doctors.findById(doctorId);
+
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+
+        // Check if the index is within bounds
+        if (index < 0 || index >= doctor.dr_posts.length) {
+            return res.status(400).json({ message: 'Invalid post index' });
+        }
+
+        // Get the post ID from the doctor's dr_posts array
+        const postId = doctor.dr_posts[index];
+
+        // Update the content of the post
+        const updatedPost = await Post.findByIdAndUpdate(postId, { content: req.body.content }, { new: true });
+
+        if (!updatedPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        res.json({ updatedPost, message: 'Post updated successfully' });
+    } catch (error) {
+        console.error('Error updating post:', error);
+        res.status(500).json({ message: 'Error updating post', error });
+    }
 };
+
+
 
 module.exports = {
     NewDoctorSignUp,

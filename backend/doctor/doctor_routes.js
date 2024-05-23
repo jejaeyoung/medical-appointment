@@ -13,6 +13,6 @@ module.exports = app => {
     app.post('/doctor/api/addpost/:id', DoctorController.addNewPostById);
     app.get('/doctor/api/finduser/:id', DoctorController.findDoctorById);
     app.get('/doctor/api/post/getallpost/:id', DoctorController.getAllPostbyId);
-    app.delete('/doctor/api/post/deletepost/:uid/:index', DoctorController.findPostByIdDelete);
+    app.delete('/doctor/api/post/deletepost/:id/:index', DoctorController.findPostByIdDelete);
     app.put('/doctor/api/post/updatepost/:id/:index', DoctorController.updatePostAtIndex);
 }

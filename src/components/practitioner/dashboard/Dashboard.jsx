@@ -82,7 +82,7 @@ function Dashboard() {
     if (thePost.length > 3) {
       axios
         .post("http://localhost:8000/doctor/api/addpost/" + uid, {
-          post: thePost,
+          content: thePost,
         })
         .then((res) => {
           setThePosts([...thePosts, thePost]);
@@ -96,7 +96,7 @@ function Dashboard() {
 
   const editPost = (id, index) => {
     setSelectedPostIndex(index);
-    navigate(`/practitioner/dashboard/edit/${theId}/` + index);
+    navigate(`/dashboard/edit/${theId}/` + index);
   };
 
   return (
@@ -200,24 +200,6 @@ function Dashboard() {
             <h3>Posted Announcements:</h3>
             <hr className=" divider d-lg" />
             <div>
-              {thePosts.map((post, index) => (
-                <div key={index}>
-                  {/* //   <div className="d-flex align-items-center justify-content-between">
-                  // <li className="list-unstyled decoration-none" key={index}>{post}</li>
-                  
-              //     <Dropdown show={postDropdowns[index]} onToggle={() => handleDropdownToggle(index)}>
-              //       <Dropdown.Toggle variant="link" className="text-decoration-none">
-              //         <Icon.ThreeDots className="threedots" />
-              //       </Dropdown.Toggle>
-              //       <Dropdown.Menu>
-              //         <Dropdown.Item onClick={() => editPost(post._id, index)}>Edit</Dropdown.Item>
-              //         <Dropdown.Item onClick={() => deletePost(index)}>Delete</Dropdown.Item>
-              //       </Dropdown.Menu>
-              //     </Dropdown>
-              //   </div>
-              //   <hr className="divider d-lg" /> */}
-                </div>
-              ))}
 
               {thePosts.map((post, index) => (
                 <div key={index}>

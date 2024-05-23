@@ -21,7 +21,7 @@ function EditMode() {
   axios.get(`http://localhost:8000/doctor/api/finduser/`+uid)
   .then((res) => {
 
-    setTheName(res.data.theUser.firstName)
+    setTheName(res.data.theDoctor.dr_firstName)
   })
   .catch((err) => {
     console.log(err);
@@ -32,8 +32,8 @@ function EditMode() {
     .then((res)=>{
         console.log(index);
         console.log(uid);
-        console.log(res.data.theUser.post[index]);
-        setPost(res.data.theUser.post[index])
+        console.log(res.data.theDoctor.dr_posts[index].content);
+        setPost(res.data.theDoctor.dr_posts[index].content)
     })
     .catch((err)=>{
         console.log(err)
@@ -43,7 +43,7 @@ function EditMode() {
 
   const updatePost =(uid)=>{
     const newPost ={
-      post:post,
+      content:post,
     }
     navigate('/dashboard/'+uid);
     axios.put(`http://localhost:8000/doctor/api/post/updatepost/${uid}/${index}`,newPost)
@@ -73,7 +73,7 @@ function EditMode() {
         <div>
           <Form>
             <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Control value={post} onChange={(e) => {setPost(e.target.value)}} as="textarea" rows={4} placeholder="What's on your mind?"/>
+              <Form.Control value={post} onChange={(e) => {setPost(e.target.value)}} as="textarea" rows={4} placeholder={post}/>
             </Form.Group>
             <div className="  d-lg-inline-flex removegutter container4 container-fluid justify-content-end ">
               <Button onClick={()=>{updatePost(uid)}} variant="primary" type="submit">

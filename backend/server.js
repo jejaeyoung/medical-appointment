@@ -15,5 +15,6 @@ DoctorRoutes(app);
 const PatientRoutes = require("./patient/patient_routes");
 PatientRoutes(app);
 
+
 app.listen(port, () => console.log("The server is all fired up on port 8000"));
 
