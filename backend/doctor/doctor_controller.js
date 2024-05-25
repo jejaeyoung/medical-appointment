@@ -68,7 +68,7 @@ const addNewPostById = (req, res) => {
             res.json({ message: 'Error adding post', error });
         });
 };
-// Retrieve all posts for a doctor
+// Retrieve all posts 
 const getAllPostbyId = (req, res) => {
     Doctors.findOne({ _id: req.params.id })
         .populate('dr_posts')

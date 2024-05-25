@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FormLabel, Row, Form, Col, Button, Container, Nav } from "react-bootstrap";
 import './LogIn.css'
-import TheImage from './images/LoginImage.png'
+
 import NavigationalBar from '../landpage/navbar'
 
 
@@ -66,11 +66,18 @@ const LogInUser = () => {
         const emailIndex = UsernameArr.indexOf(oneEmail);
         if (emailIndex !== -1 && OnePass === allPass[emailIndex]) {
             const user = allUsers[emailIndex];
-
-
-            window.alert("Successfully logged in");
-            console.log(user._id);
-            navigate(`/dashboard/${user._id}`);
+ 
+            if(uRole === 'Patient'){
+                window.alert("Successfully logged in");
+                console.log(user._id);
+                navigate(`/homepage/${user._id}`);
+            }
+            else if (uRole === 'Practitioner'){
+                window.alert("Successfully logged in");
+                console.log(user._id);
+                navigate(`/dashboard/${user._id}`);
+            }
+           
         } else {
             window.alert("Wrong Email or Password");
         }

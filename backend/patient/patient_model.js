@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose;
 
-const PatientSchema = new Schema ({
-
-    //personal info
+const PatientSchema = new Schema({
+    // Personal info
     patient_ID: {
         type: String,
         unique: true
@@ -28,7 +27,7 @@ const PatientSchema = new Schema ({
         unique: true,
         lowercase: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /\S+@\S+\.\S+/.test(v);
             },
             message: props => `${props.value} is not a valid email address.`
@@ -45,8 +44,8 @@ const PatientSchema = new Schema ({
         type: String,
         unique: true,
         validate: {
-            validator: function(v) {
-                return v.length == 11;
+            validator: function (v) {
+                return v.length === 11;
             },
             message: props => `${props.value} has to be 11 characters long.`
         }
@@ -64,7 +63,20 @@ const PatientSchema = new Schema ({
     }]
 }, { timestamps: true });
 
-//for Patient ID
+// Pre-save hook for hashing the password
+// PatientSchema.pre('save', async function (next) {
+//     if (this.isModified('patient_password')) {
+//         try {
+//             const salt = await bcrypt.genSalt(10);
+//             this.patient_password = await bcrypt.hash(this.patient_password, salt);
+//         } catch (err) {
+//             return next(err);
+//         }
+//     }
+//     next();
+// });
+
+// Pre-save hook for generating the patient ID
 PatientSchema.pre('save', async function (next) {
     if (!this.isNew) {
         return next();
@@ -72,12 +84,12 @@ PatientSchema.pre('save', async function (next) {
     const currentYear = new Date().getFullYear();
 
     try {
-        const highestPatient = await this.constructor.findOne({ patient_ID: new RegExp(`^Patient ${currentYear}`, 'i') })
+        const highestPatient = await this.constructor.findOne({ patient_ID: new RegExp(`^P${currentYear}`, 'i') })
             .sort({ patient_ID: -1 })
             .limit(1);
         let nextNumber = 1;
         if (highestPatient) {
-            const lastNumber = parseInt(highestPatient.patient_ID.split(' - ')[1]);
+            const lastNumber = parseInt(highestPatient.patient_ID.split('-')[1]);
             nextNumber = lastNumber + 1;
         }
         const paddedNumber = nextNumber.toString().padStart(6, '0');
@@ -88,13 +100,11 @@ PatientSchema.pre('save', async function (next) {
     }
 });
 
+//Instance method for password authentication
+PatientSchema.methods.authenticate = async function (password) {
+    return bcrypt.compare(password, this.patient_password);
+};
 
-PatientSchema.method({
-    async authenticate(password) {
-       return bcrypt.compare(password, this.password);
-    },
-  }); 
-
-const Patient = mongoose.model('Patient', PatientSchema);
+const Patient = model('Patient', PatientSchema);
 
 module.exports = Patient;

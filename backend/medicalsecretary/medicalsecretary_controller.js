@@ -87,8 +87,8 @@ const findPostByIdDelete = async (req, res) => {
     const postIndex = req.params.index;
     const doctorId = req.params.id;
 
-    try {
-        // Find the doctor document
+    try {   
+        
         const doctor = await MedicalSecretary.findById(doctorId);
 
         if (!doctor) {

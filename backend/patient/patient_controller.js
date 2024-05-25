@@ -124,40 +124,44 @@ const updatePostAtIndex = (req, res) => {
 
 const createAppointment = async (req, res) => {
   try {
-      const { patientId, doctorId, date, time, reason, secretaryId } = req.body;
+    const { doctorId, date, time, reason, secretaryId } = req.body;
+    const patientId = req.params.uid; // Patient ID from URL parameter
 
-      const newAppointment = new Appointment({
-          patient: patientId,
-          doctor: doctorId,
-          date,
-          time,
-          reason
+    const newAppointment = new Appointment({
+      patient: patientId,
+      doctor: doctorId,
+      date,
+      time,
+      reason,
+      secretary: secretaryId
+    });
+
+    await newAppointment.save();
+
+    // Update Doctor's appointments
+    await Doctor.findByIdAndUpdate(doctorId, {
+      $push: { dr_appointments: newAppointment._id }
+    });
+
+    // Update Patient's appointments
+    await Patient.findByIdAndUpdate(patientId, {
+      $push: { appointments: newAppointment._id }
+    });
+
+    // Update Medical Secretary's appointments 
+    if (secretaryId) {
+      await MedicalSecretary.findByIdAndUpdate(secretaryId, {
+        $push: { ms_appointments: newAppointment._id }
       });
+    }
 
-      await newAppointment.save();
-
-      // Update Doctor's appointments
-      await Doctor.findByIdAndUpdate(doctorId, {
-          $push: { dr_appointments: newAppointment._id }
-      });
-
-      // Update Patient's appointments
-      await Patient.findByIdAndUpdate(patientId, {
-          $push: { patient_appointments: newAppointment._id }
-      });
-
-      // Update Medical Secretary's appointments (if applicable)
-      if (secretaryId) {
-          await MedicalSecretary.findByIdAndUpdate(secretaryId, {
-              $push: { appointments: newAppointment._id }
-          });
-      }
-
-      res.status(201).json(newAppointment);
+    res.status(201).json(newAppointment);
   } catch (error) {
-      res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
+
+
 
 module.exports = {
     NewPatientSignUp,

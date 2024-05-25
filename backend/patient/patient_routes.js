@@ -11,5 +11,5 @@ module.exports = app => {
     app.get('/patient/api/allpatient', PatientController.findAllPatient);
 
     //Create Appointment
-    app.post('/patient/api/createappointment', PatientController.createAppointment);
+    app.post('/patient/api/:uid/createappointment', PatientController.createAppointment);
 }

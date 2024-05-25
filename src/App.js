@@ -17,8 +17,10 @@ import Appointment from './components/practitioner/appointment/Appointment';
 import YourPatient from './components/practitioner/appointment/YourPatient';
 import NewPatient from './components/practitioner/appointment/NewPatient';
 
-
-
+//Patient
+import HomePagePatient from './components/patient/homepage/HomePagePatient';
+import ChooseDoctor from './components/patient/choosedoctor/choosedoctor';
+import CreateAppointment from './components/patient/appointmentform/CreateAppointment';
 function App() {
 
   return (
@@ -34,7 +36,10 @@ function App() {
         <Route path={"/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
         <Route path={'/practitioner/patient/all'} element={<Appointment/>}></Route>
         <Route path={'/practitioner/patient/accept/:id'} element={<YourPatient/>}></Route>
-
+        {/* Patient Routes */}
+        <Route path={"/homepage/:pid"} element={<HomePagePatient />}/>
+        <Route path={"/choosedoctor/:pid"} element={<ChooseDoctor />}/>
+        <Route path={"/appointment/:pid/:did"} element={<CreateAppointment />}/>
       </Routes>
     </BrowserRouter>
 

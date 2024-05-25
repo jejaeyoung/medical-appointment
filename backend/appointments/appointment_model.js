@@ -12,6 +12,11 @@ const AppointmentSchema = new Schema({
         ref: 'Doctor',
         required: true
     },
+    secretary: {
+        type: Schema.Types.ObjectId,
+        ref: 'MedicalSecretary',
+
+    },
     date: {
         type: Date,
         required: true
