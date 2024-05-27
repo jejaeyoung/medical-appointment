@@ -10,8 +10,7 @@ import { CDBSidebar, CDBSidebarContent, CDBSidebarHeader, CDBSidebarMenu, CDBSid
 
 
 const SidebarMenu = (props) => {
- 
-  
+
   const [isLeftIcon, setIsLeftIcon] = useState(true);
   const toggleIcon = () => {
     setIsLeftIcon(!isLeftIcon);
@@ -25,16 +24,16 @@ const SidebarMenu = (props) => {
     <>
       <CDBSidebar>
         <CDBSidebarHeader   prefix={<i className={`fa ${isLeftIcon ? "fa-angle-left" : "fa-angle-right"}`} onClick={()=>{toggleIcon()}}  />}  >
-           <span className="headercustom">Hello! Doc, {props.p_name}</span> 
+           <span className="headercustom">Hello! Doc, {props.doctor_name}</span> 
         </CDBSidebarHeader>
         
         <CDBSidebarContent>
           <CDBSidebarMenu>
-              <Link to={`/dashboard/${props.uid}`}>
+              <Link to={`/dashboard/${props.did}`}>
                 <CDBSidebarMenuItem  suffix={<CDBBadge  size="small" borderType="pill">10+</CDBBadge>}icon="th-large"> Dashboard </CDBSidebarMenuItem>
               </Link>
 
-              <Link to={`/practitioner/patient/all`}>
+              <Link to={`/mainappointment/${props.did}`}>
                 <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
               </Link>
 

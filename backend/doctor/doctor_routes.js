@@ -15,4 +15,7 @@ module.exports = app => {
     app.get('/doctor/api/post/getallpost/:id', DoctorController.getAllPostbyId);
     app.delete('/doctor/api/post/deletepost/:id/:index', DoctorController.findPostByIdDelete);
     app.put('/doctor/api/post/updatepost/:id/:index', DoctorController.updatePostAtIndex);
+
+    //For Appointments
+    app.get('/doctor/appointments/:doctorId', DoctorController.getAllAppointments);
 }

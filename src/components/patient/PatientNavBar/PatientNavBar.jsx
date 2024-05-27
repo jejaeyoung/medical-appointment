@@ -16,6 +16,10 @@ function PatientNavBar() {
         navigate("/");
     });
 
+    const MyAppointment = (() => {
+        navigate(`/myappointment/${pid}`);
+    });
+
 
   return (
     <>
@@ -30,6 +34,7 @@ function PatientNavBar() {
                             
                         </Nav>
                         <Nav>
+                            <Button className="button1" onClick={MyAppointment}>My Appointments</Button>
                             <Button className="button1" onClick={onButtonContainerClick}>Choose Doctor</Button>
                             <Button className="button1" onClick={onButtonContainer1Click}>Logout</Button>
                             

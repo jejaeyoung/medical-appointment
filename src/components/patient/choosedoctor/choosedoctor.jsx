@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
 import axios from "axios";
 import { useEffect, useState,  } from "react";
+import PatientNavBar from "../PatientNavBar/PatientNavBar";
 
 function ChooseDoctor() {
     const [theDoctors, setAllDoctors] = useState([]);
@@ -26,6 +27,7 @@ function ChooseDoctor() {
 
     return (
         <>
+            <PatientNavBar/>
             <p>This is the list of available doctors</p>
             {theDoctors.map((doctor, index) => (
                 <div key={index}>

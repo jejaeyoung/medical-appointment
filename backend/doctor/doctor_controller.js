@@ -1,5 +1,8 @@
 const Doctors = require('./doctor_model');
 const Post = require('../announcement/announcement_model');
+const Patient = require('../patient/patient_model');
+const Appointment = require('../appointments/appointment_model');
+const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
 const mongoose = require('mongoose');
 
 const NewDoctorSignUp = (req, res) => {
@@ -122,9 +125,6 @@ const findPostByIdDelete = async (req, res) => {
     }
 };
 
-
-
-//This isnt working putangiona
 const updatePostAtIndex = async (req, res) => {
     const { id: doctorId, index } = req.params;
     console.log('Received Doctor ID:', doctorId);
@@ -164,7 +164,23 @@ const updatePostAtIndex = async (req, res) => {
     }
 };
 
-
+//For Appointments
+const getAllAppointments = (req, res) => {
+    const { doctorId } = req.params;
+    
+    Appointment.find({ doctor: doctorId })
+      .populate('patient')
+      .populate('doctor')
+      .populate('secretary')
+      .sort({ date: 1, time: 1 })
+      .then((appointments) => {
+        res.status(200).json(appointments);
+      })
+      .catch((error) => {
+        res.status(500).json({ message: error.message });
+      });
+  };
+  
 
 module.exports = {
     NewDoctorSignUp,
@@ -174,5 +190,6 @@ module.exports = {
     getAllPostbyId,
     findPostByIdDelete,
     findDoctorById,
-    updatePostAtIndex
+    updatePostAtIndex,
+    getAllAppointments,
 };

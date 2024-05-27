@@ -63,7 +63,7 @@ const PatientSchema = new Schema({
     }]
 }, { timestamps: true });
 
-// Pre-save hook for hashing the password
+// // Pre-save hook for hashing the password
 // PatientSchema.pre('save', async function (next) {
 //     if (this.isModified('patient_password')) {
 //         try {
@@ -100,10 +100,10 @@ PatientSchema.pre('save', async function (next) {
     }
 });
 
-//Instance method for password authentication
-PatientSchema.methods.authenticate = async function (password) {
-    return bcrypt.compare(password, this.patient_password);
-};
+// // Instance method for password authentication
+// PatientSchema.methods.authenticate = async function (password) {
+//     return bcrypt.compare(password, this.patient_password);
+// };
 
 const Patient = model('Patient', PatientSchema);
 

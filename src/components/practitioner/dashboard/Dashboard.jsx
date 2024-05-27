@@ -12,7 +12,7 @@ import axios from "axios";
 
 function Dashboard() {
   //to store the state
-  const { uid, role } = useParams();
+  const { did, role } = useParams();
 
   const [thePost, setThePost] = useState([]);
 
@@ -20,7 +20,6 @@ function Dashboard() {
   const [thePosts, setThePosts] = useState([]);
 
   const [theId, setTheId] = useState("");
-
   const [theName, setTheName] = useState("");
   const [selectedPostIndex, setSelectedPostIndex] = useState(null);
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ function Dashboard() {
 
   //Setting a State for Id
   axios
-    .get(`http://localhost:8000/doctor/api/finduser/` + uid)
+    .get(`http://localhost:8000/doctor/api/finduser/` + did)
     .then((res) => {
       setTheId(res.data.theDoctor._id);
       setTheName(res.data.theDoctor.dr_firstName);
@@ -54,7 +53,7 @@ function Dashboard() {
   const deletePost = (index) => {
     axios
       .delete(
-        `http://localhost:8000/doctor/api/post/deletepost/${uid}/` + index
+        `http://localhost:8000/doctor/api/post/deletepost/${did}/` + index
       )
       .then((res) => {
         window.location.reload();
@@ -67,7 +66,7 @@ function Dashboard() {
   //display all posts
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/doctor/api/post/getallpost/${uid}`)
+      .get(`http://localhost:8000/doctor/api/post/getallpost/${did}`)
       .then((res) => {
         console.log(res);
         setThePosts(res.data.posts);
@@ -81,7 +80,7 @@ function Dashboard() {
   const submitPost = (e) => {
     if (thePost.length > 3) {
       axios
-        .post("http://localhost:8000/doctor/api/addpost/" + uid, {
+        .post("http://localhost:8000/doctor/api/addpost/" + did, {
           content: thePost,
         })
         .then((res) => {
@@ -109,7 +108,7 @@ function Dashboard() {
           overflowY: "hidden",
         }}
       >
-        <SidebarMenu p_name={theName} uid={theId} />
+        <SidebarMenu doctor_name={theName} did={theId} />
 
         <div
           style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }}
