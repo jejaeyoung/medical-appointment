@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const {Schema, model} = mongoose;
 
 const RxContentSchema = new Schema({
     med_name: {
         type: String,
         required: true
+    },
+    med_generic: {
+        type: String
     },
     med_qty: {
         type: String,
@@ -14,7 +17,8 @@ const RxContentSchema = new Schema({
     med_remark: {
         type: String,
         required: true
-    }
+    },
+
 });
 
 const RxSchema = new Schema ({
