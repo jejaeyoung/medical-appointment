@@ -16,7 +16,9 @@ const NewSignUp = () => {
     const [uGender, setGender] = useState("Male");
     const [urole, setURole] = useState("Patient");
 
-    const registerUser =() => {
+    const registerUser =(e) => {
+        e.preventDefault();
+
         if(urole === "Practitioner")
             {
                 const doctorUser = {
@@ -136,7 +138,8 @@ const NewSignUp = () => {
                         <Form.Label>Choose what to register:</Form.Label>
                         <Form.Select onChange={(e) => setURole(e.target.value)} defaultValue="Choose">
                             <option value="Patient">Patient</option>
-                             <option value="Practitioner">Practitioner</option>
+                            <option value="Practitioner">Practitioner</option>
+                            <option value="Secretary">Medical Secretary</option>
                         </Form.Select>
                     </Form.Group>
                 </Row>

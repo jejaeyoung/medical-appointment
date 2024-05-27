@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const {Schema, model} = mongoose
 
 const PatientSchema = new Schema ({
@@ -89,11 +89,11 @@ PatientSchema.pre('save', async function (next) {
 });
 
 
-PatientSchema.method({
-    async authenticate(password) {
-       return bcrypt.compare(password, this.password);
-    },
-  }); 
+// PatientSchema.method({
+//     async authenticate(password) {
+//        return bcrypt.compare(password, this.password);
+//     },
+//   }); 
 
 const Patient = mongoose.model('Patient', PatientSchema);
 
