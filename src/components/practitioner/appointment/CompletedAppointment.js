@@ -74,7 +74,7 @@ const TodaysAppointment = () => {
     <>
       <div>
         <div style={{ padding:'30px', width: '100%' }}>
-          <h1>Today's Appointments</h1>
+          <h1>Completed Appointments</h1>
           <Table striped bordered hover variant ="dark">
             <thead>
               <tr>
@@ -90,7 +90,7 @@ const TodaysAppointment = () => {
             </thead>
             <tbody>
               {todaysAppointments
-                .filter(appointment => appointment.status === 'Scheduled')
+                .filter(appointment => appointment.status === 'Completed')
                 .map((appointment,index) => {
                 const patient = appointment.patient;
                
@@ -105,9 +105,9 @@ const TodaysAppointment = () => {
                     <td>{appointment.reason}</td>
                     <td>{appointment.status}</td>
                     <td>
-                      {/* Add any actions you need here */}
+                  
               
-                      <Button onClick={() => completeAppointment(appointment._id)}>Complete</Button>
+                      
                     </td>
                   </tr>
                 );

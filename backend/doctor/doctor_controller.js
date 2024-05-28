@@ -181,7 +181,26 @@ const getAllAppointments = (req, res) => {
       });
   };
   
-
+  const completeAppointment = async (req, res) => {
+    try {
+      const appointmentId = req.params.uid; // Appointment ID from URL parameter
+  
+      // Find the appointment and update its status to 'Cancelled'
+      const updatedAppointment = await Appointment.findByIdAndUpdate(
+        appointmentId,
+        { status: 'Completed' },
+        { new: true }
+      );
+  
+      if (!updatedAppointment) {
+        return res.status(404).json({ message: "Appointment not found" });
+      }
+  
+      res.status(200).json(updatedAppointment);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
 module.exports = {
     NewDoctorSignUp,
     findAllDoctors,
@@ -192,4 +211,5 @@ module.exports = {
     findDoctorById,
     updatePostAtIndex,
     getAllAppointments,
+    completeAppointment
 };

@@ -8,6 +8,7 @@ import Nav from 'react-bootstrap/Nav';
 
 import TodaysAppointment from "./TodaysAppointment";
 import UpcomingAppointment from "./UpcomingAppointment";
+import CompletedAppointment from "./CompletedAppointment";
 
 const MainAppointment = () => {
     const { did } = useParams();
@@ -63,7 +64,7 @@ const MainAppointment = () => {
             <div>
             {activeTab === "upcoming" && <UpcomingAppointment />}
             {activeTab === "todays" && <TodaysAppointment />}
-            {/* {activeTab === "completed" && <CompletedAppointment />} */}
+            {activeTab === "completed" && <CompletedAppointment />}
           </div>
           </div>
   
