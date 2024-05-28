@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const port = 8000;  
-
+const path = require('path');
+const fs = require('fs');
 require("./config/mongoose")
 require('dotenv').config();
 
 const cors = require("cors");
-
+app.use('/images', express.static(path.join(__dirname, 'doctor', 'images')));
 app.use(express.json(), express.urlencoded({ extended: true }),cors());
  
 //routes

@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
 import axios from "axios";
 import { useEffect, useState,  } from "react";
 import PatientNavBar from "../PatientNavBar/PatientNavBar";
-
+import './Appointment.css'
 import ActiveAppointment from "./Appointments";
 import CancelledAppointments from "./CancelledAppointments";
 import CompleteAppointment from "./CompleteAppointment";
@@ -36,10 +36,12 @@ function MyAppointment() {
                 </Nav.Link>
               </Nav.Item>
             </Nav>
-
-            {activeTab === "active" && <ActiveAppointment />}
-            {activeTab === "cancel" && <CancelledAppointments />}
-            {activeTab === "completed" && <CompleteAppointment />}
+      
+              {activeTab === "active" && <ActiveAppointment />}
+              {activeTab === "cancel" && <CancelledAppointments />}
+              {activeTab === "completed" && <CompleteAppointment />}
+       
+           
 
           
         </>

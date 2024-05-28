@@ -8,6 +8,7 @@ function CreateAppointment() {
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [reason, setReason] = useState("");
+    const [cancelReason, setCancelReason] = useState("");
     const { pid, did } = useParams();
 
     const createAppointment = () => {
@@ -15,7 +16,8 @@ function CreateAppointment() {
             doctorId: did,
             date: date,
             time: time,
-            reason: reason
+            reason: reason,
+            cancelReason: cancelReason,
         };
 
         axios.post(`http://localhost:8000/patient/api/${pid}/createappointment`, appointmentField)

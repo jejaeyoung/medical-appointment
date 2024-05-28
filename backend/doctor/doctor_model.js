@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const DoctorSchema = new Schema({
+    dr_image: {
+        type: String,
+        default: '' // or any default image path if needed
+    },
     dr_firstName: {
         type: String,
         required: true,
@@ -35,6 +39,7 @@ const DoctorSchema = new Schema({
         required: true,
         minlength: 6,
     },
+
     dr_dob: {
         type: Date,
         required: true,

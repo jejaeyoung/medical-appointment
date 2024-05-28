@@ -136,7 +136,7 @@ const updatePostAtIndex = (req, res) => {
 
 const createAppointment = async (req, res) => {
   try {
-    const { doctorId, date, time, reason, secretaryId } = req.body;
+    const { doctorId, date, time, reason, cancelReason,secretaryId,  } = req.body;
     const patientId = req.params.uid; // Patient ID from URL parameter
 
     const newAppointment = new Appointment({
@@ -145,6 +145,7 @@ const createAppointment = async (req, res) => {
       date,
       time,
       reason,
+      cancelReason,
       secretary: secretaryId
     });
 
@@ -175,12 +176,13 @@ const createAppointment = async (req, res) => {
 
 const cancelAppointment = async (req, res) => {
   try {
+    const { cancelReason } = req.body;
     const appointmentId = req.params.uid; // Appointment ID from URL parameter
 
-    // Find the appointment and update its status to 'Cancelled'
+    // Find the appointment and update its cancelReason
     const updatedAppointment = await Appointment.findByIdAndUpdate(
       appointmentId,
-      { status: 'Cancelled' },
+      { $set: { cancelReason: cancelReason, status: 'Cancelled' } }, // Update cancelReason and status
       { new: true }
     );
 
@@ -193,6 +195,7 @@ const cancelAppointment = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 
 

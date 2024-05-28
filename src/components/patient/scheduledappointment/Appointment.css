@@ -1,9 +1,18 @@
-.aContainer {
+/* Appointment.css */
+.mainContainer {
+    width: 100%;
+    margin-left: 35%;
+
+  }
+  
+  .aContainer {
+    
     padding: 20px;
-    width: 50%;
+    width: 30%;
     background-color: white;
     border-radius: 30px;
     margin-bottom: 10px;
     margin-top: 10px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
-}
+  }
+  

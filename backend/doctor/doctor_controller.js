@@ -3,6 +3,8 @@ const Post = require('../announcement/announcement_model');
 const Patient = require('../patient/patient_model');
 const Appointment = require('../appointments/appointment_model');
 const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
+const path = require('path');
+
 const mongoose = require('mongoose');
 
 const NewDoctorSignUp = (req, res) => {
@@ -25,6 +27,26 @@ const findAllDoctors = (req, res) => {
             res.json({ message: 'Something went wrong', error: err });
         });
 };
+
+
+  
+const updateDoctorImage = async (req, res) => {
+    try {
+      const doctorId = req.params.id;
+      const imagePath = `images/${req.file.filename}`; // Store relative path
+  
+      // Update the doctor's image path in the database
+      const updatedDoctor = await Doctors.findByIdAndUpdate(doctorId, { dr_image: imagePath }, { new: true });
+  
+      res.json({ updatedDoctor, message: 'Doctor image updated successfully' });
+    } catch (error) {
+      console.error('Error updating doctor image:', error);
+      res.status(500).json({ message: 'Error updating doctor image', error });
+    }
+  };
+  
+
+
 
 // Get Doctor by ID
 const findDoctorById = (req, res) => {
@@ -211,5 +233,6 @@ module.exports = {
     findDoctorById,
     updatePostAtIndex,
     getAllAppointments,
-    completeAppointment
+    completeAppointment,
+    updateDoctorImage
 };

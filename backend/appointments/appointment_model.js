@@ -29,6 +29,9 @@ const AppointmentSchema = new Schema({
         type: String,
         required: true
     },
+    cancelReason: {
+        type: String,
+    },
     status: {
         type: String,
         enum: ['Scheduled', 'Completed', 'Cancelled'],

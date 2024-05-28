@@ -39,7 +39,9 @@ const SidebarMenu = (props) => {
 
               <CDBSidebarMenuItem icon="bell" > Notification </CDBSidebarMenuItem>
               <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
-              <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
+              <Link to={`/account/${props.did}`}>
+                <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
+              </Link>
               <Link to={`/`}>
                 <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
               </Link>

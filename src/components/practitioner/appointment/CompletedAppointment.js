@@ -106,7 +106,7 @@ const TodaysAppointment = () => {
                     <td>{appointment.status}</td>
                     <td>
                   
-              
+                    
                       
                     </td>
                   </tr>
