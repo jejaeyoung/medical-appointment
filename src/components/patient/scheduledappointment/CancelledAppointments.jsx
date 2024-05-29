@@ -1,9 +1,8 @@
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState,  } from "react";
-import PatientNavBar from "../PatientNavBar/PatientNavBar";
-import './Appointment.css'
+import { useEffect, useState } from "react";
+import './Appointment.css';
+
 function CancelledAppointments() {
     const [cancelledAppointments, setCancelledAppointments] = useState([]);
     const { pid } = useParams(); 
@@ -22,14 +21,15 @@ function CancelledAppointments() {
     return (
         <>
           {cancelledAppointments.map((appointment, index) => {
+            const doctor = appointment?.doctor;
             return (
                 <div className="aContainer" key={index}>
-                    <p>Your Doctor is: {appointment.doctor.dr_firstName} {appointment.doctor.dr_middleInitial} {appointment.doctor.dr_lastName} </p>
-                    <p>Status: {appointment.status} </p>
-                    <p>Reason for Cancellation: {appointment.cancelReason} </p>
-                    <p>Date/Time: {appointment.date}/{appointment.time} </p>
+                    <p>Your Doctor is: {doctor ? `${doctor.dr_firstName} ${doctor.dr_middleInitial || ''} ${doctor.dr_lastName}` : 'Doctor information not available'}</p>
+                    <p>Status: {appointment.status}</p>
+                    <p>Reason for Cancellation: {appointment.cancelReason}</p>
+                    <p>Date/Time: {appointment.date}/{appointment.time}</p>
                 </div>
-            )
+            );
           })}
         </>
     );

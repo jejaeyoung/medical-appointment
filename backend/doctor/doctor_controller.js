@@ -17,6 +17,26 @@ const NewDoctorSignUp = (req, res) => {
         });
 };
 
+const updateDoctorDetails = (req, res) => {
+    const updateData = {
+      dr_firstName: req.body.dr_firstName,
+      dr_lastName: req.body.dr_lastName,
+      dr_middleInitial: req.body.dr_middleInitial,
+      dr_contactNumber: req.body.dr_contactNumber,
+      dr_dob: req.body.dr_dob,
+      dr_email: req.body.dr_email,
+      dr_password: req.body.dr_password
+    };
+  
+    Doctors.findByIdAndUpdate({ _id: req.params.id }, updateData, { new: true, runValidators: true })
+      .then((updatedDoctor) => {
+        res.json({ updatedDoctor: updatedDoctor, message: "Successfully updated the doctor" });
+      })
+      .catch((err) => {
+        res.json({ message: 'Something went wrong', error: err });
+      });
+  };
+
 const findAllDoctors = (req, res) => {
     Doctors.find()
         .populate('dr_posts')
@@ -234,5 +254,6 @@ module.exports = {
     updatePostAtIndex,
     getAllAppointments,
     completeAppointment,
-    updateDoctorImage
+    updateDoctorImage,
+    updateDoctorDetails
 };

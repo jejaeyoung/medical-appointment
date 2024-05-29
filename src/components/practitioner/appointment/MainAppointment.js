@@ -15,6 +15,7 @@ const MainAppointment = () => {
     const [allAppointments, setAllAppointments] = useState([]);
     const [theId, setTheId] = useState("");
     const [theName, setTheName] = useState("");
+    const [theImage, setTheImage] = useState("");
     const [activeTab, setActiveTab] = useState("upcoming");
   
     useEffect(() => {
@@ -23,6 +24,7 @@ const MainAppointment = () => {
         .then((res) => {
           setTheId(res.data.theDoctor._id);
           setTheName(res.data.theDoctor.dr_firstName);
+          setTheImage(res.data.theDoctor.dr_image)
         })
         .catch((err) => {
           console.log(err);
@@ -40,36 +42,40 @@ const MainAppointment = () => {
   
     return (
       <>
-        <div style={{ display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden", }}>
-          <SidebarMenu doctor_name={theName} did={theId} />
-  
-          <div style={{padding: "30px"}}>
-            <Nav fill variant="tabs" defaultActiveKey="/home">
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("upcoming")}>Upcoming Appointment</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("todays")}>Today's Appointment</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="disabled" disabled>
-                  Disabled
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
+        <>
+          <div style={{display: "flex", flex: "1 0 auto", height: "100vh",overflowY: "hidden",}}>
+            <SidebarMenu doctor_image={theImage}doctor_name={theName} did={theId} />
 
-            <div>
-            {activeTab === "upcoming" && <UpcomingAppointment />}
-            {activeTab === "todays" && <TodaysAppointment />}
-            {activeTab === "completed" && <CompletedAppointment />}
+            <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
+              <h1 className="removegutter dashboard-title">Appointments</h1>
+              <div style={{paddingLeft:'30px', paddingRight:'30px'}}>
+              <Nav fill variant="tabs" defaultActiveKey="/home">
+                <Nav.Item>
+                  <Nav.Link onClick={() => setActiveTab("upcoming")}>Upcoming Appointment</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link onClick={() => setActiveTab("todays")}>Today's Appointment</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="disabled" disabled>
+                    Disabled
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+              </div>
+
+              
+              {activeTab === "upcoming" && <UpcomingAppointment />}
+              {activeTab === "todays" && <TodaysAppointment />}
+              {activeTab === "completed" && <CompletedAppointment />}
+
+            </div>
+             
           </div>
-          </div>
-  
-         
-        </div>
+    </>
       </>
     );
   };

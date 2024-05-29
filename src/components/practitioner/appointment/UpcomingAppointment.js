@@ -54,17 +54,17 @@ const UpcomingAppointment = () => {
       <div>
         <div style={{ padding: '30px', width: '100%' }}>
           <h1>Upcoming Appointments</h1>
-          <Table striped bordered hover variant="dark">
+          <Table striped bordered hover variant="light">
             <thead>
               <tr>
-                <th>Patient ID</th>
-                <th>Appointment ID</th>
-                <th>Patient Name</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th style={{border: "1px solid #00000018"}}>Patient ID</th>
+                <th style={{border: "1px solid #00000018"}}>Appointment ID</th>
+                <th style={{border: "1px solid #00000018"}}>Patient Name</th>
+                <th style={{border: "1px solid #00000018"}}>Date</th>
+                <th style={{border: "1px solid #00000018"}}>Time</th>
+                <th style={{border: "1px solid #00000018"}}>Reason</th>
+                <th style={{border: "1px solid #00000018"}}>Status</th>
+                <th style={{border: "1px solid #00000018"}}>Actions</th>
               </tr>
             </thead>
             <tbody>

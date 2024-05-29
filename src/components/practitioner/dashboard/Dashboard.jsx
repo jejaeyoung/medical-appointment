@@ -18,7 +18,7 @@ function Dashboard() {
 
   const [postDropdowns, setPostDropdowns] = useState([]);
   const [thePosts, setThePosts] = useState([]);
-
+  const [theImage, setTheImage] = useState ("");
   const [theId, setTheId] = useState("");
   const [theName, setTheName] = useState("");
   const [selectedPostIndex, setSelectedPostIndex] = useState(null);
@@ -44,6 +44,7 @@ function Dashboard() {
     .then((res) => {
       setTheId(res.data.theDoctor._id);
       setTheName(res.data.theDoctor.dr_firstName);
+      setTheImage(res.data.theDoctor.dr_image);
     })
     .catch((err) => {
       console.log(err);
@@ -108,7 +109,7 @@ function Dashboard() {
           overflowY: "hidden",
         }}
       >
-        <SidebarMenu doctor_name={theName} did={theId} />
+        <SidebarMenu doctor_image={theImage}doctor_name={theName} did={theId} />
 
         <div
           style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }}
@@ -236,7 +237,10 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="container thirdcontainer"></div>
+        <div className="container thirdcontainer">
+
+                
+        </div>
       </div>
     </>
   );

@@ -18,7 +18,7 @@ function Appointments() {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)
             .then((res) => {
                 setAppointments(res.data.thePatient.patient_appointments);
-                console.log(res.data.thePatient.patient_appointments);
+                // console.log(res.data.thePatient.patient_appointments);
             })
             .catch((err) => {
                 console.log(err);
@@ -66,14 +66,35 @@ function Appointments() {
    
            {appointments
                 .filter(appointment => appointment.status === 'Scheduled')
-                .map((appointment, index) => (
-                    <div className="aContainer" key={index}>
-                        <p>Your Doctor is: {appointment.doctor.dr_firstName} {appointment.doctor.dr_middleInitial} {appointment.doctor.dr_lastName}</p>
-                        <p>Status: {appointment.status}</p>
-                        <p>Date/Time: {appointment.date}/{appointment.time}</p>
-                        <Button onClick={() => handleCancelClick(appointment)}>Cancel the Appointment</Button>
-                    </div>
-                ))
+                .map((appointment, index) => {
+       
+                    return (
+                   
+                        <div className='subContainer' key={index}>
+                            <div className="aContainer">
+                                <div>
+                                    <img src={`http://localhost:8000/${appointment.doctor.dr_image}`} alt="Doctor" className='app-image' />
+                                </div>
+                                <div className>
+                                    <p style={{marginLeft: '10px'}}> Dr. {appointment.doctor.dr_firstName} {appointment.doctor.dr_middleInitial}. {appointment.doctor.dr_lastName}</p>
+                                    <p style={{marginLeft: '10px'}}>Status: {appointment.status}</p>
+                                    <p style={{marginLeft: '10px'}}>Date/Time: {appointment.date}/{appointment.time}</p>
+                                </div>  
+                            </div>
+
+                            <div className="bContainer">
+                                <Button onClick={() => handleCancelClick(appointment)}>Cancel the Appointment</Button>
+                            </div>
+
+
+
+                           
+                        </div>
+                    )
+                }
+                    
+                   
+                )
            }
 
 </div>

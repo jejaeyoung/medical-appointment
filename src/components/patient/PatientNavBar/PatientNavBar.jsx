@@ -7,7 +7,7 @@ import './PatientNavBar.css'
 function PatientNavBar() {
     const navigate = useNavigate();
     const {pid} = useParams();
-    console.log(pid);
+    // console.log(pid);
     const onButtonContainerClick = (() => {
         navigate(`/choosedoctor/${pid}`);
     });

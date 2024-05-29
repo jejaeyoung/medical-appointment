@@ -2,8 +2,8 @@
     background: rgb(26, 32, 59)!important;
     color: rgb(255, 255, 255);
     height: 100%;
-    width: 270px;
-    min-width: 270px;
+    width: 290px ;
+    min-width: 290px ;
     text-align: left;
     transition: width 0s ease 0s, left 0s ease 0s, right 0s ease 0s, all 0.3s ease 0s;
     position: relative;
@@ -13,11 +13,35 @@
 
 .gmeTLe .side-icon {
     margin-right: 10px;
-    width: 30px;
+    width: 50px;
     font-size: 20px;
     text-align: center;
+
 }
 
+.sm-header{
+ text-align: center;
+ margin-left: 20px;  
+}
+.sm-header1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+
+}
+.jGeaPm .head-div {
+    padding: 24px 30px;
+    font-weight: bold;
+    font-size: 17px;
+   align-items: center !important;
+    letter-spacing: 1px;
+    overflow: hidden;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    white-space: nowrap;
+}
 .CDBSidebarMenuItem:hover {
     background-color: white !important;
     color: #000 !important; 
@@ -30,6 +54,7 @@
 }  
 
 .headercustom {
+    font-size: 14px;
     white-space: break-spaces !important;    
     font-family: 'Roboto', sans-serif !important;
   }
