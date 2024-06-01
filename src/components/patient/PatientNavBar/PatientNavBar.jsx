@@ -1,5 +1,5 @@
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { Container, Row, Col, Button, Navbar, Nav, Table} from 'react-bootstrap';
 import axios from "axios";
 import * as Icon from "react-bootstrap-icons";
@@ -26,7 +26,10 @@ function PatientNavBar() {
             <Navbar expand="lg">
                 <Container>
                     <Navbar.Brand>
-                        <b className="medical-appointment">Team Hortons</b>
+                        <Link to={`/homepage/${pid}`}>
+                            <img className="pnb-logoimage"src={`http://localhost:8000/images/LandaganLOGO.png`}></img>
+                        </Link>
+                        
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">

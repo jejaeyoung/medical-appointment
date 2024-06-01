@@ -3,6 +3,7 @@ const Post = require('../announcement/announcement_model');
 const Patient = require('../patient/patient_model');
 const Appointment = require('../appointments/appointment_model');
 const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
+const Prescription = require('../prescription/prescription_model');
 const path = require('path');
 
 const mongoose = require('mongoose');
@@ -16,7 +17,6 @@ const NewDoctorSignUp = (req, res) => {
             res.json({ message: 'Something went wrong. Please try again.', error: err });
         });
 };
-
 const updateDoctorDetails = (req, res) => {
     const updateData = {
       dr_firstName: req.body.dr_firstName,
@@ -27,7 +27,6 @@ const updateDoctorDetails = (req, res) => {
       dr_email: req.body.dr_email,
       dr_password: req.body.dr_password
     };
-  
     Doctors.findByIdAndUpdate({ _id: req.params.id }, updateData, { new: true, runValidators: true })
       .then((updatedDoctor) => {
         res.json({ updatedDoctor: updatedDoctor, message: "Successfully updated the doctor" });
@@ -35,8 +34,7 @@ const updateDoctorDetails = (req, res) => {
       .catch((err) => {
         res.json({ message: 'Something went wrong', error: err });
       });
-  };
-
+};
 const findAllDoctors = (req, res) => {
     Doctors.find()
         .populate('dr_posts')
@@ -47,9 +45,6 @@ const findAllDoctors = (req, res) => {
             res.json({ message: 'Something went wrong', error: err });
         });
 };
-
-
-  
 const updateDoctorImage = async (req, res) => {
     try {
       const doctorId = req.params.id;
@@ -64,10 +59,6 @@ const updateDoctorImage = async (req, res) => {
       res.status(500).json({ message: 'Error updating doctor image', error });
     }
   };
-  
-
-
-
 // Get Doctor by ID
 const findDoctorById = (req, res) => {
     Doctors.findOne({ _id: req.params.id })
@@ -79,7 +70,6 @@ const findDoctorById = (req, res) => {
             res.json({ message: 'Something went wrong', error: err });
         });
 };
-
 const findDoctorByEmail = (req, res) => {
     Doctors.findOne({ email: req.params.email })
         .populate('dr_posts')
@@ -90,7 +80,6 @@ const findDoctorByEmail = (req, res) => {
             res.json({ message: 'Something went wrong', error: err });
         });
 };
-
 // Add a new post
 const addNewPostById = (req, res) => {
     const newPost = new Post({
@@ -166,7 +155,6 @@ const findPostByIdDelete = async (req, res) => {
         res.status(500).json({ message: 'Error deleting post', error });
     }
 };
-
 const updatePostAtIndex = async (req, res) => {
     const { id: doctorId, index } = req.params;
     console.log('Received Doctor ID:', doctorId);
@@ -205,7 +193,6 @@ const updatePostAtIndex = async (req, res) => {
         res.status(500).json({ message: 'Error updating post', error });
     }
 };
-
 //For Appointments
 const getAllAppointments = (req, res) => {
     const { doctorId } = req.params;
@@ -222,8 +209,7 @@ const getAllAppointments = (req, res) => {
         res.status(500).json({ message: error.message });
       });
   };
-  
-  const completeAppointment = async (req, res) => {
+const completeAppointment = async (req, res) => {
     try {
       const appointmentId = req.params.uid; // Appointment ID from URL parameter
   
@@ -242,7 +228,67 @@ const getAllAppointments = (req, res) => {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
+};
+const createPrescription = async (req, res) => {
+    const { patientId, appointmentId } = req.params;
+    const { gender, dateOfConsultation, doctor, medications } = req.body;
+
+    try {
+        const appointment = await Appointment.findById(appointmentId);
+
+        if (!appointment) {
+            return res.status(404).json({ message: 'Appointment not found' });
+        }
+
+        const prescription = new Prescription({
+            patient: patientId,
+            appointment: appointmentId,
+            gender,
+            dateOfConsultation,
+            doctor,
+            medications
+        });
+
+        await prescription.save();
+
+        // Update the patient's record to include the new prescription
+        const patient = await Patient.findById(patientId);
+        if (patient) {
+            patient.prescriptions.push(prescription._id);
+            await patient.save();
+        }
+
+        // Update the doctor's record to include the new prescription
+        const doctorRecord = await Doctors.findById(doctor);
+        if (doctorRecord) {
+            doctorRecord.dr_prescriptions.push(prescription._id);
+            await doctorRecord.save();
+        }
+
+        res.status(201).json({ message: 'Prescription created successfully', prescription });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+const getPrescriptionsByDoctor = async (req, res) => {
+    const { doctorId } = req.params;
+
+    try {
+        const prescriptions = await Prescription.find({ doctor: doctorId })
+            .populate('patient')
+            .populate('doctor')
+            .populate('appointment');
+
+        if (!prescriptions.length) {
+            return res.status(404).json({ message: 'No prescriptions found for this doctor' });
+        }
+
+        res.status(200).json(prescriptions);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+
 module.exports = {
     NewDoctorSignUp,
     findAllDoctors,
@@ -255,5 +301,7 @@ module.exports = {
     getAllAppointments,
     completeAppointment,
     updateDoctorImage,
-    updateDoctorDetails
+    updateDoctorDetails,
+    createPrescription,
+    getPrescriptionsByDoctor,
 };

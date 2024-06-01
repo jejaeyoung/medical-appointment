@@ -6,7 +6,7 @@ import './Appointment.css';
 function CancelledAppointments() {
     const [cancelledAppointments, setCancelledAppointments] = useState([]);
     const { pid } = useParams(); 
-    
+    const defaultImage = "images/NoProfile.jpg";
     useEffect(() => {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)
             .then((res) => {
@@ -20,17 +20,34 @@ function CancelledAppointments() {
 
     return (
         <>
-          {cancelledAppointments.map((appointment, index) => {
-            const doctor = appointment?.doctor;
-            return (
-                <div className="aContainer" key={index}>
-                    <p>Your Doctor is: {doctor ? `${doctor.dr_firstName} ${doctor.dr_middleInitial || ''} ${doctor.dr_lastName}` : 'Doctor information not available'}</p>
-                    <p>Status: {appointment.status}</p>
-                    <p>Reason for Cancellation: {appointment.cancelReason}</p>
-                    <p>Date/Time: {appointment.date}/{appointment.time}</p>
-                </div>
-            );
-          })}
+          <div className='mainContainer'>
+            <div>
+
+         
+            {cancelledAppointments.map((appointment, index) => {
+                const doctor = appointment?.doctor;
+                const doctorImage = appointment?.doctor.dr_image || defaultImage;
+                return (
+                    <div className="subContainer" key={index}>
+                        <div className="aContainer">
+                            <div> 
+                                <img src={`http://localhost:8000/${doctorImage}`} alt="Doctor" className='app-image' />
+                            </div>
+                            <div>
+                            <p style={{marginLeft: '10px'}}>Dr. {appointment.doctor.dr_firstName} {appointment.doctor.dr_middleInitial}. {appointment.doctor.dr_lastName}</p>
+                            <p style={{marginLeft: '10px'}}>Status: {appointment.status}</p>
+                            <p style={{marginLeft: '10px'}}>Date/Time: {appointment.date}/{appointment.time}</p>
+                            </div>
+                       
+                     
+                            
+                        </div>
+                       
+                    </div>
+                );
+            })}
+               </div>
+          </div>
         </>
     );
 }

@@ -23,7 +23,7 @@ function Dashboard() {
   const [theName, setTheName] = useState("");
   const [selectedPostIndex, setSelectedPostIndex] = useState(null);
   const navigate = useNavigate();
-
+  const defaultImage = "images/NoProfile.jpg";
   useEffect(() => {
     if (Array.isArray(thePosts)) {
       const dropdowns = thePosts.map(() => false);
@@ -44,7 +44,7 @@ function Dashboard() {
     .then((res) => {
       setTheId(res.data.theDoctor._id);
       setTheName(res.data.theDoctor.dr_firstName);
-      setTheImage(res.data.theDoctor.dr_image);
+      setTheImage(res.data.theDoctor.dr_image || defaultImage);
     })
     .catch((err) => {
       console.log(err);

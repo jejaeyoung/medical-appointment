@@ -39,6 +39,7 @@ const TodaysAppointment = () => {
     const newStatus = {
         status: 'Completed'
     };
+    window.location.reload();
     axios.put(`http://localhost:8000/doctor/api/${appointmentID}/completeappointment`, newStatus)
         .then((response) => {
             console.log(response.data);

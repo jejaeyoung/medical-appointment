@@ -58,23 +58,15 @@ const PatientSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Appointment'
     }],
-    post: [{
-        type: String
+    medicalHistory: {
+        type: Schema.Types.ObjectId,
+        ref: 'MedicalHistory'
+    },
+    prescriptions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Prescription'
     }]
 }, { timestamps: true });
-
-// // Pre-save hook for hashing the password
-// PatientSchema.pre('save', async function (next) {
-//     if (this.isModified('patient_password')) {
-//         try {
-//             const salt = await bcrypt.genSalt(10);
-//             this.patient_password = await bcrypt.hash(this.patient_password, salt);
-//         } catch (err) {
-//             return next(err);
-//         }
-//     }
-//     next();
-// });
 
 // Pre-save hook for generating the patient ID
 PatientSchema.pre('save', async function (next) {
@@ -99,11 +91,6 @@ PatientSchema.pre('save', async function (next) {
         next(error);
     }
 });
-
-// // Instance method for password authentication
-// PatientSchema.methods.authenticate = async function (password) {
-//     return bcrypt.compare(password, this.patient_password);
-// };
 
 const Patient = model('Patient', PatientSchema);
 

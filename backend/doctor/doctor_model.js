@@ -39,7 +39,6 @@ const DoctorSchema = new Schema({
         required: true,
         minlength: 6,
     },
-
     dr_dob: {
         type: Date,
         required: true,
@@ -60,8 +59,18 @@ const DoctorSchema = new Schema({
     dr_appointments: [{
         type: Schema.Types.ObjectId,
         ref: 'Appointment'
+    }],
+    dr_medicalHistories: [{
+        type: Schema.Types.ObjectId,
+        ref: 'MedicalHistory',
+        default: null
+    }],
+    dr_prescriptions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Prescription'
     }]
 }, { timestamps: true });
 
 const Doctor = model('Doctor', DoctorSchema);
+
 module.exports = Doctor;

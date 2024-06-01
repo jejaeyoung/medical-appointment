@@ -2,15 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
-import './Appointment.css';
+
 import SidebarMenu from "../sidebar/SidebarMenu";
 import Nav from 'react-bootstrap/Nav';
 
-import TodaysAppointment from "./TodaysAppointment";
-import UpcomingAppointment from "./UpcomingAppointment";
-import CompletedAppointment from "./CompletedAppointment";
 
-const MainAppointment = () => {
+const MedicalRecord = () => {
     const { did } = useParams();
     const [allAppointments, setAllAppointments] = useState([]);
     const [theId, setTheId] = useState("");
@@ -47,30 +44,13 @@ const MainAppointment = () => {
             <SidebarMenu doctor_image={theImage}doctor_name={theName} did={theId} />
 
             <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
-              <h1 className="removegutter dashboard-title">Appointments</h1>
-              <div style={{paddingLeft:'30px', paddingRight:'30px'}}>
-              <Nav fill variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                  <Nav.Link onClick={() => setActiveTab("upcoming")}>Upcoming Appointment</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link onClick={() => setActiveTab("todays")}>Today's Appointment</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="disabled" disabled>
-                    Disabled
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
-              </div>
+              <h1 className="removegutter dashboard-title">Medical Records</h1>
+                <div style={{paddingLeft:'30px', paddingRight:'30px'}}>
+                    This is medical records
+                </div>
 
               
-              {activeTab === "upcoming" && <UpcomingAppointment />}
-              {activeTab === "todays" && <TodaysAppointment />}
-              {activeTab === "completed" && <CompletedAppointment />}
+            
 
             </div>
              
@@ -83,4 +63,4 @@ const MainAppointment = () => {
 
   
 
-export default MainAppointment;
+export default MedicalRecord;

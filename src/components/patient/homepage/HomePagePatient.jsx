@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Navbar, Nav, } from 'react-bootstrap';
 import PatientNavBar from "../PatientNavBar/PatientNavBar";
+
 function HomePagePatient
 
  () {

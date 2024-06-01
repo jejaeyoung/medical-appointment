@@ -10,7 +10,7 @@ function CompleteAppointment() {
     const [appointmentID, setAppointmentID] = useState("");
     const { pid } = useParams(); 
     const navigate = useNavigate();
-   
+    const defaultImage = "images/NoProfile.jpg";
     useEffect(() => {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)
             .then((res) => {
@@ -27,18 +27,38 @@ function CompleteAppointment() {
  
     return (
         <>
-          {theDoctor
+        <div className='mainContainer'>
+            <div>
+            {theDoctor
             .filter(appointment => appointment.status === 'Completed')
             .map((doctor,index)=>{
+                const doctorImage = doctor?.doctor.dr_image || defaultImage;
+                console.log(doctor.doctor);
             return (
-                <div className="aContainer" key={index}>
-                    <p>Your Doctor is: {doctor.doctor.dr_firstName} {doctor.doctor.dr_middleInitial} {doctor.doctor.dr_lastName} </p>
-                    <p> Status: {doctor.status} </p>
-                    <p> Date/Time: {doctor.date}/{doctor.time} </p>
+                <div className="subContainer" key={index}>
+                    <div className="aContainer" key={index}>
+                        <div> 
+                            <img src={`http://localhost:8000/${doctorImage}`} alt="Doctor" className='app-image' />
+                        </div>
+                        <div>
+                            <p style={{marginLeft: '10px'}}> Dr. {doctor.doctor.dr_firstName} {doctor.doctor.dr_middleInitial}. {doctor.doctor.dr_lastName} </p>
+                            <p style={{marginLeft: '10px'}}> Status: {doctor.status} </p>
+                            <p style={{marginLeft: '10px'}}> Date/Time: {doctor.date}/{doctor.time} </p>
+                        </div>
+                      
                    
+                    </div>
+
                 </div>
+                
             )
            })}
+
+            </div>
+       
+
+        </div>
+        
         </>
     );
 }

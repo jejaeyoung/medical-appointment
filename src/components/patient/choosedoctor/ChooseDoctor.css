@@ -1,0 +1,31 @@
+.cd-acontent{
+    width: 500%;
+    height: 150px;
+}
+.cd-card{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    background-color: white;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
+}
+.cd-card:hover{
+    cursor: pointer;
+}
+.cd-container{
+
+    padding-top: 10px;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+.cd-name{
+    margin-top: 6px;
+    margin-left: 10px;
+}

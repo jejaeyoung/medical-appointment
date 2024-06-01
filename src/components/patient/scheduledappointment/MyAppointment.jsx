@@ -18,29 +18,32 @@ function MyAppointment() {
 
     return (
         <>
-            <PatientNavBar/>
+          <PatientNavBar/>
 
-            <Nav fill variant="tabs" defaultActiveKey="/home">
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("active")}>Scheduled Appointments</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("cancel")}>Cancelled Appointment</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="disabled" disabled>
-                  Disabled
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-      
+          <div className="ma-container">
+            <div className="ma-container1">
+              <Nav fill variant="tabs" defaultActiveKey="/home">
+                  <Nav.Item>
+                    <Nav.Link onClick={() => setActiveTab("active")}>Scheduled Appointments</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => setActiveTab("cancel")}>Cancelled Appointment</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
+                  </Nav.Item>
+                  
+              </Nav>
+            </div>
+           
+          </div>
               {activeTab === "active" && <ActiveAppointment />}
               {activeTab === "cancel" && <CancelledAppointments />}
               {activeTab === "completed" && <CompleteAppointment />}
        
+         
+
+           
            
 
           

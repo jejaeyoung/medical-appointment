@@ -21,11 +21,13 @@ const AccountInfo = () => {
   const [dob, setDob] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  
+  const defaultImage = "images/NoProfile.jpg";
 
   useEffect(() => {
     axios.get(`http://localhost:8000/doctor/api/finduser/${did}`)
       .then((res) => {
-        setTheImage(res.data.theDoctor.dr_image);
+        setTheImage(res.data.theDoctor.dr_image || defaultImage);
         setTheId(res.data.theDoctor._id);
         setTheName(res.data.theDoctor.dr_firstName);
         setTheLastName(res.data.theDoctor.dr_lastName);
@@ -50,8 +52,6 @@ const AccountInfo = () => {
       setTheImage(newImageUrl);
     }
   };
-
-
 
   const handleUpdate = (updatedData) => {
     axios.put(`http://localhost:8000/doctor/api/${did}/updateDetails`, updatedData)
@@ -80,9 +80,7 @@ const AccountInfo = () => {
           <hr className=" divider d-lg" />
           <div className="ai-container">
             <div className="ai-image-wrapper">
-              {theImage && (
-                <img src={`http://localhost:8000/${theImage}`} alt="Doctor" className="ai-image" />
-              )}
+              <img src={`http://localhost:8000/${theImage}`} alt="Doctor" className="ai-image" />
               <button className="ai-upload-button" onClick={openImageModal}><Icon.Upload/></button>
             </div>
           </div>

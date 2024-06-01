@@ -1,0 +1,11 @@
+.dp-main{
+   padding: 20px;
+}
+
+.dp-card{
+    background-color: rgb(173, 41, 41);
+    border-radius: 30px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
+}

@@ -10,7 +10,7 @@ const SidebarMenu = (props) => {
     setIsLeftIcon(!isLeftIcon);
   };
 
-  const defaultImage = 'path/to/default/image.jpg'; // Add a default image path here
+  const defaultImage = "images/NoProfile.jpg";
   console.log(props.doctor_image);
   return (
     <>
@@ -47,11 +47,15 @@ const SidebarMenu = (props) => {
             </Link>
             <CDBSidebarMenuItem icon="bell"> Notification </CDBSidebarMenuItem>
             <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
+            
+            <Link to={`/medicalrecord/${props.did}`}>
+              <CDBSidebarMenuItem icon="book" iconType="solid"> Medical Records </CDBSidebarMenuItem>
+            </Link>
             <Link to={`/account/${props.did}`}>
               <CDBSidebarMenuItem icon="user" iconType="solid"> Account Information </CDBSidebarMenuItem>
             </Link>
             <Link to={`/`}>
-              <CDBSidebarMenuItem icon="credit-card" iconType="solid"> Log Out </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="arrow-left" iconType="solid"> Log Out </CDBSidebarMenuItem>
             </Link>
           </CDBSidebarMenu>
         </CDBSidebarContent>

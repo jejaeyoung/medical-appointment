@@ -2,7 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const DoctorController = require('./doctor_controller');
-
+console.log("Doctor routes connected");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, 'images');
@@ -49,4 +49,8 @@ module.exports = app => {
 
   // Uploading Image
   app.post('/doctor/api/:id/updateimage', upload.single('image'), DoctorController.updateDoctorImage);
+
+  //For Prescription
+  app.post('/doctor/api/createPrescription/:patientId/:appointmentId', DoctorController.createPrescription);
+  app.get('/doctor/api/getPrescriptions/:doctorId', DoctorController.getPrescriptionsByDoctor);
 };
