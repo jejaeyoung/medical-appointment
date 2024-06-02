@@ -58,7 +58,7 @@ const updateDoctorImage = async (req, res) => {
       console.error('Error updating doctor image:', error);
       res.status(500).json({ message: 'Error updating doctor image', error });
     }
-  };
+};
 // Get Doctor by ID
 const findDoctorById = (req, res) => {
     Doctors.findOne({ _id: req.params.id })
@@ -209,26 +209,40 @@ const getAllAppointments = (req, res) => {
         res.status(500).json({ message: error.message });
       });
   };
+
 const completeAppointment = async (req, res) => {
     try {
-      const appointmentId = req.params.uid; // Appointment ID from URL parameter
-  
-      // Find the appointment and update its status to 'Cancelled'
-      const updatedAppointment = await Appointment.findByIdAndUpdate(
-        appointmentId,
-        { status: 'Completed' },
-        { new: true }
-      );
-  
-      if (!updatedAppointment) {
-        return res.status(404).json({ message: "Appointment not found" });
-      }
-  
-      res.status(200).json(updatedAppointment);
+        const appointmentId = req.params.uid; // Appointment ID from URL parameter
+
+        // Find the appointment and update its status to 'Completed'
+        const updatedAppointment = await Appointment.findByIdAndUpdate(
+            appointmentId,
+            { status: 'Completed' },
+            { new: true }
+        );
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        // Get doctor and patient IDs from the appointment
+        const doctorId = updatedAppointment.doctor; // Assuming 'doctor' field in Appointment schema
+        const patientId = updatedAppointment.patient; // Assuming 'patient' field in Appointment schema
+
+        // Update doctor's list of patients if the patient is not already in the list
+        await Doctors.findByIdAndUpdate(
+            doctorId,
+            { $addToSet: { dr_patients: patientId } }, // AddToSet ensures no duplicates
+            { new: true }
+        );
+
+        res.status(200).json(updatedAppointment);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 };
+
+//For Prescription
 const createPrescription = async (req, res) => {
     const { patientId, appointmentId } = req.params;
     const { gender, dateOfConsultation, doctor, medications } = req.body;
@@ -265,11 +279,16 @@ const createPrescription = async (req, res) => {
             await doctorRecord.save();
         }
 
+        // Update the appointment to include the new prescription
+        appointment.prescription = prescription._id;
+        await appointment.save();
+
         res.status(201).json({ message: 'Prescription created successfully', prescription });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error });
     }
 };
+
 const getPrescriptionsByDoctor = async (req, res) => {
     const { doctorId } = req.params;
 
@@ -289,6 +308,28 @@ const getPrescriptionsByDoctor = async (req, res) => {
     }
 };
 
+
+//Getting the patient
+const getPatientsByDoctor = async (req, res) => {
+    try {
+        const doctorId = req.params.doctorId;
+
+        // Find the doctor and populate the dr_patients field
+        const doctor = await Doctors.findById(doctorId).populate('dr_patients');
+
+        if (!doctor) {
+            return res.status(404).json({ message: "Doctor not found" });
+        }
+
+        res.status(200).json(doctor.dr_patients);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+
+
+
 module.exports = {
     NewDoctorSignUp,
     findAllDoctors,
@@ -304,4 +345,5 @@ module.exports = {
     updateDoctorDetails,
     createPrescription,
     getPrescriptionsByDoctor,
+    getPatientsByDoctor,
 };

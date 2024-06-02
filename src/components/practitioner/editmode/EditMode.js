@@ -32,7 +32,7 @@ function EditMode() {
     .then((res)=>{
         console.log(index);
         console.log(uid);
-        console.log(res.data.theDoctor.dr_posts[index].content);
+        console.log(res.data.theDoctor.dr_posts[0]);
         setPost(res.data.theDoctor.dr_posts[index].content)
     })
     .catch((err)=>{

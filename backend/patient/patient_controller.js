@@ -2,7 +2,7 @@ const Patient = require('./patient_model');
 const Doctor = require('../doctor/doctor_model');
 const Appointment = require('../appointments/appointment_model');
 const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
-
+const Prescription = require('../prescription/prescription_model')
 const NewPatientSignUp = (req, res) => {
     Patient.create(req.body)
     .then((newPatient) => {
@@ -27,14 +27,25 @@ const findAllPatient = (req, res) => {
 
 //getPatient
 const findPatientById = (req, res) => {
-  Patient.findOne({_id: req.params.uid})
+  Patient.findOne({ _id: req.params.uid })
     .populate({
       path: 'patient_appointments',
-      populate: {
-        path: 'doctor',
-        model: 'Doctor' 
-      }
+      populate: [
+        {
+          path: 'doctor',
+          model: 'Doctor'
+        },
+        {
+          path: 'prescription',
+          model: 'Prescription',
+          populate: {
+            path: 'doctor',
+            model: 'Doctor'
+          }
+        }
+      ]
     })
+    
     .then((thePatient) => {
       if (!thePatient) {
         return res.status(404).json({ message: 'Patient not found' });
@@ -46,6 +57,7 @@ const findPatientById = (req, res) => {
       res.status(500).json({ message: 'Something went wrong', error: err });
     });
 };
+
 
 
 const findPatientByEmail = (req, res) => {
@@ -136,12 +148,13 @@ const updatePostAtIndex = (req, res) => {
 
 const createAppointment = async (req, res) => {
   try {
-    const { doctorId, date, time, reason, cancelReason,secretaryId,  } = req.body;
+    const { doctorId, date, time, reason, cancelReason,secretaryId, prescriptionId  } = req.body;
     const patientId = req.params.uid; // Patient ID from URL parameter
 
     const newAppointment = new Appointment({
       patient: patientId,
       doctor: doctorId,
+      prescription: prescriptionId,
       date,
       time,
       reason,

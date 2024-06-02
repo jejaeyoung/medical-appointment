@@ -63,14 +63,15 @@ const UpdateInfoModal = ({ show, handleClose, doctorData, handleUpdate }) => {
             />
           </Form.Group>
           <Row>
-            <Form.Group as={Col} controlId="dob">
-              <Form.Label>Birthdate:</Form.Label>
-              <Form.Control
-                name="dr_dob"
-                value={formData.dr_dob || ""}
-                onChange={handleChange}
-              />
-            </Form.Group>
+          <Form.Group as={Col} controlId="dob">
+            <Form.Label>Birthdate:</Form.Label>
+            <Form.Control
+              type='date'
+              name="dr_dob"
+              value={formData.dr_dob ? new Date(formData.dr_dob).toISOString().split('T')[0] : ""}
+              onChange={handleChange}
+            />
+          </Form.Group>
             <Form.Group as={Col} controlId="contactNumber">
               <Form.Label>Contact Number:</Form.Label>
               <Form.Control

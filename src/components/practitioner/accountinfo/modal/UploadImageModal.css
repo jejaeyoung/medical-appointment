@@ -53,14 +53,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .preview-image {
+  display: flex;
+  justify-content: center;
   width: 200px;
   height: 200px;
   margin-top: 20px;
   border-radius: 100%;
   object-fit: cover;
+  text-align: center;
 }
 
 .image1{
@@ -68,4 +72,8 @@
   height: 300px;
   border-radius: 100%;
   object-fit: cover;
+}
+
+.ium-form{
+  padding-top: 10%;
 }

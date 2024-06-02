@@ -53,4 +53,8 @@ module.exports = app => {
   //For Prescription
   app.post('/doctor/api/createPrescription/:patientId/:appointmentId', DoctorController.createPrescription);
   app.get('/doctor/api/getPrescriptions/:doctorId', DoctorController.getPrescriptionsByDoctor);
+
+  //Getting All Patients
+  app.get('/doctor/api/getallpatients/:doctorId', DoctorController.getPatientsByDoctor);
+
 };

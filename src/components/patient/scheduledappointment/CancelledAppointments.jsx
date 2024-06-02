@@ -7,6 +7,7 @@ function CancelledAppointments() {
     const [cancelledAppointments, setCancelledAppointments] = useState([]);
     const { pid } = useParams(); 
     const defaultImage = "images/NoProfile.jpg";
+    
     useEffect(() => {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)
             .then((res) => {
@@ -19,14 +20,13 @@ function CancelledAppointments() {
     }, [pid]);
 
     return (
-        <>
-          <div className='mainContainer'>
+        <div className='mainContainer'>
             <div>
 
-         
+           
             {cancelledAppointments.map((appointment, index) => {
                 const doctor = appointment?.doctor;
-                const doctorImage = appointment?.doctor.dr_image || defaultImage;
+                const doctorImage = doctor?.dr_image || defaultImage;
                 return (
                     <div className="subContainer" key={index}>
                         <div className="aContainer">
@@ -34,21 +34,16 @@ function CancelledAppointments() {
                                 <img src={`http://localhost:8000/${doctorImage}`} alt="Doctor" className='app-image' />
                             </div>
                             <div>
-                            <p style={{marginLeft: '10px'}}>Dr. {appointment.doctor.dr_firstName} {appointment.doctor.dr_middleInitial}. {appointment.doctor.dr_lastName}</p>
-                            <p style={{marginLeft: '10px'}}>Status: {appointment.status}</p>
-                            <p style={{marginLeft: '10px'}}>Date/Time: {appointment.date}/{appointment.time}</p>
+                                <p style={{marginLeft: '10px'}}>Dr. {doctor?.dr_firstName} {doctor?.dr_middleInitial ? `${doctor.dr_middleInitial}.` : ''} {doctor?.dr_lastName}</p>
+                                <p style={{marginLeft: '10px'}}>Status: {appointment.status}</p>
+                                <p style={{marginLeft: '10px'}}>Date/Time: {appointment.date}/{appointment.time}</p>
                             </div>
-                       
-                     
-                            
                         </div>
-                       
                     </div>
                 );
             })}
-               </div>
-          </div>
-        </>
+             </div>
+        </div>
     );
 }
 

@@ -17,6 +17,7 @@ const PrescriptionSchema = new Schema({
         ref: 'Doctor',
         required: true
     },
+    
     medications: [{
         name: {
             type: String,

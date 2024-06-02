@@ -1,11 +1,69 @@
-.dp-main{
-   padding: 20px;
+.dp-main {
+  padding: 30px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
 }
 
-.dp-card{
-    background-color: rgb(173, 41, 41);
-    border-radius: 30px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
+.am-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dp-card {
+  display: flex;
+  justify-content: center;
+}
+
+.dp-container1 {
+  display: flex;
+  align-items: center;
+}
+
+.dp-container2 {
+  margin-left: 10px;
+  line-height: 0.2;
+  width: 100%;
+}
+
+.dp-container3 {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.dp-image {
+  width: 120px;
+  height: 120px;
+  border: 3px solid #19C1D5;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+.am-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.am-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+}
+
+.am-textarea {
+  height: 50%;
 }

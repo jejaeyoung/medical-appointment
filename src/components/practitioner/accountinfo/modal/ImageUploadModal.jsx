@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Col } from "react-bootstrap";
 import './UploadImageModal.css';
 import { useParams } from 'react-router-dom';
 
@@ -46,15 +46,18 @@ const ImageUploadModal = ({ isOpen, onRequestClose }) => {
     >
       <div className="modal-content">
         <h2>Upload Image</h2>
-        <form className='ium-form'>
-          {previewImage && (
+        {previewImage && (
             <img src={previewImage} alt="Preview" className="preview-image" />
           )}
-          <div className='ium-inputcontainer'>
-            <input className='ium-input' type="file" accept="image/*" onChange={handleFileChange} />
-          </div>
-        </form>
-        <Button style={{marginTop:"20px"}} type="submit" onClick={handleSubmit}>Upload</Button>
+        <Form className='ium-form'>
+          <Form.Group as={Col} className="mb-3">
+          
+              <Form.Control type="file" accept="image/*" onChange={handleFileChange}   />
+            </Form.Group>
+        </Form>
+         
+  
+        <Button style={{marginTop:"15px"}} type="submit" onClick={handleSubmit}>Upload</Button>
       </div>
     </Modal>
   );

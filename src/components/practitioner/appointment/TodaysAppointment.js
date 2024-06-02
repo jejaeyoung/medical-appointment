@@ -2,8 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
-import './Appointment.css';
 import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
+import PrescriptionModal from './PrescriptionModal';
+import './Appointment.css';
+
 const TodaysAppointment = () => {
   const { did } = useParams();
   const [allAppointments, setAllAppointments] = useState([]);
@@ -11,6 +13,9 @@ const TodaysAppointment = () => {
   const [theId, setTheId] = useState("");
   const [theName, setTheName] = useState("");
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPatientId, setSelectedPatientId] = useState("");
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
 
   useEffect(() => {
     axios
@@ -45,16 +50,25 @@ const TodaysAppointment = () => {
             console.log(response.data);
             setAppointments(prevAppointments => 
                 prevAppointments.map(appointment => 
-                    appointment._id === appointmentID ? { ...appointment, status: 'Cancelled' } : appointment
+                    appointment._id === appointmentID ? { ...appointment, status: 'Completed' } : appointment
                 )
             );
         })
         .catch((err) => {
             console.log(err);
         });
-}
+  }
 
-  // Get today's date in YYYY-MM-DD format
+  const handleCreatePrescription = (patientId, appointmentId) => {
+    setSelectedPatientId(patientId);
+    setSelectedAppointmentId(appointmentId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -65,7 +79,6 @@ const TodaysAppointment = () => {
 
   const todayDate = getTodayDate();
 
-  // Filter appointments to get only today's appointments
   const todaysAppointments = allAppointments.filter(appointment => {
     const appointmentDate = new Date(appointment.date).toISOString().split('T')[0];
     return appointmentDate === todayDate;
@@ -94,7 +107,6 @@ const TodaysAppointment = () => {
                 .filter(appointment => appointment.status === 'Scheduled')
                 .map((appointment,index) => {
                 const patient = appointment.patient;
-               
                 const patientName = `${patient.patient_firstName} ${patient.patient_middleInitial}. ${patient.patient_lastName}`;
                 return (
                   <tr key={appointment._id}>
@@ -106,9 +118,10 @@ const TodaysAppointment = () => {
                     <td>{appointment.reason}</td>
                     <td>{appointment.status}</td>
                     <td>
-                      {/* Add any actions you need here */}
-              
-                      <Button onClick={() => completeAppointment(appointment._id)}>Complete</Button>
+                      <div>
+                        <Button onClick={() => handleCreatePrescription(appointment.patient._id, appointment._id)}>Create Prescription</Button>
+                        <Button onClick={() => completeAppointment(appointment._id)}>Complete</Button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -118,6 +131,13 @@ const TodaysAppointment = () => {
           {error && <p>{error}</p>}
         </div>
       </div>
+      <PrescriptionModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        patientId={selectedPatientId}
+        appointmentId={selectedAppointmentId}
+        doctorId={did}
+      />
     </>
   );
 };

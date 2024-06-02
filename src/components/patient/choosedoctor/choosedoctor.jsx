@@ -8,15 +8,18 @@ import PatientNavBar from "../PatientNavBar/PatientNavBar";
 function ChooseDoctor() {
     const [theDoctors, setAllDoctors] = useState([]);
     const [theDocId, setAllDocId] = useState([]);
+    const [allImage, setAllImage] = useState([])
     const { pid } = useParams(); 
     const navigate = useNavigate();
-    const defaultImage = "images/NoProfile.jpg";
+    const defaultImage = "images/014ef2f860e8e56b27d4a3267e0a193a.jpg";
     // Display all the available doctors and able to direct to appointment form and pass it through the frontend.
     useEffect(() => {
         axios.get(`http://localhost:8000/doctor/api/alldoctor`)
             .then((res) => {
                 console.log(res.data.theDoctor); // Log the response data
-                setAllDoctors(res.data.theDoctor); // Set state to the data property of the response
+                setAllDoctors(res.data.theDoctor);
+                setAllImage(res.data.theDoctor.dr_image || defaultImage)
+                // Set state to the data property of the response
             })
             .catch((err) => {
                 console.log(err);
@@ -30,8 +33,11 @@ function ChooseDoctor() {
     return (
         <>
             <PatientNavBar/>
-    
+            <div style={{paddingTop: '40px'}}>
+                    <h1 style={{textAlign: 'center'}}>Available Doctors: </h1>
+            </div>
             <div className="cd-container">
+                
                 <div>
                     {theDoctors.map((doctor, index) => {
                         console.log(doctor.dr_image);

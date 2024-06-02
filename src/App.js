@@ -21,9 +21,10 @@ import DoctorProfile from './components/patient/doctorprofile/DoctorProfile';
 //Patient
 import HomePagePatient from './components/patient/homepage/HomePagePatient';
 import ChooseDoctor from './components/patient/choosedoctor/choosedoctor';
-import CreateAppointment from './components/patient/appointmentform/CreateAppointment';
+
 import MyAppointment from './components/patient/scheduledappointment/MyAppointment';
-import { Upload } from 'react-bootstrap-icons';
+import PatientInformation from './components/patient/patientinformation/PatientInformation';
+
 
 
 
@@ -50,9 +51,8 @@ function App() {
           <Route path={"/homepage/:pid"} element={<HomePagePatient />}/>
           <Route path={"/choosedoctor/:pid"} element={<ChooseDoctor />}/>
           <Route path={"/doctorprofile/:pid/:did"} element={<DoctorProfile />}/>
-          <Route path={"/appointment/:pid/:did"} element={<CreateAppointment />}/>
           <Route path={"/myappointment/:pid"} element={<MyAppointment />}/>
-
+          <Route path={"/accinfo/:pid"} element={<PatientInformation />}/>
           
       </Routes>
     </BrowserRouter>

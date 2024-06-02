@@ -11,7 +11,7 @@ const SidebarMenu = (props) => {
   };
 
   const defaultImage = "images/NoProfile.jpg";
-  console.log(props.doctor_image);
+
   return (
     <>
       <CDBSidebar>
@@ -62,7 +62,7 @@ const SidebarMenu = (props) => {
 
         <CDBSidebarFooter style={{ textAlign: "center" }}>
           <div className="sidebar-btn-wrapper" style={{ padding: "20px 5px" }}>
-            Medical Appointment
+            <img className="pnb-logoimage"src={`http://localhost:8000/images/LandaganLOGO.png`}></img>
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>

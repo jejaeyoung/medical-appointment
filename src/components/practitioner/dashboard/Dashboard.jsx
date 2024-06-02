@@ -23,7 +23,7 @@ function Dashboard() {
   const [theName, setTheName] = useState("");
   const [selectedPostIndex, setSelectedPostIndex] = useState(null);
   const navigate = useNavigate();
-  const defaultImage = "images/NoProfile.jpg";
+  const defaultImage = "images/014ef2f860e8e56b27d4a3267e0a193a.jpg";
   useEffect(() => {
     if (Array.isArray(thePosts)) {
       const dropdowns = thePosts.map(() => false);
@@ -39,22 +39,25 @@ function Dashboard() {
   };
 
   //Setting a State for Id
-  axios
-    .get(`http://localhost:8000/doctor/api/finduser/` + did)
-    .then((res) => {
-      setTheId(res.data.theDoctor._id);
-      setTheName(res.data.theDoctor.dr_firstName);
-      setTheImage(res.data.theDoctor.dr_image || defaultImage);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/doctor/api/finduser/` + did)
+      .then((res) => {
+        setTheId(res.data.theDoctor._id);
+        setTheName(res.data.theDoctor.dr_firstName);
+        setTheImage(res.data.theDoctor.dr_image || defaultImage);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [did]);
 
   //deleting post
   const deletePost = (index) => {
+    const reversedIndex = thePosts.length - 1 - index;
     axios
       .delete(
-        `http://localhost:8000/doctor/api/post/deletepost/${did}/` + index
+        `http://localhost:8000/doctor/api/post/deletepost/${did}/` + reversedIndex
       )
       .then((res) => {
         window.location.reload();
@@ -69,13 +72,13 @@ function Dashboard() {
     axios
       .get(`http://localhost:8000/doctor/api/post/getallpost/${did}`)
       .then((res) => {
-        console.log(res);
-        setThePosts(res.data.posts);
+
+        setThePosts(res.data.posts.reverse());
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [did]);
 
   //creating new post
   const submitPost = (e) => {
@@ -85,7 +88,7 @@ function Dashboard() {
           content: thePost,
         })
         .then((res) => {
-          setThePosts([...thePosts, thePost]);
+          setThePosts([thePost, ...thePosts]);
           setThePost("");
         })
         .catch((err) => {
@@ -95,8 +98,9 @@ function Dashboard() {
   };
 
   const editPost = (id, index) => {
-    setSelectedPostIndex(index);
-    navigate(`/dashboard/edit/${theId}/` + index);
+    const reversedIndex = thePosts.length - 1 - index;
+    setSelectedPostIndex(reversedIndex);
+    navigate(`/dashboard/edit/${theId}/` + reversedIndex);
   };
 
   return (

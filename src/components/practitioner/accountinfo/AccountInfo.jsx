@@ -110,7 +110,7 @@ const AccountInfo = () => {
                 <Row>
                   <Form.Group as={Col} controlId="exampleForm.ControlInput1">
                     <Form.Label>Birthdate:</Form.Label>
-                    <Form.Control value={dob} disabled />
+                    <Form.Control value={new Date(dob).toLocaleDateString()} disabled />
                   </Form.Group>
                   <Form.Group as={Col} controlId="exampleForm.ControlInput1">
                     <Form.Label>Contact Number:</Form.Label>

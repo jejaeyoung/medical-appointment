@@ -15,7 +15,6 @@ const AppointmentSchema = new Schema({
     secretary: {
         type: Schema.Types.ObjectId,
         ref: 'MedicalSecretary',
-
     },
     date: {
         type: Date,
@@ -36,6 +35,10 @@ const AppointmentSchema = new Schema({
         type: String,
         enum: ['Scheduled', 'Completed', 'Cancelled'],
         default: 'Scheduled'
+    },
+    prescription: {
+        type: Schema.Types.ObjectId,
+        ref: 'Prescription'
     }
 }, { timestamps: true });
 
