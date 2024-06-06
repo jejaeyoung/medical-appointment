@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
+import ForPrescription from './ForPrescription';
 
 const PatientRecord = ({ patientId, onClose }) => {
     const [patient, setPatient] = useState(null);
@@ -38,45 +39,8 @@ const PatientRecord = ({ patientId, onClose }) => {
                 </Card.Body>
             </Card>
 
-            <h2>Appointments</h2>
-            <Table striped bordered hover variant="light">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Doctor</th>
-                        <th>Prescription</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {patient.patient_appointments.map((appointment, index) => (
-                        <tr key={index}>
-                            <td>{new Date(appointment.date).toLocaleDateString()}</td>
-                            <td>{appointment.doctor ? `${appointment.doctor.dr_firstName} ${appointment.doctor.dr_lastName}` : 'Unknown Doctor'}</td>
-                            <td>{appointment.prescription ? appointment.prescription.details : 'No prescription'}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
 
-            <h2>Prescriptions</h2>
-            <Table striped bordered hover variant="light">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Doctor</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {patient.prescriptions.map((prescription, index) => (
-                        <tr key={index}>
-                            <td>{new Date(prescription.createdAt).toLocaleDateString()}</td>
-                            <td>{prescription.doctor ? `${prescription.doctor.dr_firstName} ${prescription.doctor.dr_lastName}` : 'Unknown Doctor'}</td>
-                            <td>{prescription.details}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+            <ForPrescription patient={patient}/>
         </div>
         </div>
     );
