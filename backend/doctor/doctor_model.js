@@ -43,6 +43,9 @@ const DoctorSchema = new Schema({
         type: Date,
         required: true,
     },
+    dr_age:{
+        type:String,
+    },
     dr_contactNumber: {
         type: String,
         required: true,
@@ -68,8 +71,29 @@ const DoctorSchema = new Schema({
     dr_prescriptions: [{
         type: Schema.Types.ObjectId,
         ref: 'Prescription'
-    }]
+    }],
+    notifications: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification'
+    }],
+    twoFactorSecret: { type: String },
+    twoFactorEnabled: { type: Boolean, default: false }
 }, { timestamps: true });
+
+const QRCode = require('qrcode');
+const speakeasy = require('speakeasy');
+
+DoctorSchema.methods.generateQRCode = async function() {
+    const otpAuthUrl = speakeasy.otpauthURL({ 
+      secret: this.twoFactorSecret, 
+      label: `Landagan Kids Clinic:${this.dr_email}`, 
+      issuer: 'Landagan Kids Clinic',
+      encoding: 'base32'
+    });
+    console.log('Generated OTP Auth URL:', otpAuthUrl); // Log the URL for debugging
+    return await QRCode.toDataURL(otpAuthUrl);
+  };
+  
 
 const Doctor = model('Doctor', DoctorSchema);
 

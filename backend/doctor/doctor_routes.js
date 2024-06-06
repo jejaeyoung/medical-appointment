@@ -31,9 +31,12 @@ module.exports = app => {
   app.get('/doctor/api/test', (req, res) => { res.json({ message: "the api is working" }) });
   // For Registration
   app.post('/doctor/api/signup', DoctorController.NewDoctorSignUp);
-
+  
   // For LogIn
   app.get('/doctor/api/alldoctor', DoctorController.findAllDoctors);
+  app.post('/doctor/api/setup-2fa/:id', DoctorController.setupTwoFactorForDoctor);
+  app.post('/doctor/api/verify-2fa', DoctorController.verifyTwoFactor);
+  
   //Update Information Details
   app.put('/doctor/api/:id/updateDetails', DoctorController.updateDoctorDetails);
   // For Post
@@ -44,6 +47,7 @@ module.exports = app => {
   app.put('/doctor/api/post/updatepost/:id/:index', DoctorController.updatePostAtIndex);
 
   // For Appointments
+  app.put('/doctor/api/:uid/acceptpatient', DoctorController.acceptPatient)
   app.get('/doctor/appointments/:doctorId', DoctorController.getAllAppointments);
   app.put('/doctor/api/:uid/completeappointment', DoctorController.completeAppointment)
 

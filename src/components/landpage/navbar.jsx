@@ -21,9 +21,9 @@ function LandingPage () {
             <div className="navbar-3">
                 <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand>
-                        <b className="medical-appointment">Team Hortons</b>
-                    </Navbar.Brand>
+                        
+                            <img className="pnb-logoimage" src={`http://localhost:8000/images/LandaganLOGO.png`} alt="Logo" />
+                    
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">

@@ -13,17 +13,22 @@ import NewSignUp from './components/login/NewSignUp';
 //Practitioner
 import Dashboard from './components/practitioner/dashboard/Dashboard';
 import EditMode from './components/practitioner/editmode/EditMode';
-import MainAppointment from './components/practitioner/appointment/MainAppointment';
+import TheAppointments from './components/practitioner/appointment/TheAppointmentsNav';
+
+
 import AccountInfo from './components/practitioner/accountinfo/AccountInfo';
-import MedicalRecord from './components/practitioner/medicalrecord/MedicalRecord';
+import MainMedicalRecord from './components/practitioner/medicalrecord/MainMedicalRecord';
 import DoctorProfile from './components/patient/doctorprofile/DoctorProfile';
+import PendingAppointment from './components/practitioner/appointment/TheAppointmentsNav';
 
 //Patient
 import HomePagePatient from './components/patient/homepage/HomePagePatient';
 import ChooseDoctor from './components/patient/choosedoctor/choosedoctor';
 
 import MyAppointment from './components/patient/scheduledappointment/MyAppointment';
-import PatientInformation from './components/patient/patientinformation/PatientInformation';
+import MainPatientInformation from './components/patient/patientinformation/MainPatientInformation';
+import DoctorInformation from './components/practitioner/accountinfo/DoctorInformation';
+
 
 
 
@@ -43,16 +48,16 @@ function App() {
         {/* Practitioner Routes */}
           <Route path={"/dashboard/:did"} element={<Dashboard />}/>
           <Route path={"/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
-          <Route path={'/mainappointment/:did'} element={<MainAppointment/>}></Route>
-          <Route path={'/medicalrecord/:did'} element={<MedicalRecord/>}/>
-          <Route path={"/account/:did"} element={<AccountInfo />}/>
+          <Route path={'/mainappointment/:did'} element={<TheAppointments/>}></Route>
+          <Route path={'/medicalrecord/:did'} element={<MainMedicalRecord/>}/>
+          <Route path={"/account/:did"} element={<DoctorInformation />}/>
         
         {/* Patient Routes */}
           <Route path={"/homepage/:pid"} element={<HomePagePatient />}/>
           <Route path={"/choosedoctor/:pid"} element={<ChooseDoctor />}/>
           <Route path={"/doctorprofile/:pid/:did"} element={<DoctorProfile />}/>
           <Route path={"/myappointment/:pid"} element={<MyAppointment />}/>
-          <Route path={"/accinfo/:pid"} element={<PatientInformation />}/>
+          <Route path={"/accinfo/:pid"} element={<MainPatientInformation />}/>
           
       </Routes>
     </BrowserRouter>

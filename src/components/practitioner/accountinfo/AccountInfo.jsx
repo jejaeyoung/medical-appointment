@@ -22,7 +22,7 @@ const AccountInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   
-  const defaultImage = "images/NoProfile.jpg";
+  const defaultImage = "images/014ef2f860e8e56b27d4a3267e0a193a.jpg";
 
   useEffect(() => {
     axios.get(`http://localhost:8000/doctor/api/finduser/${did}`)
@@ -74,7 +74,7 @@ const AccountInfo = () => {
   return (
     <>
       <div style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden"}}>
-        <SidebarMenu doctor_image={theImage} doctor_name={theName} did={theId} />
+        
         <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
           <h1 className="removegutter dashboard-title">Account Information</h1>
           <hr className=" divider d-lg" />

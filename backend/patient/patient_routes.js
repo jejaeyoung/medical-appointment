@@ -6,15 +6,19 @@ module.exports = app => {
     
     //New Patient Sign Up
     app.post('/patient/api/signup', PatientController.NewPatientSignUp);
+    app.post('/patient/api/setup-2fa/:id', PatientController.setupTwoFactor);
+    app.post('/patient/api/verify-2fa', PatientController.verifyTwoFactor);
 
     //Patient Log In
     app.get('/patient/api/allpatient', PatientController.findAllPatient);
 
-    //Finding One Patient
+    //Finding One Patient and Notifications
     app.get('/patient/api/onepatient/:uid', PatientController.findPatientById)
     //Create Appointment
     app.post('/patient/api/:uid/createappointment', PatientController.createAppointment);
     app.put('/patient/api/:uid/updateappointment', PatientController.cancelAppointment)
 
+
+    
 
 }

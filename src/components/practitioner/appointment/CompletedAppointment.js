@@ -4,36 +4,13 @@ import { useParams, Link } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import './Appointment.css';
 import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
-const TodaysAppointment = () => {
+const TodaysAppointment = ({allAppointments}) => {
   const { did } = useParams();
-  const [allAppointments, setAllAppointments] = useState([]);
+
   const [appointments, setAppointments] = useState([]);
-  const [theId, setTheId] = useState("");
-  const [theName, setTheName] = useState("");
+
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/doctor/api/finduser/${did}`)
-      .then((res) => {
-        setTheId(res.data.theDoctor._id);
-        setTheName(res.data.theDoctor.dr_firstName);
-      })
-      .catch((err) => {
-        setError("Error fetching doctor details");
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:8000/doctor/appointments/${did}`)
-      .then((res) => {
-        setAllAppointments(res.data);
-      })
-      .catch((err) => {
-        setError("Error fetching appointments");
-        console.log(err);
-      });
-  }, [did]);
 
   const completeAppointment = (appointmentID) => {
     const newStatus = {

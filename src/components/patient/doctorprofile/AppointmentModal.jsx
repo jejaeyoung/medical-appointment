@@ -9,6 +9,8 @@ function AppointmentModal({ show, handleClose, pid, did }) {
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [reason, setReason] = useState("");
+    const [medium, setMedium] = useState("Online");
+    const [payment, setPayment] = useState("Cash");
     const [cancelReason, setCancelReason] = useState("");
     const [prescription, setPrescription] = useState("");
     const [availableTimes, setAvailableTimes] = useState([]);
@@ -18,26 +20,29 @@ function AppointmentModal({ show, handleClose, pid, did }) {
             window.alert("Please select a valid time for the appointment.");
             return;
         }
-
+    
         const appointmentField = {
             doctorId: did,
             prescription: prescription,
             date: date,
             time: time,
             reason: reason,
-
+            medium: medium,
+            payment: payment,
             cancelReason: cancelReason,
         };
-
+    
         axios.post(`http://localhost:8000/patient/api/${pid}/createappointment`, appointmentField)
             .then((response) => {
                 window.alert("Created an appointment!");
                 navigate(`/myappointment/${pid}`);
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.response.data); // Log the error response data
+                window.alert(`Error: ${err.response.data.message}`); // Show the error message to the user
             });
     };
+    
 
     const getTodayDate = () => {
         const today = new Date();
@@ -59,7 +64,6 @@ function AppointmentModal({ show, handleClose, pid, did }) {
             0: ["02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM"], // Saturday
         };
         return morningTimes.concat(afternoonTimes[day] || []);
-        // return day === 0 ? [] : morningTimes.concat(afternoonTimes[day] || []);
     };
 
     useEffect(() => {
@@ -109,6 +113,42 @@ function AppointmentModal({ show, handleClose, pid, did }) {
                                         </option>
                                     ))}
                                 </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group as={Col} className="mb-3">
+                                <Form.Label>Medium</Form.Label>
+                                <Form.Check
+                                    type="radio"
+                                    label="Online"
+                                    name="medium"
+                                    checked={medium === "Online"}
+                                    onChange={() => setMedium("Online")}
+                                />
+                                <Form.Check
+                                    type="radio"
+                                    label="Face to Face"
+                                    name="medium"
+                                    checked={medium === "Face to Face"}
+                                    onChange={() => setMedium("Face to Face")}
+                                />
+                            </Form.Group>
+
+                            <Form.Group as={Col} className="mb-3">
+                                <Form.Label>Payment</Form.Label>
+                                <Form.Check
+                                    type="radio"
+                                    label="Cash"
+                                    name="payment"
+                                    checked={payment === "Cash"}
+                                    onChange={() => setPayment("Cash")}
+                                />
+                                <Form.Check
+                                    type="radio"
+                                    label="Online Payment"
+                                    name="payment"
+                                    checked={payment === "Online Payment"}
+                                    onChange={() => setPayment("Online Payment")}
+                                />
                             </Form.Group>
 
                             <Form.Group className="mb-3 am-textarea">

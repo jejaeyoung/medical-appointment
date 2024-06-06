@@ -1,40 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
+import { Link } from "react-router-dom";
 import './Appointment.css';
-import SidebarMenu from "../sidebar/SidebarMenu";
 
-const UpcomingAppointment = () => {
-  const { did } = useParams();
-  const [allAppointments, setAllAppointments] = useState([]);
-  const [theId, setTheId] = useState("");
-  const [theName, setTheName] = useState("");
+const UpcomingAppointment = ({ allAppointments }) => {
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/doctor/api/finduser/${did}`)
-      .then((res) => {
-        setTheId(res.data.theDoctor._id);
-        setTheName(res.data.theDoctor.dr_firstName);
-      })
-      .catch((err) => {
-        setError("Error fetching doctor details");
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:8000/doctor/appointments/${did}`)
-      .then((res) => {
-        setAllAppointments(res.data);
-      })
-      .catch((err) => {
-        setError("Error fetching appointments");
-        console.log(err);
-      });
-  }, [did]);
-
 
   const getTodayDate = () => {
     const today = new Date();
@@ -43,6 +13,7 @@ const UpcomingAppointment = () => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
   const todayDate = getTodayDate();
   const upcomingAppointments = allAppointments.filter(appointment => {
     const appointmentDate = new Date(appointment.date).toISOString().split('T')[0];
@@ -50,27 +21,26 @@ const UpcomingAppointment = () => {
   });
 
   return (
-    <>
-      <div>
-        <div style={{ padding: '30px', width: '100%' }}>
-          <h1>Upcoming Appointments</h1>
-          <Table striped bordered hover variant="light">
-            <thead>
-              <tr>
-                <th style={{border: "1px solid #00000018"}}>Patient ID</th>
-                <th style={{border: "1px solid #00000018"}}>Appointment ID</th>
-                <th style={{border: "1px solid #00000018"}}>Patient Name</th>
-                <th style={{border: "1px solid #00000018"}}>Date</th>
-                <th style={{border: "1px solid #00000018"}}>Time</th>
-                <th style={{border: "1px solid #00000018"}}>Reason</th>
-                <th style={{border: "1px solid #00000018"}}>Status</th>
-                <th style={{border: "1px solid #00000018"}}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {upcomingAppointments
-                .filter(appointment => appointment.status === 'Scheduled')
-                .map((appointment) => {
+    <div>
+      <div style={{ padding: '30px', width: '100%' }}>
+        <h1>Upcoming Appointments</h1>
+        <Table striped bordered hover variant="light">
+          <thead>
+            <tr>
+              <th style={{border: "1px solid #00000018"}}>Patient ID</th>
+              <th style={{border: "1px solid #00000018"}}>Appointment ID</th>
+              <th style={{border: "1px solid #00000018"}}>Patient Name</th>
+              <th style={{border: "1px solid #00000018"}}>Date</th>
+              <th style={{border: "1px solid #00000018"}}>Time</th>
+              <th style={{border: "1px solid #00000018"}}>Reason</th>
+              <th style={{border: "1px solid #00000018"}}>Status</th>
+              <th style={{border: "1px solid #00000018"}}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {upcomingAppointments
+              .filter(appointment => appointment.status === 'Scheduled')
+              .map((appointment) => {
                 const patient = appointment.patient;
                 const patientName = `${patient.patient_firstName} ${patient.patient_middleInitial}. ${patient.patient_lastName}`;
                 return (
@@ -80,22 +50,19 @@ const UpcomingAppointment = () => {
                     <td>{patientName}</td>
                     <td>{new Date(appointment.date).toLocaleDateString()}</td>
                     <td>{appointment.time}</td>
-                    
                     <td>{appointment.reason}</td>
                     <td>{appointment.status}</td>
                     <td>
-
                       <Link to={`/edit/${appointment._id}`}>Edit</Link>
                     </td>
                   </tr>
                 );
               })}
-            </tbody>
-          </Table>
-          {error && <p>{error}</p>}
-        </div>
+          </tbody>
+        </Table>
+        {error && <p>{error}</p>}
       </div>
-    </>
+    </div>
   );
 };
 

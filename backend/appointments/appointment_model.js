@@ -33,8 +33,20 @@ const AppointmentSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Scheduled', 'Completed', 'Cancelled'],
-        default: 'Scheduled'
+        enum: ['Pending', 'Scheduled', 'Completed', 'Cancelled', 'Missed'],
+        default: 'Pending'
+    },
+    medium :{
+        type: String,
+        enum: ['Online' , 'Face to Face'],
+        required: true
+   
+    },
+    payment :{
+        type: String,
+        enum: ['Cash' ,'Online Payment'],
+        required: true,
+   
     },
     prescription: {
         type: Schema.Types.ObjectId,

@@ -2,3 +2,8 @@
    
     margin-right: 15px !important;
 }
+
+.lnd-img{
+    object-fit: cover;
+    width: 100%;
+}

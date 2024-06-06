@@ -7,6 +7,9 @@ import './Appointment.css'
 import ActiveAppointment from "./Appointments";
 import CancelledAppointments from "./CancelledAppointments";
 import CompleteAppointment from "./CompleteAppointment";
+import PendingAppointments from "./PendingAppointment";
+
+
 
 function MyAppointment() {
     const [theDoctor, setAllDoctor] = useState([]);
@@ -23,11 +26,14 @@ function MyAppointment() {
           <div className="ma-container">
             <div className="ma-container1">
               <Nav fill variant="tabs" defaultActiveKey="/home">
-                  <Nav.Item>
+                <Nav.Item>
+                    <Nav.Link onClick={() => setActiveTab("pending")}>Pending Appointments</Nav.Link>
+                  </Nav.Item>
+                 <Nav.Item>
                     <Nav.Link onClick={() => setActiveTab("active")}>Scheduled Appointments</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link onClick={() => setActiveTab("cancel")}>Cancelled Appointment</Nav.Link>
+                    <Nav.Link onClick={() => setActiveTab("cancel")}>Cancelled Appointments</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
@@ -37,6 +43,7 @@ function MyAppointment() {
             </div>
            
           </div>
+              {activeTab === "pending" && <PendingAppointments />}
               {activeTab === "active" && <ActiveAppointment />}
               {activeTab === "cancel" && <CancelledAppointments />}
               {activeTab === "completed" && <CompleteAppointment />}

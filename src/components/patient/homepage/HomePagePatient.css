@@ -1,0 +1,10 @@
+.hp-container{
+    justify-content: center;
+    display: flex;
+    padding-top: 50px;
+}
+
+.hp-carouselsize{
+    width: 70%;
+    height: 70%;
+}

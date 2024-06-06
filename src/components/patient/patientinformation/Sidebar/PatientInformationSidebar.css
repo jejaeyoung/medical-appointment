@@ -1,0 +1,48 @@
+
+.sidebar-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar-link:hover {
+    color: #ccc;
+}
+
+.pisb-newheader {
+ 
+ 
+        font-weight: bold;
+        font-size: 17px;
+        align-items: center !important;
+        letter-spacing: 1px;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        white-space: nowrap;
+}
+
+.pisb-newheader .head-div{
+    padding: 0 !important;
+}
+
+
+.iaHJyQ {
+    background: rgba(152, 160, 168, 0.048) !important;
+    color: rgb(255, 255, 255);
+    height: 100%;
+    border-right: 2px solid rgba(0, 0, 0, 0.082);
+    width: 270px;
+    min-width: 270px;
+    text-align: left;
+    transition: width 0s ease 0s, left 0s ease 0s, right 0s ease 0s, all 0.3s ease 0s;
+    position: relative;
+    z-index: 1009;
+}
+
+
+.pisb-name{
+    color: #6982D8 ;
+    
+}
+
+

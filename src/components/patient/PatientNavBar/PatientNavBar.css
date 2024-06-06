@@ -106,3 +106,18 @@
     background-color: #f8f9fa; /* Change this to your preferred hover background color */
     color: #007bff; /* Change this to your preferred hover text color */
 }
+
+
+
+.notification-overlay {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    width: 30vh;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure overlay appears on top of other content */
+}

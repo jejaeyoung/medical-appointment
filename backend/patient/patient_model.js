@@ -25,13 +25,8 @@ const PatientSchema = new Schema({
     patient_email: {
         type: String,
         unique: true,
-        lowercase: true,
-        validate: {
-            validator: function (v) {
-                return /\S+@\S+\.\S+/.test(v);
-            },
-            message: props => `${props.value} is not a valid email address.`
-        }
+   
+        
     },
     patient_password: {
         type: String,
@@ -39,6 +34,9 @@ const PatientSchema = new Schema({
     },
     patient_dob: {
         type: Date,
+    },
+    patient_age:{
+        type:String
     },
     patient_contactNumber: {
         type: String,
@@ -65,7 +63,13 @@ const PatientSchema = new Schema({
     prescriptions: [{
         type: Schema.Types.ObjectId,
         ref: 'Prescription'
-    }]
+    }],
+    notifications: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification'
+    }],
+    twoFactorSecret: { type: String },
+    twoFactorEnabled: { type: Boolean, default: false }
 }, { timestamps: true });
 
 // Pre-save hook for generating the patient ID
@@ -91,6 +95,21 @@ PatientSchema.pre('save', async function (next) {
         next(error);
     }
 });
+
+const QRCode = require('qrcode');
+const speakeasy = require('speakeasy');
+
+PatientSchema.methods.generateQRCode = async function() {
+    const otpAuthUrl = speakeasy.otpauthURL({ 
+      secret: this.twoFactorSecret, 
+      label: `Landagan Kids Clinic:${this.patient_email}`, 
+      issuer: 'Landagan Kids Clinic',
+      encoding: 'base32'
+    });
+    console.log('Generated OTP Auth URL:', otpAuthUrl); // Log the URL for debugging
+    return await QRCode.toDataURL(otpAuthUrl);
+  };
+  
 
 const Patient = model('Patient', PatientSchema);
 

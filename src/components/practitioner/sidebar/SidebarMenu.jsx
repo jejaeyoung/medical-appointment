@@ -43,10 +43,10 @@ const SidebarMenu = (props) => {
               <CDBSidebarMenuItem suffix={<CDBBadge size="small" borderType="pill">10+</CDBBadge>} icon="th-large"> Dashboard </CDBSidebarMenuItem>
             </Link>
             <Link to={`/mainappointment/${props.did}`}>
-              <CDBSidebarMenuItem icon="calendar-alt"> Appointment </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="calendar-alt" > Appointment </CDBSidebarMenuItem>
             </Link>
             <CDBSidebarMenuItem icon="bell"> Notification </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem icon="calendar-check"> Calendar </CDBSidebarMenuItem>
+            
             
             <Link to={`/medicalrecord/${props.did}`}>
               <CDBSidebarMenuItem icon="book" iconType="solid"> Medical Records </CDBSidebarMenuItem>

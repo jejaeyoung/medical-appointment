@@ -7,6 +7,87 @@ const Prescription = require('../prescription/prescription_model');
 const path = require('path');
 
 const mongoose = require('mongoose');
+const QRCode = require('qrcode');
+const speakeasy = require('speakeasy');
+const setupTwoFactorForDoctor = async (req, res) => {
+    try {
+      const doctor = await Doctors.findById(req.params.id);
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+      let secret;
+      if (!doctor.twoFactorSecret || req.body.regenerate) {
+        secret = speakeasy.generateSecret({ length: 30 });
+        doctor.twoFactorSecret = secret.base32;
+        doctor.twoFactorEnabled = true;
+        await doctor.save();
+      } else {
+        secret = { base32: doctor.twoFactorSecret };
+      }
+  
+      console.log('Stored Secret in DB:', doctor.twoFactorSecret);
+  
+      const otpAuthUrl = speakeasy.otpauthURL({
+        secret: secret.base32,
+        label: `Landagan Kids Clinic:${doctor.dr_email}`,
+        issuer: 'Landagan Kids Clinic',
+        encoding: 'base32'
+      });
+  
+      console.log('OTP Auth URL:', otpAuthUrl);
+  
+      const qrCode = await QRCode.toDataURL(otpAuthUrl);
+  
+      console.log('Generated Secret:', secret.base32);
+  
+      res.json({ qrCode, secret: secret.base32 });
+    } catch (error) {
+      console.error('Error generating 2FA secret:', error);
+      res.status(500).json({ message: 'Error generating 2FA secret', error });
+    }
+  };
+  
+  
+  // Verify Two-Factor Function
+  const verifyTwoFactor = async (req, res) => {
+    const { userId, token } = req.body;
+  
+    try {
+      const doctor = await Doctors.findById(userId);
+      if (!doctor) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+  
+      if (!doctor.twoFactorEnabled) {
+        return res.status(400).json({ message: '2FA not enabled for this patient' });
+      }
+  
+      if (!token) {
+        return res.status(400).json({ message: '2FA token is required' });
+      }
+  
+      console.log(`Verifying token: ${token} for user ${userId}`);
+      console.log(`Secret key: ${doctor.twoFactorSecret}`);
+  
+      const verified = speakeasy.totp.verify({
+        secret: doctor.twoFactorSecret,
+        encoding: 'base32',
+        token,
+        window: 2 
+      });
+      console.log(`Verified: ${verified}`);
+      if (verified) {
+        res.json({ verified: true });
+      } else {
+        res.status(400).json({ verified: false, message: 'Invalid 2FA token' });
+      }
+    } catch (error) {
+      console.error('Error verifying 2FA token:', error);
+      res.status(500).json({ message: 'Error verifying 2FA token', error });
+    }
+  };
+
+
 
 const NewDoctorSignUp = (req, res) => {
     Doctors.create(req.body)
@@ -210,7 +291,7 @@ const getAllAppointments = (req, res) => {
       });
   };
 
-const completeAppointment = async (req, res) => {
+  const completeAppointment = async (req, res) => {
     try {
         const appointmentId = req.params.uid; // Appointment ID from URL parameter
 
@@ -226,8 +307,8 @@ const completeAppointment = async (req, res) => {
         }
 
         // Get doctor and patient IDs from the appointment
-        const doctorId = updatedAppointment.doctor; // Assuming 'doctor' field in Appointment schema
-        const patientId = updatedAppointment.patient; // Assuming 'patient' field in Appointment schema
+        const doctorId = updatedAppointment.doctor;
+        const patientId = updatedAppointment.patient;
 
         // Update doctor's list of patients if the patient is not already in the list
         await Doctors.findByIdAndUpdate(
@@ -236,11 +317,74 @@ const completeAppointment = async (req, res) => {
             { new: true }
         );
 
+        // Create a notification for the patient
+        const notification = new Notification({
+            message: `Your appointment with Dr. ${doctorId} has been completed.`,
+            patient: patientId
+        });
+        await notification.save();
+
+        // Add notification reference to the patient
+        await Patient.findByIdAndUpdate(
+            patientId,
+            { $push: { notifications: notification._id } },
+            { new: true }
+        );
+
         res.status(200).json(updatedAppointment);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
+
+
+const acceptPatient = async (req, res) => {
+    try {
+        const appointmentId = req.params.uid; // Appointment ID from URL parameter
+
+        // Find the appointment and update its status to 'Completed'
+        const updatedAppointment = await Appointment.findByIdAndUpdate(
+            appointmentId,
+            { status: 'Scheduled' },
+            { new: true }
+        );
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        // Get doctor and patient IDs from the appointment
+        const doctorId = updatedAppointment.doctor;
+        const patientId = updatedAppointment.patient;
+
+        // Update doctor's list of patients if the patient is not already in the list
+        await Doctors.findByIdAndUpdate(
+            doctorId,
+            { $addToSet: { dr_patients: patientId } }, // AddToSet ensures no duplicates
+            { new: true }
+        );
+
+        // Create a notification for the patient
+        const notification = new Notification({
+            message: `Your appointment with Dr. ${doctorId} has been scheduled.`,
+            patient: patientId
+        });
+        await notification.save();
+
+        // Add notification reference to the patient
+        await Patient.findByIdAndUpdate(
+            patientId,
+            { $push: { notifications: notification._id } },
+            { new: true }
+        );
+
+        res.status(200).json(updatedAppointment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+
 
 //For Prescription
 const createPrescription = async (req, res) => {
@@ -346,4 +490,7 @@ module.exports = {
     createPrescription,
     getPrescriptionsByDoctor,
     getPatientsByDoctor,
+    acceptPatient,
+    setupTwoFactorForDoctor,
+    verifyTwoFactor
 };
