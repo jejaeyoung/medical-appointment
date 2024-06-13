@@ -27,8 +27,8 @@ const UpcomingAppointment = ({ allAppointments }) => {
         <Table striped bordered hover variant="light">
           <thead>
             <tr>
-              <th style={{border: "1px solid #00000018"}}>Patient ID</th>
-              <th style={{border: "1px solid #00000018"}}>Appointment ID</th>
+              {/* <th style={{border: "1px solid #00000018"}}>Patient ID</th> */}
+              
               <th style={{border: "1px solid #00000018"}}>Patient Name</th>
               <th style={{border: "1px solid #00000018"}}>Date</th>
               <th style={{border: "1px solid #00000018"}}>Time</th>
@@ -45,8 +45,8 @@ const UpcomingAppointment = ({ allAppointments }) => {
                 const patientName = `${patient.patient_firstName} ${patient.patient_middleInitial}. ${patient.patient_lastName}`;
                 return (
                   <tr key={appointment._id}>
-                    <td>{appointment.patient.patient_ID}</td>
-                    <td>{appointment._id}</td>
+                    {/* <td>{appointment.patient.patient_ID}</td> */}
+                   
                     <td>{patientName}</td>
                     <td>{new Date(appointment.date).toLocaleDateString()}</td>
                     <td>{appointment.time}</td>

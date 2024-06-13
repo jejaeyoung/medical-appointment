@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import LandingPage from './components/landpage/LandingPage';
 import LogInUser from './components/login/LogInUser';
 import NewSignUp from './components/login/NewSignUp';
-
+import VerifyOTP from './components/login/VerifyOTP';
 
 //Practitioner
 import Dashboard from './components/practitioner/dashboard/Dashboard';
@@ -35,6 +35,7 @@ import DoctorInformation from './components/practitioner/accountinfo/DoctorInfor
 
 
 
+
 function App() {
 
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path={'/'} element={<LandingPage/>}></Route>
           <Route path={'/medapp/signup'} element={<NewSignUp/>}> </Route>
           <Route path={'/medapp/login'} element={<LogInUser/>}> </Route>
+          <Route path={'/verify-otp'} element={<VerifyOTP/>}> </Route>
         {/* Practitioner Routes */}
           <Route path={"/dashboard/:did"} element={<Dashboard />}/>
           <Route path={"/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  

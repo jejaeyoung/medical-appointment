@@ -77,7 +77,12 @@ const DoctorSchema = new Schema({
         ref: 'Notification'
     }],
     twoFactorSecret: { type: String },
-    twoFactorEnabled: { type: Boolean, default: false }
+    twoFactorEnabled: { type: Boolean, default: false }, otp: {
+        type: String
+    },
+    otpExpires: {
+        type: Date
+    }
 }, { timestamps: true });
 
 const QRCode = require('qrcode');

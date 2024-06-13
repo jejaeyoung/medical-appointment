@@ -3,6 +3,7 @@ const app = express();
 const port = 8000;  
 const path = require('path');
 const fs = require('fs');
+
 require("./config/mongoose")
 require('dotenv').config();
 
@@ -16,7 +17,9 @@ DoctorRoutes(app);
 const PatientRoutes = require("./patient/patient_routes");
 PatientRoutes(app);
 const MedicalSecretaryRoutes = require("./medicalsecretary/medicalsecretary_routes");
+
 MedicalSecretaryRoutes(app);
+
 
 app.listen(port, () => console.log("The server is all fired up on port 8000"));
 

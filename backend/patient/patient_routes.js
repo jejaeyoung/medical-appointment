@@ -9,6 +9,11 @@ module.exports = app => {
     app.post('/patient/api/setup-2fa/:id', PatientController.setupTwoFactor);
     app.post('/patient/api/verify-2fa', PatientController.verifyTwoFactor);
 
+    
+        //For Email OTP
+    app.post('/patient/send-otp', PatientController.sendOTP);
+    app.post('/patient/verify-otp', PatientController.verifyOTP);
+
     //Patient Log In
     app.get('/patient/api/allpatient', PatientController.findAllPatient);
 

@@ -5,9 +5,80 @@ const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
 const Prescription = require('../prescription/prescription_model')
 const Notification = require('../notifications/notifications_model')
 const speakeasy = require('speakeasy');
-const moment = require('moment-timezone');
+const nodemailer = require('nodemailer');
 const QRCode = require('qrcode');
-// Setup Two-Factor Function
+
+//For Email
+
+
+// Generate and send OTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+      user: 'testotpsender@gmail.com',
+      pass: 'vqbi dqjv oupi qndp'
+  }
+});
+
+// Generate and send OTP
+const sendOTP = async (req, res) => {
+  try {
+      const patient = await Patient.findOne({ patient_email: req.body.email });
+      if (!patient) {
+          return res.status(404).send('Patient not found');
+      }
+
+      const otp = speakeasy.totp({
+          secret: patient.twoFactorSecret,
+          encoding: 'base32'
+      });
+
+      patient.otp = otp;
+      patient.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+      await patient.save();
+
+      // Send OTP email
+      const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: patient.patient_email,
+          subject: 'Your OTP Code',
+          text: `Your OTP code is ${otp}`
+      };
+
+       transporter.sendMail(mailOptions);
+
+      res.status(200).send('OTP sent');
+  } catch (error) {
+      res.status(500).send('Error sending OTP');
+  }
+};
+
+// Verify OTP
+const verifyOTP = async (req, res) => {
+  try {
+      const patient = await Patient.findOne({ patient_email: req.body.email });
+      if (!patient) {
+          return res.status(404).send('Patient not found');
+      }
+
+      if (patient.otp !== req.body.otp || new Date() > patient.otpExpires) {
+          return res.status(400).send('Invalid or expired OTP');
+      }
+
+      // Clear OTP fields after successful verification
+      patient.otp = undefined;
+      patient.otpExpires = undefined;
+      await patient.save();
+
+      res.status(200).send('OTP verified');
+  } catch (error) {
+      res.status(500).send('Error verifying OTP');
+  }
+};
+
+
+
+// Setup Two-Factor Function Authenticator
 const setupTwoFactor = async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id);
@@ -361,4 +432,6 @@ module.exports = {
     cancelAppointment,
     setupTwoFactor,
     verifyTwoFactor,
+    verifyOTP,
+    sendOTP,
 }

@@ -114,7 +114,9 @@ function AppointmentModal({ show, handleClose, pid, did }) {
                                     ))}
                                 </Form.Control>
                             </Form.Group>
+                        <Row>
 
+                      
                             <Form.Group as={Col} className="mb-3">
                                 <Form.Label>Medium</Form.Label>
                                 <Form.Check
@@ -150,9 +152,9 @@ function AppointmentModal({ show, handleClose, pid, did }) {
                                     onChange={() => setPayment("Online Payment")}
                                 />
                             </Form.Group>
-
+                        </Row>
                             <Form.Group className="mb-3 am-textarea">
-                                <Form.Label>Reason</Form.Label>
+                                <Form.Label>Primary Concern</Form.Label>
                                 <Form.Control
                                     type="text"
                                     as='textarea'
@@ -163,12 +165,12 @@ function AppointmentModal({ show, handleClose, pid, did }) {
                                 />
                             </Form.Group>
 
-                            <Form.Group as={Col} className="mb-3">
+                            {/* <Form.Group as={Col} className="mb-3">
                                 <Form.Label>Upload File</Form.Label>
                                 <Form.Control
                                     type="file"
                                 />
-                            </Form.Group>
+                            </Form.Group> */}
                         </Row>
                     </Form>
                 </Modal.Body>

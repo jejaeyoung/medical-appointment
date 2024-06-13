@@ -36,7 +36,9 @@ module.exports = app => {
   app.get('/doctor/api/alldoctor', DoctorController.findAllDoctors);
   app.post('/doctor/api/setup-2fa/:id', DoctorController.setupTwoFactorForDoctor);
   app.post('/doctor/api/verify-2fa', DoctorController.verifyTwoFactor);
-  
+  //Email OTP
+  app.post('/doctor/send-otp', DoctorController.sendOTP);
+  app.post('/doctor/verify-otp', DoctorController.verifyOTP);
   //Update Information Details
   app.put('/doctor/api/:id/updateDetails', DoctorController.updateDoctorDetails);
   // For Post

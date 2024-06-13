@@ -53,8 +53,9 @@ function MainPatientInformation() {
     return (
         <>
            <PatientNavBar/>
-           <PatientInformationSidebar/>
-           
+          
+            <PatientInformationSidebar/>
+         
 
            
         </>

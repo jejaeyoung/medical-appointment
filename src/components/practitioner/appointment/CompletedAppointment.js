@@ -55,8 +55,8 @@ const TodaysAppointment = ({allAppointments}) => {
           <Table striped bordered hover variant ="dark">
             <thead>
               <tr>
-                <th>Patient ID</th>
-                <th>Appointment ID</th>
+                {/* <th>Patient ID</th> */}
+           
                 <th>Patient Name</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -74,8 +74,8 @@ const TodaysAppointment = ({allAppointments}) => {
                 const patientName = `${patient.patient_firstName} ${patient.patient_middleInitial}. ${patient.patient_lastName}`;
                 return (
                   <tr key={appointment._id}>
-                    <td>{appointment.patient.patient_ID}</td>
-                    <td>{appointment._id}</td>
+                    {/* <td>{appointment.patient.patient_ID}</td> */}
+              
                     <td>{patientName}</td>
                     <td>{new Date(appointment.date).toLocaleDateString()}</td>
                     <td>{appointment.time}</td>

@@ -15,6 +15,10 @@ const LogInUser = () => {
     const [userId, setUserId] = useState(null);
     const [twoFactorToken, setTwoFactorToken] = useState("");
     const [userSecretKey, setUserSecretKey] = useState(null);
+    const [authMethod, setAuthMethod] = useState("authenticator");
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [patientEmail, setPatientEmail] = useState(""); // State to hold patient's email
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,70 +46,68 @@ const LogInUser = () => {
         e.preventDefault();
 
         const user = users.find(user => user.patient_email === email || user.dr_email === email);
-        console.log(user.twoFactorSecret);
-        if (user && user.patient_password === password || user.dr_password === password) {
-            if (userRole === 'Patient') {
-                setUserId(user._id);
-                setUserSecretKey(user.twoFactorSecret);
-                if (user.twoFactorSecret) {
-                    setShow2FAModal(true);
-                } else if (!user.twoFactorSecret) {
-                    window.alert("Successfully logged in");
-                    navigate(`/homepage/${user._id}`);
-                }
-            } else if (userRole === 'Practitioner') {
-                setUserId(user._id);
-                setUserSecretKey(user.twoFactorSecret);
-                if (user.twoFactorSecret) {
-                    setShow2FAModal(true);
-                } else if (!user.twoFactorSecret){
-                    window.alert("Successfully logged in");
-                    navigate(`/dashboard/${user._id}`);
-                }
-                
+        if (user && (user.patient_password === password || user.dr_password === password)) {
+            setUserId(user._id);
+            setUserSecretKey(user.twoFactorSecret);
+            setPatientEmail(user.patient_email); // Set patient's email
+
+            setShow2FAModal(true); // Open 2FA modal
+        }
+    };
+
+    const sendOTP = async (email) => {
+        try {
+            const endpoint = userRole === "Patient" ? "/patient/send-otp" : "/doctor/send-otp";
+            const response = await axios.post(`http://localhost:8000${endpoint}`, { email });
+
+            if (response.status === 200) {
+                setOtpSent(true);
             } else {
-                window.alert("Wrong Email or Password");
+                console.error("Error sending OTP:", response);
+                window.alert("Error sending OTP. Please try again.");
             }
-        } else {
-            window.alert("Wrong Email or Password");
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            window.alert("Error sending OTP. Please try again.");
         }
     };
 
     const handle2FAVerification = async () => {
         try {
-          const response = await axios.post("http://localhost:8000/patient/api/verify-2fa", {
-            userId,
-            token: twoFactorToken.trim() // Ensure no leading/trailing spaces
-          });
-      
-          if (response.data.verified && userRole === 'Patient') {
-            window.alert("Successfully logged in");
-            navigate(`/homepage/${userId}`);
-            
-          } else if (response.data.verified && userRole === 'Practitioner'){
-                     window.alert("Successfully logged in");
-                    navigate(`/dashboard/${userId}`);
-          }
-          
-          else {
-            console.log('Invalid 2FA token:', response.data.message);
-            window.alert(response.data.message || "Invalid 2FA token");
-          }
+            let endpoint;
+            let requestData = {};
+
+            if (authMethod === "otp") {
+                endpoint = userRole === "Patient" ? "/patient/verify-otp" : "/doctor/verify-otp";
+                requestData = { otp: twoFactorToken, email }; // Use `twoFactorToken` for OTP
+            } else if (authMethod === "authenticator") {
+                endpoint = userRole === "Patient" ? "/patient/api/verify-2fa" : "/doctor/api/verify-2fa";
+                requestData = { userId, token: twoFactorToken.trim() };
+            }
+
+            const response = await axios.post(`http://localhost:8000${endpoint}`, requestData);
+
+            if (response.status === 200) {
+                window.alert("Successfully logged in");
+                navigate(userRole === 'Patient' ? `/homepage/${userId}` : `/dashboard/${userId}`);
+            } else {
+                console.log('Invalid 2FA token:', response.data.message);
+                window.alert(response.data.message || "Invalid 2FA token");
+            }
         } catch (error) {
-          console.error('Error verifying 2FA token:', error);
-          if (error.response && error.response.status === 400) {
-            console.log('Error 400: Invalid 2FA token');
-            window.alert("Invalid 2FA token. Please try again.");
-          } else if (error.response && error.response.status === 500) {
-            console.log('Error 500: Server-side error');
-            window.alert("Error verifying 2FA token. Please try again later.");
-          } else {
-            console.log('Unknown error:', error);
-            window.alert("Error verifying 2FA token. Please try again later.");
-          }
+            console.error('Error verifying 2FA token:', error);
+            if (error.response && error.response.status === 400) {
+                console.log('Error 400: Invalid 2FA token');
+                window.alert("Invalid 2FA token. Please try again.");
+            } else if (error.response && error.response.status === 500) {
+                console.log('Error 500: Server-side error');
+                window.alert("Error verifying 2FA token. Please try again later.");
+            } else {
+                console.log('Unknown error:', error);
+                window.alert("Error verifying 2FA token. Please try again later.");
+            }
         }
-      };
-      
+    };
 
     return (
         <>
@@ -166,13 +168,34 @@ const LogInUser = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group controlId="form2FAToken">
-                            <Form.Label>Enter 2FA Token</Form.Label>
+                        <Form.Group>
+                            <Form.Check
+                                type="radio"
+                                label="Authenticator App"
+                                name="authMethod"
+                                value="authenticator"
+                                checked={authMethod === "authenticator"}
+                                onChange={() => setAuthMethod("authenticator")}
+                            />
+                            <Form.Check
+                                type="radio"
+                                label="Email OTP"
+                                name="authMethod"
+                                value="otp"
+                                checked={authMethod === "otp"}
+                                onChange={() => {
+                                    setAuthMethod("otp");
+                                    sendOTP(email);
+                                }}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="form2FAToken" className="mt-3">
+                            <Form.Label>{authMethod === "authenticator" ? "Enter Authenticator App Token" : "Enter OTP sent to your email"}</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Enter 2FA token"
+                                placeholder={authMethod === "authenticator" ? "Enter Authenticator App Token" : "Enter OTP"}
                                 value={twoFactorToken}
-                                onChange={(e) => setTwoFactorToken(e.target.value.replace(/\s+/g, ''))}
+                                onChange={(e) => setTwoFactorToken(e.target.value)}
                             />
                         </Form.Group>
                     </Form>

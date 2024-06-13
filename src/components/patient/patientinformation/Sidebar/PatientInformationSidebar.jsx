@@ -16,7 +16,7 @@ function PatientInformationSidebar() {
     };
 
     return (
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
+        <div className='pisb-sidebarcontainer'>
             <CDBSidebar textColor="#fff" backgroundColor="#333" minWidth="250px">
                 <CDBSidebarHeader className="pisb-newheader head-div">
                  
@@ -57,11 +57,23 @@ function PatientInformationSidebar() {
                 </CDBSidebarFooter>
             </CDBSidebar>
             
-            <div style={{ flex: 1, padding: '20px' }}>
+            <div className=" pis-container">
                 {activeTab === 'profile' && <PatientInformation />}
                 {activeTab === 'records' && <div>My Medical Record Component</div>}
                 {activeTab === 'prescriptions' && <PatientPrescriptions />}
                 {activeTab === 'twofactor' && <TwoFactorAuth />}
+                
+                <div>
+                <div>
+                <div>
+                <div>
+                
+                </div>
+                </div>
+                </div>
+                </div>
+
+
             </div>
         </div>
     );

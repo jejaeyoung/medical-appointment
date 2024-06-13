@@ -71,7 +71,7 @@ function DoctorProfile() {
                             <img src={`http://localhost:8000/${theImage}`} alt="Doctor" className='dp-image' />
                             <div className="dp-container2">
                                 <h3> {theDoctor.dr_firstName} {theDoctor.dr_middleInitial}. {theDoctor.dr_lastName} </h3>
-                                <p style={{fontStyle: 'italic'}}>Malibog Pag Lasing</p>
+                                <p style={{fontStyle: 'italic'}}>Pediatrician</p>
                             </div>
                             <div className="dp-container3">
                                 <Button onClick={() => handleDoctorClick(did)}>Book Now</Button>
