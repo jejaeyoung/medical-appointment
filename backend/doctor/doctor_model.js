@@ -1,10 +1,25 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
+// Define timeSlotSchema for morning and afternoon time slots
+const timeSlotSchema = new mongoose.Schema({
+    startTime: String,
+    endTime: String,
+    interval: Number,
+    available: { type: Boolean, default: false }
+});
+
+// Define dailyAvailabilitySchema using timeSlotSchema for morning and afternoon availability
+const dailyAvailabilitySchema = new mongoose.Schema({
+    morning: { type: timeSlotSchema, default: () => ({}) },
+    afternoon: { type: timeSlotSchema, default: () => ({}) }
+});
+
+// Define DoctorSchema
 const DoctorSchema = new Schema({
     dr_image: {
         type: String,
-        default: '' // or any default image path if needed
+        default: '' // Default image path if needed
     },
     dr_firstName: {
         type: String,
@@ -29,7 +44,7 @@ const DoctorSchema = new Schema({
         lowercase: true,
         validate: {
             validator: function (v) {
-                return /\S+@\S+\.\S+/.test(v); //regex to validate __@__.__ i.e. xyz@abc.com
+                return /\S+@\S+\.\S+/.test(v); // Validate email format
             },
             message: props => `${props.value} is not a valid email address.`
         }
@@ -50,6 +65,9 @@ const DoctorSchema = new Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    dr_specialty: {
+        type: String,
     },
     dr_patients: [{
         type: Schema.Types.ObjectId,
@@ -72,22 +90,31 @@ const DoctorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Prescription'
     }],
+
     notifications: [{
         type: Schema.Types.ObjectId,
         ref: 'Notification'
     }],
     twoFactorSecret: { type: String },
-    twoFactorEnabled: { type: Boolean, default: false }, otp: {
-        type: String
+    twoFactorEnabled: { type: Boolean, default: false },
+    otp: { type: String },
+    otpExpires: { type: Date },
+    activeAppointmentStatus: {
+        type: Boolean,
+        default: false
     },
-    otpExpires: {
-        type: Date
+    availability: {
+        monday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        tuesday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        wednesday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        thursday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        friday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        saturday: { type: dailyAvailabilitySchema, default: () => ({}) },
+        sunday: { type: dailyAvailabilitySchema, default: () => ({}) }
     }
 }, { timestamps: true });
 
-const QRCode = require('qrcode');
-const speakeasy = require('speakeasy');
-
+// Define a method on DoctorSchema to generate QR code for two-factor authentication
 DoctorSchema.methods.generateQRCode = async function() {
     const otpAuthUrl = speakeasy.otpauthURL({ 
       secret: this.twoFactorSecret, 
@@ -97,9 +124,9 @@ DoctorSchema.methods.generateQRCode = async function() {
     });
     console.log('Generated OTP Auth URL:', otpAuthUrl); // Log the URL for debugging
     return await QRCode.toDataURL(otpAuthUrl);
-  };
-  
+};
 
+// Create Doctor model based on DoctorSchema
 const Doctor = model('Doctor', DoctorSchema);
 
 module.exports = Doctor;

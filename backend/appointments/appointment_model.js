@@ -44,7 +44,6 @@ const AppointmentSchema = new Schema({
     },
     payment :{
         type: String,
-        enum: ['Cash' ,'Online Payment'],
         required: true,
    
     },

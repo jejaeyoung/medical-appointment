@@ -20,7 +20,23 @@ const UpdateInfoModal = ({ show, handleClose, doctorData, handleUpdate }) => {
     e.preventDefault();
     handleUpdate(formData);
   };
-
+  const specialties = [
+    "Cardiology",
+    "Dermatology",
+    "Endocrinology",
+    "Gastroenterology",
+    "Hematology",
+    "Neurology",
+    "Obstetrics and Gynecology",
+    "Oncology",
+    "Orthopedics",
+    "Pediatrics",
+    "Psychiatry",
+    "Pulmonology",
+    "Radiology",
+    "Rheumatology",
+    "Urology"
+  ];
   return (
     <Modal show={show} onHide={handleClose}  overlayClassName="modal-overlay" backdrop="static" keyboard={false} ariaHideApp={false}  >
       <Modal.Header className="uim-header" closeButton>
@@ -89,6 +105,24 @@ const UpdateInfoModal = ({ show, handleClose, doctorData, handleUpdate }) => {
               value={formData.dr_password || ""}
               onChange={handleChange}
             />
+
+
+          </Form.Group>
+
+          <Form.Group controlId="password">
+            <Form.Label>Specialty:</Form.Label>
+            <Form.Select
+              name="dr_specialty"
+              value={formData.dr_specialty || ""}
+              onChange={handleChange}
+            >
+              <option value="">Select a specialty</option>
+              {specialties.map((specialty, index) => (
+                <option key={index} value={specialty}>
+                  {specialty}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
           <div style={{ textAlign: "center", marginTop: '20px' }}>
             <Button variant="primary" type="submit">

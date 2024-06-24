@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Button, Navbar, Nav, Card } from 'react-bootstrap';
 import axios from "axios";
 import { useEffect, useState,  } from "react";
 import './ChooseDoctor.css'
@@ -33,32 +33,30 @@ function ChooseDoctor() {
     return (
         <>
             <PatientNavBar/>
+
+           
             <div style={{paddingTop: '40px'}}>
-                    <h1 style={{textAlign: 'center'}}>Available Doctors: </h1>
+           
             </div>
-            <div className="cd-container">
+            <div className="cd-main">
                 
-                <div>
+                <div className="cd-containergrid">
                     {theDoctors.map((doctor, index) => {
                         console.log(doctor.dr_image);
                         const doctorImage = doctor.dr_image || defaultImage
                         return (
-                            <div className="cd-card" key={index} onClick={() => handleDoctorClick(doctor._id)}>
-                                <div className="cd-acontent">
-                                    <div>
-                                        <div className="d-flex">
-                                            <img src={`http://localhost:8000/${doctorImage}`} alt="Doctor" className='app-image' />
-                                            <div className="cd-name"> 
-                                                <h4>{doctor.dr_firstName} {doctor.dr_middleInitial}. {doctor.dr_lastName} </h4>
-                                            </div>
-                                        </div>
-                                        {/* You can remove the button since the entire card is clickable now */}
-                                    </div>
-                                    <div>
-                                        {/* Additional content here if needed */}
-                                    </div>
-                                </div>
-                            </div>
+                            <>
+                                <Card  className="cd-card" onClick={() => handleDoctorClick(doctor._id)}>
+                                    <Card.Img variant="top" src={`http://localhost:8000/${doctorImage}`} />
+                                        <Card.Body>
+                                            <Card.Title style={{textAlign: "center"}}>{doctor.dr_firstName} {doctor.dr_middleInitial}. {doctor.dr_lastName}</Card.Title>
+                                            <p style={{textAlign: 'center', fontSize:'14px', fontStyle:'italic'}}>{doctor.dr_specialty}</p>
+                                            <Card.Text>
+                                            "Lorem ipsum dolor sit "Lorem ipsum dolor sit amet, consectetur 
+                                            </Card.Text>
+                                        </Card.Body>
+                                </Card>
+                            </>
                         )
                     })}
                 </div>

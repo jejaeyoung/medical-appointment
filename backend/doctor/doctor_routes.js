@@ -36,6 +36,9 @@ module.exports = app => {
   app.get('/doctor/api/alldoctor', DoctorController.findAllDoctors);
   app.post('/doctor/api/setup-2fa/:id', DoctorController.setupTwoFactorForDoctor);
   app.post('/doctor/api/verify-2fa', DoctorController.verifyTwoFactor);
+  
+  //Specialties
+  app.get('/doctor/api/specialties', DoctorController.findUniqueSpecialties);
   //Email OTP
   app.post('/doctor/send-otp', DoctorController.sendOTP);
   app.post('/doctor/verify-otp', DoctorController.verifyOTP);
@@ -52,10 +55,13 @@ module.exports = app => {
   app.put('/doctor/api/:uid/acceptpatient', DoctorController.acceptPatient)
   app.get('/doctor/appointments/:doctorId', DoctorController.getAllAppointments);
   app.put('/doctor/api/:uid/completeappointment', DoctorController.completeAppointment)
+  app.put('/doctor/:doctorId/availability', DoctorController.doctorAvailability)
+  app.put('/doctor/:doctorId/status', DoctorController.updateAvailability);
 
+  app.get('/doctor/:doctorId/available', DoctorController.getAvailability)
   // Uploading Image
   app.post('/doctor/api/:id/updateimage', upload.single('image'), DoctorController.updateDoctorImage);
-
+  
   //For Prescription
   app.post('/doctor/api/createPrescription/:patientId/:appointmentId', DoctorController.createPrescription);
   app.get('/doctor/api/getPrescriptions/:doctorId', DoctorController.getPrescriptionsByDoctor);

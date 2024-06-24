@@ -19,6 +19,7 @@ const AccountInfo = () => {
   const [cnumber, setCnumber] = useState("");
   const [password, setPassword] = useState("");
   const [dob, setDob] = useState("");
+  const [specialty, setspecialty] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   
@@ -36,6 +37,7 @@ const AccountInfo = () => {
         setCnumber(res.data.theDoctor.dr_contactNumber);
         setDob(res.data.theDoctor.dr_dob);
         setPassword(res.data.theDoctor.dr_password)
+        setspecialty(res.data.theDoctor.dr_specialty)
       })
       .catch((err) => {
         console.log(err);
@@ -64,6 +66,7 @@ const AccountInfo = () => {
         setCnumber(response.data.updatedDoctor.dr_contactNumber);
         setDob(response.data.updatedDoctor.dr_dob);
         setPassword(response.data.updatedDoctor.dr_password);
+        setspecialty(response.data.updatedDoctor.dr_specialty)
         setIsUpdateModalOpen(false);
       })
       .catch((error) => {
@@ -75,7 +78,7 @@ const AccountInfo = () => {
     <>
       <div style={{display: "flex", flex: "1 0 auto", height: "100vh", overflowY: "hidden"}}>
         
-        <div style={{ padding: "20px", overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
+        <div style={{ padding: "20px", paddingBottom: '100px', overflowY: "auto", overflowX: "hidden" }} className="container1 container-fluid ">
           <h1 className="removegutter dashboard-title">Account Information</h1>
           <hr className=" divider d-lg" />
           <div className="ai-container">
@@ -123,6 +126,12 @@ const AccountInfo = () => {
                     <Form.Control type="password" value={password} disabled /> 
                   </Form.Group>
                 </Row>
+                <Row>
+                  <Form.Group as={Col} controlId="exampleForm.ControlInput1">
+                    <Form.Label>Specialty:</Form.Label>
+                    <Form.Control value={specialty} disabled /> 
+                  </Form.Group>
+                </Row>
               </div>
               <div style={{textAlign: "center", marginTop: '20px'}}>
                 <Button variant="primary" onClick={() => setIsUpdateModalOpen(true)}>
@@ -148,7 +157,8 @@ const AccountInfo = () => {
           dr_email: email,
           dr_contactNumber: cnumber,
           dr_dob: dob,
-          dr_password: password
+          dr_password: password,
+          dr_specialty: specialty
         }}
         handleUpdate={handleUpdate}
       />

@@ -31,7 +31,7 @@ function PatientInformation() {
     useEffect(() => {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)
             .then((res) => {
-              
+                console.log(res);
                 setThePatient(res.data.thePatient);
                 setTheName(res.data.thePatient.patient_firstName)
                 setTheLastName(res.data.thePatient.patient_lastName)

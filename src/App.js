@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import './index.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 
@@ -28,6 +28,7 @@ import ChooseDoctor from './components/patient/choosedoctor/choosedoctor';
 import MyAppointment from './components/patient/scheduledappointment/MyAppointment';
 import MainPatientInformation from './components/patient/patientinformation/MainPatientInformation';
 import DoctorInformation from './components/practitioner/accountinfo/DoctorInformation';
+import ChooseDoctorSpecialization from './components/patient/choosedoctor/ChooseDoctorSpecialization';
 
 
 
@@ -57,10 +58,11 @@ function App() {
         {/* Patient Routes */}
           <Route path={"/homepage/:pid"} element={<HomePagePatient />}/>
           <Route path={"/choosedoctor/:pid"} element={<ChooseDoctor />}/>
+          <Route path={"/:specialty/choosedoctor/:pid"} element={<ChooseDoctorSpecialization />} />
           <Route path={"/doctorprofile/:pid/:did"} element={<DoctorProfile />}/>
           <Route path={"/myappointment/:pid"} element={<MyAppointment />}/>
           <Route path={"/accinfo/:pid"} element={<MainPatientInformation />}/>
-          
+
       </Routes>
     </BrowserRouter>
 

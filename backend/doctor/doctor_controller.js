@@ -25,7 +25,6 @@ const transporter = nodemailer.createTransport({
       pass: 'vqbi dqjv oupi qndp'
   }
 });
-
 // Generate and send OTP
 const sendOTP = async (req, res) => {
     try {
@@ -65,8 +64,7 @@ const sendOTP = async (req, res) => {
         console.error('Error sending OTP:', error); // Log error for debugging
         res.status(500).send('Error sending OTP');
     }
-  };
-
+};
 // Verify OTP
 const verifyOTP = async (req, res) => {
   try {
@@ -125,11 +123,9 @@ const setupTwoFactorForDoctor = async (req, res) => {
       console.error('Error generating 2FA secret:', error);
       res.status(500).json({ message: 'Error generating 2FA secret', error });
     }
-  };
-  
-  
+};
   // Verify Two-Factor Function
-  const verifyTwoFactor = async (req, res) => {
+const verifyTwoFactor = async (req, res) => {
     const { userId, token } = req.body;
   
     try {
@@ -165,9 +161,7 @@ const setupTwoFactorForDoctor = async (req, res) => {
       console.error('Error verifying 2FA token:', error);
       res.status(500).json({ message: 'Error verifying 2FA token', error });
     }
-  };
-
-
+};
 
 const NewDoctorSignUp = (req, res) => {
     Doctors.create(req.body)
@@ -186,7 +180,8 @@ const updateDoctorDetails = (req, res) => {
       dr_contactNumber: req.body.dr_contactNumber,
       dr_dob: req.body.dr_dob,
       dr_email: req.body.dr_email,
-      dr_password: req.body.dr_password
+      dr_password: req.body.dr_password,
+      dr_specialty: req.body.dr_specialty
     };
     Doctors.findByIdAndUpdate({ _id: req.params.id }, updateData, { new: true, runValidators: true })
       .then((updatedDoctor) => {
@@ -201,6 +196,16 @@ const findAllDoctors = (req, res) => {
         .populate('dr_posts')
         .then((allDataDoctors) => {
             res.json({ theDoctor: allDataDoctors });
+        })
+        .catch((err) => {
+            res.json({ message: 'Something went wrong', error: err });
+        });
+};
+
+const findUniqueSpecialties = (req, res) => {
+    Doctors.distinct('dr_specialty')
+        .then((specialties) => {
+            res.json({ specialties });
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err });
@@ -370,8 +375,7 @@ const getAllAppointments = (req, res) => {
         res.status(500).json({ message: error.message });
       });
   };
-
-  const completeAppointment = async (req, res) => {
+const completeAppointment = async (req, res) => {
     try {
         const appointmentId = req.params.uid; // Appointment ID from URL parameter
 
@@ -416,8 +420,6 @@ const getAllAppointments = (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
-
 const acceptPatient = async (req, res) => {
     try {
         const appointmentId = req.params.uid; // Appointment ID from URL parameter
@@ -464,6 +466,42 @@ const acceptPatient = async (req, res) => {
     }
 };
 
+const doctorAvailability = async (req, res) => {
+    try {
+        const { availability } = req.body;
+        const doctor = await Doctors.findByIdAndUpdate(
+            req.params.doctorId,
+            { availability },
+            { new: true }
+        );
+        res.status(200).json(doctor);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getAvailability = async (req, res) => {
+    try {
+        const doctor = await Doctors.findById(req.params.doctorId).select('availability activeAppointmentStatus');
+        res.status(200).json(doctor);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const updateAvailability = async (req, res) => {
+    try {
+        const { activeAppointmentStatus } = req.body;
+        const doctor = await Doctors.findByIdAndUpdate(
+            req.params.doctorId,
+            { activeAppointmentStatus },
+            { new: true } // Set new: true to return the updated document
+        );
+        res.status(200).json(doctor);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 
 
 //For Prescription
@@ -512,7 +550,6 @@ const createPrescription = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', error });
     }
 };
-
 const getPrescriptionsByDoctor = async (req, res) => {
     const { doctorId } = req.params;
 
@@ -531,8 +568,6 @@ const getPrescriptionsByDoctor = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', error });
     }
 };
-
-
 //Getting the patient
 const getPatientsByDoctor = async (req, res) => {
     try {
@@ -575,4 +610,8 @@ module.exports = {
     verifyTwoFactor,
     sendOTP,
     verifyOTP,
+    doctorAvailability,
+    getAvailability,
+    updateAvailability,
+    findUniqueSpecialties
 };

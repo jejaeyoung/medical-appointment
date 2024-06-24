@@ -7,6 +7,7 @@ const Notification = require('../notifications/notifications_model')
 const speakeasy = require('speakeasy');
 const nodemailer = require('nodemailer');
 const QRCode = require('qrcode');
+const mongoose = require('mongoose');
 
 //For Email
 
@@ -322,67 +323,78 @@ const updatePostAtIndex = (req, res) => {
 const createAppointment = async (req, res) => {
   try {
     const { doctorId, date, time, reason, cancelReason, secretaryId, prescriptionId, medium, payment } = req.body;
-    const patientId = req.params.uid; // Patient ID from URL parameter
+    const patientId = req.params.uid; 
+
+
+    const doctorObjectId = new mongoose.Types.ObjectId(doctorId);
+    const patientObjectId = new mongoose.Types.ObjectId(patientId);
+    const secretaryObjectId = secretaryId ? new mongoose.Types.ObjectId(secretaryId) : null;
+    const prescriptionObjectId = prescriptionId ? new mongoose.Types.ObjectId(prescriptionId) : null;
+
+   
+    const existingAppointment = await Appointment.findOne({ doctor: doctorObjectId, date: new Date(date), time: time });
+    if (existingAppointment) {
+      return res.status(400).json({ message: 'The selected time slot is already booked.' });
+    }
 
     const newAppointment = new Appointment({
-      patient: patientId,
-      doctor: doctorId,
-      prescription: prescriptionId,
+      patient: patientObjectId,
+      doctor: doctorObjectId,
+      prescription: prescriptionObjectId,
       date,
       time,
       reason,
       cancelReason,
       medium,
       payment,
-     
-      secretary: secretaryId
+      secretary: secretaryObjectId
     });
 
     await newAppointment.save();
 
     // Update Doctor's appointments
-    await Doctor.findByIdAndUpdate(doctorId, {
+    await Doctor.findByIdAndUpdate(doctorObjectId, {
       $push: { dr_appointments: newAppointment._id }
     });
 
     // Update Patient's appointments
-    await Patient.findByIdAndUpdate(patientId, {
+    await Patient.findByIdAndUpdate(patientObjectId, {
       $push: { patient_appointments: newAppointment._id } // Ensure this field matches the model
     });
 
     // Update Medical Secretary's appointments 
-    if (secretaryId) {
-      await MedicalSecretary.findByIdAndUpdate(secretaryId, {
+    if (secretaryObjectId) {
+      await MedicalSecretary.findByIdAndUpdate(secretaryObjectId, {
         $push: { ms_appointments: newAppointment._id }
       });
     }
 
     // Create a notification for the patient
     const patientNotification = new Notification({
-      message: `You have an appointment scheduled on ${date} at ${time}.`,
-      recipient: patientId,
+      message: `You have an pending appointment scheduled on ${date} at ${time}.`,
+      recipient: patientObjectId,
       recipientType: 'Patient'
     });
     await patientNotification.save();
 
+    
     // Add notification reference to the patient
     await Patient.findByIdAndUpdate(
-      patientId,
+      patientObjectId,
       { $push: { notifications: patientNotification._id } },
       { new: true }
     );
-
     // Create a notification for the doctor
     const doctorNotification = new Notification({
-      message: `You have a new appointment scheduled with a patient on ${date} at ${time}.`,
-      recipient: doctorId,
+      message: `You have a new pending appointment scheduled with a patient on ${date} at ${time}.`,
+      recipient: doctorObjectId,
       recipientType: 'Doctor'
     });
     await doctorNotification.save();
 
     // Add notification reference to the doctor
     await Doctor.findByIdAndUpdate(
-      doctorId,
+      doctorObjectId,
       { $push: { notifications: doctorNotification._id } },
       { new: true }
     );
@@ -394,12 +406,34 @@ const createAppointment = async (req, res) => {
   }
 };
 
+
+const bookedSlots = async (req, res) => {
+  try {
+      const { doctorId } = req.params;
+      const { date } = req.query;
+
+      // Check doctor's active appointment status
+      const doctor = await Doctor.findById(doctorId).select('activeAppointmentStatus');
+      if (!doctor.activeAppointmentStatus) {
+          return res.status(400).json({ message: 'Doctor is not available for appointments.' });
+      }
+
+      const bookedSlots = await Appointment.find({ doctor: doctorId, date: new Date(date), status: { $ne: 'Cancelled' } }).select('time -_id');
+      res.status(200).json({ bookedSlots: bookedSlots.map(slot => slot.time) });
+  } catch (error) {
+      console.error(error); // Log the error details
+      res.status(400).json({ message: error.message });
+  }
+};
+
+
+
 const cancelAppointment = async (req, res) => {
   try {
     const { cancelReason } = req.body;
     const appointmentId = req.params.uid; // Appointment ID from URL parameter
 
-    // Find the appointment and update its cancelReason
+    // Find the appointment and update its cancelReason and status
     const updatedAppointment = await Appointment.findByIdAndUpdate(
       appointmentId,
       { $set: { cancelReason: cancelReason, status: 'Cancelled' } }, // Update cancelReason and status
@@ -419,6 +453,7 @@ const cancelAppointment = async (req, res) => {
 
 
 
+
 module.exports = {
     NewPatientSignUp,
     findAllPatient,
@@ -434,4 +469,5 @@ module.exports = {
     verifyTwoFactor,
     verifyOTP,
     sendOTP,
+    bookedSlots
 }

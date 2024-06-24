@@ -16,7 +16,7 @@ function MyAppointment() {
     const [theDocId, setAllDocId] = useState([]);
     const { pid } = useParams(); 
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("active");
+    const [activeTab, setActiveTab] = useState("pending");
    
 
     return (

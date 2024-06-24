@@ -54,7 +54,7 @@ function MainPatientInformation() {
         <>
            <PatientNavBar/>
           
-            <PatientInformationSidebar/>
+            <PatientInformationSidebar pid={pid}/>
          
 
            

@@ -12,7 +12,7 @@ function PatientNavBar() {
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
-        // Fetch notifications from the server
+
         const fetchNotifications = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`);

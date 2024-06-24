@@ -4,16 +4,18 @@
 }
 .cd-card{
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+
     width: 100%;
+    
+
     background-color: white;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+
+    transition: transform 0.1s ease-in-out; 
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.26);
+}
+
+.cd-card:active{
+    transform: scale(0.95);
 }
 .cd-card:hover{
     cursor: pointer;
@@ -25,7 +27,19 @@
     justify-content: center;
     display: flex;
 }
-.cd-name{
-    margin-top: 6px;
-    margin-left: 10px;
+
+
+.cd-containergrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 20px; 
+ 
+    /* background-color: aqua; */
+    width: 120vh;
+    padding: 5vh;
+}
+
+.cd-main{
+    display: flex;
+    justify-content: center;
 }
