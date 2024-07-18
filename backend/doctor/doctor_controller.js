@@ -4,6 +4,7 @@ const Patient = require('../patient/patient_model');
 const Appointment = require('../appointments/appointment_model');
 const MedicalSecretary = require('../medicalsecretary/medicalsecretary_model');
 const Prescription = require('../prescription/prescription_model');
+const Notification = require('../notifications/notifications_model')
 const path = require('path');
 
 const mongoose = require('mongoose');
@@ -162,7 +163,6 @@ const verifyTwoFactor = async (req, res) => {
       res.status(500).json({ message: 'Error verifying 2FA token', error });
     }
 };
-
 const NewDoctorSignUp = (req, res) => {
     Doctors.create(req.body)
         .then((newDoctor) => {
@@ -201,7 +201,6 @@ const findAllDoctors = (req, res) => {
             res.json({ message: 'Something went wrong', error: err });
         });
 };
-
 const findUniqueSpecialties = (req, res) => {
     Doctors.distinct('dr_specialty')
         .then((specialties) => {
@@ -214,9 +213,9 @@ const findUniqueSpecialties = (req, res) => {
 const updateDoctorImage = async (req, res) => {
     try {
       const doctorId = req.params.id;
-      const imagePath = `images/${req.file.filename}`; // Store relative path
+      const imagePath = `images/${req.file.filename}`; 
   
-      // Update the doctor's image path in the database
+
       const updatedDoctor = await Doctors.findByIdAndUpdate(doctorId, { dr_image: imagePath }, { new: true });
   
       res.json({ updatedDoctor, message: 'Doctor image updated successfully' });
@@ -504,48 +503,107 @@ const updateAvailability = async (req, res) => {
 };
 
 
+const rescheduleAppointment = async (req, res) => {
+    try {
+        const appointmentId = req.params.uid; // Appointment ID from URL parameter
+        const { newDate, newTime } = req.body; // New date and time from request body
+
+        // Find the appointment and update its date and time
+        const updatedAppointment = await Appointment.findByIdAndUpdate(
+            appointmentId,
+            { date: newDate, time: newTime },
+            { new: true }
+        ).populate('doctor').populate('patient'); // Populate doctor and patient
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        // Get doctor and patient names from the populated fields
+        const doctorName = `${updatedAppointment.doctor.dr_firstName} ${updatedAppointment.doctor.dr_lastName}`;
+        const patientName = `${updatedAppointment.patient.patient_firstName} ${updatedAppointment.patient.patient_lastName}`;
+
+        // Create a notification for the patient
+        const patientObjectId = new mongoose.Types.ObjectId(updatedAppointment.patient._id);
+        const notification = new Notification({
+            message: `Your appointment with Dr. ${doctorName} has been rescheduled to ${newDate} at ${newTime}.`,
+            recipientType: 'Patient',
+            recipient: patientObjectId
+        });
+        await notification.save();
+
+        // Add notification reference to the patient
+        await Patient.findByIdAndUpdate(
+            patientObjectId,
+            { $push: { notifications: notification._id } },
+            { new: true }
+        );
+
+        res.status(200).json(updatedAppointment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+
+
+
+
 //For Prescription
 const createPrescription = async (req, res) => {
     const { patientId, appointmentId } = req.params;
     const { gender, dateOfConsultation, doctor, medications } = req.body;
 
     try {
-        const appointment = await Appointment.findById(appointmentId);
-
-        if (!appointment) {
-            return res.status(404).json({ message: 'Appointment not found' });
-        }
-
-        const prescription = new Prescription({
+        let prescription = await Prescription.findOne({
             patient: patientId,
-            appointment: appointmentId,
-            gender,
-            dateOfConsultation,
-            doctor,
-            medications
+            doctor: doctor,
+            appointment: appointmentId || null
         });
 
-        await prescription.save();
+        if (prescription) {
+            // Update existing prescription
+            prescription.gender = gender;
+            prescription.dateOfConsultation = dateOfConsultation;
+            prescription.medications = medications;
+            await prescription.save();
+        } else {
+            // Create new prescription
+            prescription = new Prescription({
+                patient: patientId,
+                appointment: appointmentId || null,
+                gender,
+                dateOfConsultation,
+                doctor,
+                medications
+            });
+            await prescription.save();
 
-        // Update the patient's record to include the new prescription
-        const patient = await Patient.findById(patientId);
-        if (patient) {
-            patient.prescriptions.push(prescription._id);
-            await patient.save();
+            // Update the patient's record
+            const patient = await Patient.findById(patientId);
+            if (patient) {
+                patient.prescriptions.push(prescription._id);
+                await patient.save();
+            }
+
+            // Update the doctor's record
+            const doctorRecord = await Doctors.findById(doctor);
+            if (doctorRecord) {
+                doctorRecord.dr_prescriptions.push(prescription._id);
+                await doctorRecord.save();
+            }
+
+            // Update the appointment
+            if (appointmentId) {
+                const appointment = await Appointment.findById(appointmentId);
+                if (appointment) {
+                    appointment.prescription = prescription._id;
+                    await appointment.save();
+                }
+            }
         }
 
-        // Update the doctor's record to include the new prescription
-        const doctorRecord = await Doctors.findById(doctor);
-        if (doctorRecord) {
-            doctorRecord.dr_prescriptions.push(prescription._id);
-            await doctorRecord.save();
-        }
-
-        // Update the appointment to include the new prescription
-        appointment.prescription = prescription._id;
-        await appointment.save();
-
-        res.status(201).json({ message: 'Prescription created successfully', prescription });
+        res.status(201).json({ message: 'Prescription saved successfully', prescription });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error });
     }
@@ -561,6 +619,29 @@ const getPrescriptionsByDoctor = async (req, res) => {
 
         if (!prescriptions.length) {
             return res.status(404).json({ message: 'No prescriptions found for this doctor' });
+        }
+
+        res.status(200).json(prescriptions);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+};
+const getPrescriptions = async (req, res) => {
+    const { patientId, appointmentId } = req.params;
+
+    try {
+        let query = { patient: patientId };
+        if (appointmentId) {
+            query.appointment = appointmentId;
+        }
+
+        const prescriptions = await Prescription.find(query)
+            .populate('patient')
+            .populate('doctor')
+            .populate('appointment');
+
+        if (!prescriptions.length) {
+            return res.status(404).json({ message: 'No prescriptions found for this patient and appointment' });
         }
 
         res.status(200).json(prescriptions);
@@ -613,5 +694,7 @@ module.exports = {
     doctorAvailability,
     getAvailability,
     updateAvailability,
-    findUniqueSpecialties
+    findUniqueSpecialties,
+    getPrescriptions,
+    rescheduleAppointment
 };

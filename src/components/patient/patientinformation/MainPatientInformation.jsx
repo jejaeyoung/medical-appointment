@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import PatientNavBar from "../PatientNavBar/PatientNavBar";
 import PatientInformationSidebar from "./Sidebar/PatientInformationSidebar";
-
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function MainPatientInformation() {
     
@@ -52,9 +52,18 @@ function MainPatientInformation() {
  
     return (
         <>
-           <PatientNavBar/>
-          
+
+         <Scrollbars style={{ width: '100%', height: '100%' }} className="pp-scrollbar">
+            <PatientNavBar/>
             <PatientInformationSidebar pid={pid}/>
+            </Scrollbars>
+      
+            
+
+      
+     
+       
+          
          
 
            

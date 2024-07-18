@@ -103,9 +103,7 @@ function PatientInformation() {
                 </Row>
               </div>
               <div style={{textAlign: "center", marginTop: '20px'}}>
-                {/* <Button variant="primary" onClick={() => setIsUpdateModalOpen(true)}>
-                  Update your Information
-                </Button> */}
+             
               </div>
             </Form>
             </div>

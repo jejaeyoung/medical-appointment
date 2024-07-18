@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table } from 'react-bootstrap';
+import { Scrollbars } from 'react-custom-scrollbars';
 import './PatientPrescriptions.css';
 
 function PatientPrescriptions() {
@@ -26,6 +27,10 @@ function PatientPrescriptions() {
 
     return (
         <>
+        <div style={{ width: '100%', height: '100vh' }}>
+         <Scrollbars style={{ width: '100%', height: '100%' }} className="pp-scrollbar">
+              
+           
             <div>
                 <h1>Prescriptions</h1>
             </div>
@@ -70,6 +75,11 @@ function PatientPrescriptions() {
                     <p>No prescriptions found.</p>
                 )}
                 </div>
+            </div>
+                <div style={{marginBottom: '1vh'}}>
+
+                </div>
+            </Scrollbars>
             </div>
         </>
     );

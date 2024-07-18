@@ -51,7 +51,6 @@ const TheAppointmentsNav = () => {
                 <SidebarMenu doctor_image={theImage}doctor_name={theName} did={theId} />
          
             <div className="pa-container"> 
-
                 <Nav fill variant="tabs" defaultActiveKey="/home">
                     <Nav.Item>
                         <Nav.Link onClick={() => setActiveTab("pending")}>Pending Appointments</Nav.Link>
@@ -62,7 +61,6 @@ const TheAppointmentsNav = () => {
                 </Nav>
                 {activeTab === 'pending' && <MyPendingAppointment/>}
                 {activeTab === 'mypatients' && <MainAppointment/>}
-         
             </div>
                 
               

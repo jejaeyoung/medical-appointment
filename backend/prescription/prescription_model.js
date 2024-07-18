@@ -10,7 +10,6 @@ const PrescriptionSchema = new Schema({
     appointment: {
         type: Schema.Types.ObjectId,
         ref: 'Appointment',
-        required: true
     },
     doctor: {
         type: Schema.Types.ObjectId,

@@ -67,7 +67,7 @@ function PatientInformationSidebar() {
                 <div>
                 <div>
                 <div>
-                
+         
                 </div>
                 </div>
                 </div>

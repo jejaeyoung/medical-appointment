@@ -54,10 +54,15 @@ const PatientSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Appointment'
     }],
+    patient_findings:[{
+        type:Schema.Types.ObjectId,
+        ref: 'Findings'
+    }],
     medicalHistory: {
         type: Schema.Types.ObjectId,
         ref: 'MedicalHistory'
     },
+
     prescriptions: [{
         type: Schema.Types.ObjectId,
         ref: 'Prescription'

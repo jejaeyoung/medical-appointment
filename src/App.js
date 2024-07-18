@@ -29,6 +29,7 @@ import MyAppointment from './components/patient/scheduledappointment/MyAppointme
 import MainPatientInformation from './components/patient/patientinformation/MainPatientInformation';
 import DoctorInformation from './components/practitioner/accountinfo/DoctorInformation';
 import ChooseDoctorSpecialization from './components/patient/choosedoctor/ChooseDoctorSpecialization';
+import MainInformation from './components/practitioner/patientinformation/MainInformation';
 
 
 
@@ -53,6 +54,7 @@ function App() {
           <Route path={"/dashboard/edit/:uid/:index"}element={<EditMode/>}/>  
           <Route path={'/mainappointment/:did'} element={<TheAppointments/>}></Route>
           <Route path={'/medicalrecord/:did'} element={<MainMedicalRecord/>}/>
+          <Route path={"/information/:pid/:did/:apid"} element={<MainInformation />}/>
           <Route path={"/account/:did"} element={<DoctorInformation />}/>
         
         {/* Patient Routes */}

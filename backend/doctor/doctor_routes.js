@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const DoctorController = require('./doctor_controller');
 console.log("Doctor routes connected");
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, 'images');
@@ -57,14 +58,17 @@ module.exports = app => {
   app.put('/doctor/api/:uid/completeappointment', DoctorController.completeAppointment)
   app.put('/doctor/:doctorId/availability', DoctorController.doctorAvailability)
   app.put('/doctor/:doctorId/status', DoctorController.updateAvailability);
+ 
 
-  app.get('/doctor/:doctorId/available', DoctorController.getAvailability)
+  app.get('/doctor/:doctorId/available', DoctorController.getAvailability);
+  app.put('/doctor/:uid/rescheduleappointment', DoctorController.rescheduleAppointment);
   // Uploading Image
   app.post('/doctor/api/:id/updateimage', upload.single('image'), DoctorController.updateDoctorImage);
   
   //For Prescription
   app.post('/doctor/api/createPrescription/:patientId/:appointmentId', DoctorController.createPrescription);
   app.get('/doctor/api/getPrescriptions/:doctorId', DoctorController.getPrescriptionsByDoctor);
+  app.get('/doctor/api/getPrescriptions/:patiendId/:doctorId', DoctorController.getPrescriptions);
 
   //Getting All Patients
   app.get('/doctor/api/getallpatients/:doctorId', DoctorController.getPatientsByDoctor);

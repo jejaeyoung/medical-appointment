@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import { Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
-import PrescriptionModal from './modals/PrescriptionModal';
+
+
 import './Appointment.css';
+import MainInformation from "../patientinformation/MainInformation";
 
 const TodaysAppointment = ({allAppointments}) => {
-  const { did } = useParams();
+  const { did,pid } = useParams();
   
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState("");
@@ -15,7 +17,7 @@ const TodaysAppointment = ({allAppointments}) => {
   const [selectedPatientId, setSelectedPatientId] = useState("");
   const [selectedAppointmentId, setSelectedAppointmentId] = useState("");
 
-
+  console.log(pid);
   const completeAppointment = (appointmentID) => {
     const newStatus = {
         status: 'Completed'
@@ -68,8 +70,7 @@ const TodaysAppointment = ({allAppointments}) => {
           <Table striped bordered hover variant ="blue">
             <thead>
               <tr>
-                {/* <th style={{border: "1px solid #00000018"}}>Patient ID</th> */}
-               
+                <th style={{border: "1px solid #00000018"}}>Appointment ID</th>
                 <th style={{border: "1px solid #00000018"}}>Patient Name</th>
                 <th style={{border: "1px solid #00000018"}}>Date</th>
                 <th style={{border: "1px solid #00000018"}}>Time</th>
@@ -86,8 +87,7 @@ const TodaysAppointment = ({allAppointments}) => {
                 const patientName = `${patient.patient_firstName} ${patient.patient_middleInitial}. ${patient.patient_lastName}`;
                 return (
                   <tr key={appointment._id}>
-                    {/* <td>{appointment.patient.patient_ID}</td> */}
-                   
+                    <td>{appointment._id}</td>
                     <td>{patientName}</td>
                     <td>{new Date(appointment.date).toLocaleDateString()}</td>
                     <td>{appointment.time}</td>
@@ -95,7 +95,9 @@ const TodaysAppointment = ({allAppointments}) => {
                     <td>{appointment.status}</td>
                     <td>
                       <div>
-                        <Button onClick={() => handleCreatePrescription(appointment.patient._id, appointment._id)}>Create Prescription</Button>
+                        <Link to={`/information/${appointment.patient._id}/${did}/${appointment._id}`}>
+                          <Button>Create Prescription</Button>
+                        </Link>
                         <Button onClick={() => completeAppointment(appointment._id)}>Complete</Button>
                       </div>
                     </td>
@@ -107,13 +109,7 @@ const TodaysAppointment = ({allAppointments}) => {
           {error && <p>{error}</p>}
         </div>
       </div>
-      <PrescriptionModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        patientId={selectedPatientId}
-        appointmentId={selectedAppointmentId}
-        doctorId={did}
-      />
+  
     </>
   );
 };

@@ -17,9 +17,13 @@ DoctorRoutes(app);
 const PatientRoutes = require("./patient/patient_routes");
 PatientRoutes(app);
 const MedicalSecretaryRoutes = require("./medicalsecretary/medicalsecretary_routes");
-
 MedicalSecretaryRoutes(app);
 
 
-app.listen(port, () => console.log("The server is all fired up on port 8000"));
+//
+const FindingsRoutes = require("./findings/findings_routes")
+FindingsRoutes(app);
+
+
+app.listen(port, () => console.log("\nThe server is all fired up on port 8000"));
 
