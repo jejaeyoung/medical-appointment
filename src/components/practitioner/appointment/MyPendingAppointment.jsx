@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Table, Button, Container, Pagination, Form, Modal } from 'react-bootstrap';
-
+import { Table, Button, Container, Pagination, Form } from 'react-bootstrap';
 
 import './Appointment.css';
-import RescheduleModal from "./Reschedule Modal/RescheduleModal";
+import RescheduleModal from "../../patient/scheduledappointment/Modal/RescheduledModal";
 
 const TodaysAppointment = () => {
   const { did } = useParams();
@@ -17,8 +16,12 @@ const TodaysAppointment = () => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  console.log();
+
   useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = () => {
     axios
       .get(`http://localhost:8000/doctor/appointments/${did}`)
       .then((res) => {
@@ -28,17 +31,33 @@ const TodaysAppointment = () => {
         setError("Error fetching appointments");
         console.log(err);
       });
-  }, [did]);
+  };
 
   const acceptAppointment = (appointmentID) => {
-    const newStatus = {
-      status: 'Scheduled'
-    };
+    const newStatus = { status: 'Scheduled' };
     axios.put(`http://localhost:8000/doctor/api/${appointmentID}/acceptpatient`, newStatus)
+      .then((response) => {
+        setAllAppointments(prevAppointments =>
+          prevAppointments.map(appointment =>
+            appointment._id === appointmentID ? { ...appointment, status: 'Scheduled' } : appointment
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const handleConfirmReschedule = (appointmentID, rescheduledReason) => {
+    const newStatus = {
+      rescheduledReason: rescheduledReason,
+      status: 'Rescheduled'
+    };
+    axios.put(`http://localhost:8000/doctor/${selectedAppointment._id}/rescheduledstatus`, newStatus)
       .then(() => {
         setAllAppointments(prevAppointments =>
           prevAppointments.map(appointment =>
-            appointment._id === appointmentID ? { ...appointment, status: 'Completed' } : appointment
+            appointment._id === selectedAppointment._id ? { ...appointment, status: 'Rescheduled', rescheduledReason: rescheduledReason } : appointment
           )
         );
         setCurrentPage(1); // Reset to first page after accepting an appointment
@@ -117,7 +136,7 @@ const TodaysAppointment = () => {
         
         <div style={{ marginTop: '20px', width: '100%' }} className="d-flex align-items-center">
           <div style={{width:'20%'}}>
-          <label>Entries per page:</label>
+            <label>Entries per page:</label>
           </div>
           <select value={entriesPerPage} onChange={(e) => setEntriesPerPage(parseInt(e.target.value))}>
             <option value={5}>5</option>
@@ -126,26 +145,23 @@ const TodaysAppointment = () => {
             <option value={50}>50</option>
           </select>
          
-          
           <Container className="justify-content-end d-flex">
             <Form.Group controlId="formSearch" className="d-flex align-items-center ">
-                <div style={{width:'100%'}}>
-                    <p>Search by Patient Name: </p>
-                </div>
-                <div className="d-flex justify-content-end" style={{width: '100%'}}>
-                  <Form.Control
-                      type="text"
-                      placeholder="Search..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-              </Form.Group>
+              <div style={{width:'100%'}}>
+                <p>Search by Patient Name: </p>
+              </div>
+              <div className="d-flex justify-content-end" style={{width: '100%'}}>
+                <Form.Control
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </Form.Group>
           </Container>
-            
-     
-         
         </div>
+        
         <Table striped bordered hover variant="blue">
           <thead>
             <tr>
@@ -200,7 +216,7 @@ const TodaysAppointment = () => {
           show={showRescheduleModal} 
           handleClose={handleCloseRescheduleModal} 
           appointment={selectedAppointment} 
-          onSubmit={handleRescheduleSubmit}
+          handleConfirm={handleConfirmReschedule}
         />
       )}
     </Container>

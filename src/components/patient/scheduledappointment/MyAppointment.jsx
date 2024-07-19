@@ -8,6 +8,7 @@ import ActiveAppointment from "./Appointments";
 import CancelledAppointments from "./CancelledAppointments";
 import CompleteAppointment from "./CompleteAppointment";
 import PendingAppointments from "./PendingAppointment";
+import RescheduledAppointment from "./RescheduledAppointments";
 
 
 
@@ -18,7 +19,9 @@ function MyAppointment() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("pending");
    
-
+    const handleTabPending = (tab) => {
+      setActiveTab(tab)
+    }
     return (
         <>
           <PatientNavBar/>
@@ -38,15 +41,19 @@ function MyAppointment() {
                   <Nav.Item>
                     <Nav.Link onClick={() => setActiveTab("completed")}>Completed Appointment</Nav.Link>
                   </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => setActiveTab("rescheduled")}>Rescheduled Appointment</Nav.Link>
+                  </Nav.Item>
                   
               </Nav>
             </div>
            
           </div>
-              {activeTab === "pending" && <PendingAppointments />}
+              {activeTab === "pending" && <PendingAppointments activeTab = {handleTabPending} />}
               {activeTab === "active" && <ActiveAppointment />}
               {activeTab === "cancel" && <CancelledAppointments />}
               {activeTab === "completed" && <CompleteAppointment />}
+              {activeTab === "rescheduled" && <RescheduledAppointment />}
        
          
 

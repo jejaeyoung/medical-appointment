@@ -322,7 +322,7 @@ const updatePostAtIndex = (req, res) => {
 
 const createAppointment = async (req, res) => {
   try {
-    const { doctorId, date, time, reason, cancelReason, secretaryId, prescriptionId, medium, payment } = req.body;
+    const { doctorId, date, time, reason, cancelReason, rescheduledReason, secretaryId, prescriptionId, medium, payment } = req.body;
     const patientId = req.params.uid; 
 
 
@@ -331,11 +331,6 @@ const createAppointment = async (req, res) => {
     const secretaryObjectId = secretaryId ? new mongoose.Types.ObjectId(secretaryId) : null;
     const prescriptionObjectId = prescriptionId ? new mongoose.Types.ObjectId(prescriptionId) : null;
 
-   
-    const existingAppointment = await Appointment.findOne({ doctor: doctorObjectId, date: new Date(date), time: time });
-    if (existingAppointment) {
-      return res.status(400).json({ message: 'The selected time slot is already booked.' });
-    }
 
     const newAppointment = new Appointment({
       patient: patientObjectId,
@@ -345,6 +340,7 @@ const createAppointment = async (req, res) => {
       time,
       reason,
       cancelReason,
+      rescheduledReason,
       medium,
       payment,
       secretary: secretaryObjectId
@@ -412,7 +408,7 @@ const bookedSlots = async (req, res) => {
       const { doctorId } = req.params;
       const { date } = req.query;
 
-      // Check doctor's active appointment status
+      // Check doctors active appointment status
       const doctor = await Doctor.findById(doctorId).select('activeAppointmentStatus');
       if (!doctor.activeAppointmentStatus) {
           return res.status(400).json({ message: 'Doctor is not available for appointments.' });
@@ -449,6 +445,8 @@ const cancelAppointment = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
 
 
 

@@ -444,11 +444,12 @@ const acceptPatient = async (req, res) => {
             { $addToSet: { dr_patients: patientId } }, // AddToSet ensures no duplicates
             { new: true }
         );
-
+        const patientObjectId = new mongoose.Types.ObjectId(updatedAppointment.patient._id);
         // Create a notification for the patient
         const notification = new Notification({
             message: `Your appointment with Dr. ${doctorId} has been scheduled.`,
-            patient: patientId
+            recipient: patientObjectId,
+            recipientType: 'Patient'
         });
         await notification.save();
 
@@ -511,7 +512,7 @@ const rescheduleAppointment = async (req, res) => {
         // Find the appointment and update its date and time
         const updatedAppointment = await Appointment.findByIdAndUpdate(
             appointmentId,
-            { date: newDate, time: newTime },
+            { date: newDate, time: newTime, status:'Scheduled' },
             { new: true }
         ).populate('doctor').populate('patient'); // Populate doctor and patient
 
@@ -545,6 +546,27 @@ const rescheduleAppointment = async (req, res) => {
     }
 };
 
+const rescheduledStatus = async (req, res) => {
+    try {
+      const { rescheduledReason } = req.body;
+      const appointmentId = req.params.uid; // Appointment ID from URL parameter
+  
+      // Find the appointment and update its cancelReason and status
+      const updatedAppointment = await Appointment.findByIdAndUpdate(
+        appointmentId,
+        { $set: { rescheduledReason: rescheduledReason, status: 'Rescheduled' } }, // Update cancelReason and status
+        { new: true }
+      );
+  
+      if (!updatedAppointment) {
+        return res.status(404).json({ message: "Appointment not found" });
+      }
+  
+      res.status(200).json(updatedAppointment);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
 
 
 
@@ -696,5 +718,6 @@ module.exports = {
     updateAvailability,
     findUniqueSpecialties,
     getPrescriptions,
-    rescheduleAppointment
+    rescheduleAppointment,
+    rescheduledStatus
 };

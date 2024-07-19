@@ -6,7 +6,7 @@ import './Appointment.css';
 function CancelledAppointments() {
     const [cancelledAppointments, setCancelledAppointments] = useState([]);
     const { pid } = useParams(); 
-    const defaultImage = "images/NoProfile.jpg";
+    const defaultImage = "images/014ef2f860e8e56b27d4a3267e0a193a.jpg";
     
     useEffect(() => {
         axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`)

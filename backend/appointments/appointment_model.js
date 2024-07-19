@@ -31,9 +31,12 @@ const AppointmentSchema = new Schema({
     cancelReason: {
         type: String,
     },
+    rescheduledReason: {
+        type: String,
+    },
     status: {
         type: String,
-        enum: ['Pending', 'Scheduled', 'Completed', 'Cancelled', 'Missed'],
+        enum: ['Pending', 'Scheduled', 'Completed', 'Cancelled', 'Missed', 'Rescheduled'],
         default: 'Pending'
     },
     medium :{

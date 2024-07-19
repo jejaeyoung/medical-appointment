@@ -19,10 +19,11 @@ module.exports = app => {
 
     //Finding One Patient and Notifications
     app.get('/patient/api/onepatient/:uid', PatientController.findPatientById)
-    //Create Appointment
+    // Appointment
     app.get('/doctor/:doctorId/booked-slots', PatientController.bookedSlots)
     app.post('/patient/api/:uid/createappointment', PatientController.createAppointment);
     app.put('/patient/api/:uid/updateappointment', PatientController.cancelAppointment)
+    // app.put('patient/api/:uid/rescheduleappointment', PatientController.)
 
 
     

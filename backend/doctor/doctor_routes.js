@@ -62,6 +62,8 @@ module.exports = app => {
 
   app.get('/doctor/:doctorId/available', DoctorController.getAvailability);
   app.put('/doctor/:uid/rescheduleappointment', DoctorController.rescheduleAppointment);
+
+  app.put('/doctor/:uid/rescheduledstatus', DoctorController.rescheduledStatus);
   // Uploading Image
   app.post('/doctor/api/:id/updateimage', upload.single('image'), DoctorController.updateDoctorImage);
   
