@@ -5,20 +5,22 @@ const {Schema, model} = mongoose
 const MedicalSecretarySchema = new Schema({
     ms_firstName: {
         type: String,
-        required: true,
         minlength: 3,
+        maxlength: 20
+    },
+    ms_username:{
+        type: String,
+        minlength: 2,
         maxlength: 20
     },
     ms_lastName: {
         type: String,
-        required: true,
         minlength: 2,
         maxlength: 20
     },
     ms_email: {
         type: String,
-        required: true,
-        unique: true,
+
         lowercase: true,
         validate: {
             validator: function (v) {
@@ -29,13 +31,11 @@ const MedicalSecretarySchema = new Schema({
     },
     ms_password: {
         type: String,
-        required: true,
         minlength: 6,
     },
     ms_contactNumber: {
         type: String,
-        required: true,
-        unique: true,
+  
     },
     ms_appointments: [{
         type: Schema.Types.ObjectId,

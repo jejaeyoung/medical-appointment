@@ -4,15 +4,16 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Bell, ChevronDown } from 'react-bootstrap-icons';
 import axios from 'axios';
 import './PatientNavBar.css';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function PatientNavBar() {
     const navigate = useNavigate();
     const { pid } = useParams();
     const [showNotifications, setShowNotifications] = useState(false);
     const [notifications, setNotifications] = useState([]);
+    const [itemsToShow, setItemsToShow] = useState(3);
 
     useEffect(() => {
-
         const fetchNotifications = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/patient/api/onepatient/${pid}`);
@@ -40,6 +41,14 @@ function PatientNavBar() {
 
     const toggleNotifications = () => {
         setShowNotifications(!showNotifications);
+    };
+
+    const showMore = () => {
+        setItemsToShow(notifications.length);
+    };
+
+    const showLess = () => {
+        setItemsToShow(3);
     };
 
     return (
@@ -71,20 +80,29 @@ function PatientNavBar() {
                                 <Bell size={20} />
                                 {showNotifications && (
                                     <div className="notification-overlay">
-                                        {notifications.length > 0 ? (
-                                            notifications.map((notification, index) => (
-                                           
-                                                   
-                                             
-                                                <div key={index} className="notification-item">  <hr/> {notification.message}</div>
-                                            ))
-                                        ) : (
-                                            <div>No new notifications</div>
-                                        )}
+                                        <Scrollbars style={{ height: '100vh', width: '100%' }} className="pp-scrollbar">
+                                            {notifications.length > 0 ? (
+                                                [...notifications].reverse().slice(0, itemsToShow).map((notification, index) => (
+                                                    <div key={index} className="notification-item">
+                                                        {notification.message}
+                                                        {/* Cutting the hr in the last index of the array */}
+                                                        {index < itemsToShow - 1 && index < notifications.length - 1 && <hr />}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div>No new notifications</div>
+                                            )}
+                                            {/* {itemsToShow === 3 ? (
+                                                <button onClick={showMore}>Show More</button>
+                                            ) : (
+                                                <button onClick={showLess}>Show Less</button>
+                                            )} */}
+                                        </Scrollbars>
                                     </div>
                                 )}
                             </Nav.Link>
                         </Nav>
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

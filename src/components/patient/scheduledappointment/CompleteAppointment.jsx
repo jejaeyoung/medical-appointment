@@ -10,7 +10,7 @@ function CompleteAppointment() {
     const [theDoctor, setAllDoctor] = useState([]);
     const { pid } = useParams(); 
     const navigate = useNavigate();
-    const defaultImage = "images/NoProfile.jpg";
+    const defaultImage = "images/014ef2f860e8e56b27d4a3267e0a193a.jpg";
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 

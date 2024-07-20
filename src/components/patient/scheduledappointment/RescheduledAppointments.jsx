@@ -88,7 +88,8 @@ function RescheduledAppointment() {
                                 <div>
                                     <p style={{ marginLeft: '10px' }}>Dr. {doctor?.dr_firstName} {doctor?.dr_middleInitial ? `${doctor.dr_middleInitial}.` : ''} {doctor?.dr_lastName}</p>
                                     <p style={{ marginLeft: '10px' }}>Status: {appointment.status}</p>
-                                    <p style={{ marginLeft: '10px' }}>Date/Time: {appointment.date}/{appointment.time}</p>
+                                    <p style={{ marginLeft: '10px' }}>Date/Time: {new Date(appointment.date).toLocaleDateString()}/{appointment.time}</p>
+                                    <p style={{ marginLeft: '10px' }}>Reason for Rescheduling: {appointment.rescheduledReason}</p>
                                     <Button 
                                         variant="warning" 
                                         onClick={() => handleReschedule(appointment)}

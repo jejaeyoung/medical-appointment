@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import './DoctorProfile.css';
 import PatientNavBar from "../PatientNavBar/PatientNavBar";
 import AppointmentModal from "./AppointmentModal"; // Adjust the path as needed
+import { Scrollbars } from "react-custom-scrollbars";
 
 function DoctorProfile() {
     const [theDoctor, setTheDoctor] = useState([]);
@@ -91,9 +92,17 @@ function DoctorProfile() {
 
     return (
         <>
+          <div style={{ width: '100%', height: '100vh'}}>
+         <Scrollbars style={{ width: '100%', height: '100%' }}>
             <PatientNavBar />
-            <div style={{padding: '50px'}}>
+           
+
+            
+          
+               
+
                 <div className="dp-main">
+                <div className="dp-containermain">
                     <div>
                         <h1>Doctor Information</h1>
                         <div className="dp-container1">
@@ -165,9 +174,14 @@ function DoctorProfile() {
                         ))}
                     </div>
 
-
+               
                 </div>
                 <AppointmentModal show={showModal} handleClose={handleCloseModal} pid={pid} did={did} />
+                
+                
+            </div>
+      
+            </Scrollbars>
             </div>
         </>
     );

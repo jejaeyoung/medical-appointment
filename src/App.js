@@ -31,6 +31,11 @@ import DoctorInformation from './components/practitioner/accountinfo/DoctorInfor
 import ChooseDoctorSpecialization from './components/patient/choosedoctor/ChooseDoctorSpecialization';
 import MainInformation from './components/practitioner/patientinformation/MainInformation';
 
+//Staff Login
+import StaffLogIn from './components/staffs/login page/StaffLogin';
+
+// Medical Secretary
+import MedSecDashboard from './components/staffs/medical secretary/dashboard/MedSecDashboard';
 
 
 
@@ -65,6 +70,12 @@ function App() {
           <Route path={"/myappointment/:pid"} element={<MyAppointment />}/>
           <Route path={"/accinfo/:pid"} element={<MainPatientInformation />}/>
 
+        {/* Staff Login */}
+          <Route path={"/staffs"} element={<StaffLogIn />}/>
+
+        {/* Medical Secretary */}
+          <Route path={"/medsec/:msid"} element={<MedSecDashboard />}/>
+          
       </Routes>
     </BrowserRouter>
 

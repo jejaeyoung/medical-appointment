@@ -1,12 +1,13 @@
 
-const Post = require('../announcement/announcement_model');
+
 const mongoose = require('mongoose');
 const MedicalSecretary = require('./medicalsecretary_model');
+const Appointment = require('../appointments/appointment_model');
 
 const NewMedicalSecretaryignUp = (req, res) => {
     MedicalSecretary.create(req.body)
-        .then((newDoctor) => {
-            res.json({ newDoctor: newDoctor, status: "Successfully registered Doctor." });
+        .then((newMedicalSecretary) => {
+            res.json({ newMedicalSecretary: newMedicalSecretary, status: "Successfully registered Medical Secretary." });
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong. Please try again.', error: err });
@@ -15,9 +16,8 @@ const NewMedicalSecretaryignUp = (req, res) => {
 
 const findAllMedicalSecretary = (req, res) => {
     MedicalSecretary.find()
-        .populate('dr_posts')
         .then((allDataMedicalSecretary) => {
-            res.json({ theDoctor: allDataMedicalSecretary });
+            res.json({ theMedicalSecretary: allDataMedicalSecretary });
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err });

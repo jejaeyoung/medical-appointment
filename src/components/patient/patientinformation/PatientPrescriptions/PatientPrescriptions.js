@@ -32,6 +32,7 @@ function PatientPrescriptions() {
               
            
             <div>
+                
                 <h1>Prescriptions</h1>
             </div>
 
@@ -76,7 +77,7 @@ function PatientPrescriptions() {
                 )}
                 </div>
             </div>
-                <div style={{marginBottom: '1vh'}}>
+                <div style={{marginBottom: '12vh'}}>
 
                 </div>
             </Scrollbars>

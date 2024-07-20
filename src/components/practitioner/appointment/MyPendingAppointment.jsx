@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { Table, Button, Container, Pagination, Form } from 'react-bootstrap';
 
 import './Appointment.css';
-import RescheduleModal from "../../patient/scheduledappointment/Modal/RescheduledModal";
+import RescheduleModal from "./Reschedule Modal/RescheduleModal";
+
 
 const TodaysAppointment = () => {
   const { did } = useParams();
@@ -18,20 +19,18 @@ const TodaysAppointment = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   useEffect(() => {
-    fetchAppointments();
-  }, []);
-
-  const fetchAppointments = () => {
     axios
-      .get(`http://localhost:8000/doctor/appointments/${did}`)
-      .then((res) => {
-        setAllAppointments(res.data);
-      })
-      .catch((err) => {
-        setError("Error fetching appointments");
-        console.log(err);
-      });
-  };
+    .get(`http://localhost:8000/doctor/appointments/${did}`)
+    .then((res) => {
+      setAllAppointments(res.data);
+    })
+    .catch((err) => {
+      setError("Error fetching appointments");
+      console.log(err);
+    });
+  }, [did]);
+
+
 
   const acceptAppointment = (appointmentID) => {
     const newStatus = { status: 'Scheduled' };
@@ -48,7 +47,7 @@ const TodaysAppointment = () => {
       });
   }
 
-  const handleConfirmReschedule = (appointmentID, rescheduledReason) => {
+  const handleConfirmReschedule = (rescheduledReason) => {
     const newStatus = {
       rescheduledReason: rescheduledReason,
       status: 'Rescheduled'
@@ -66,7 +65,7 @@ const TodaysAppointment = () => {
         console.log(err);
       });
   }
-
+  //For Queries
   const handleSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -111,23 +110,7 @@ const TodaysAppointment = () => {
     setSelectedAppointment(null);
   };
 
-  const handleRescheduleSubmit = (newDate, newTime) => {
-    if (!selectedAppointment) return;
 
-    const rescheduleData = { newDate, newTime };
-    axios.put(`http://localhost:8000/doctor/${selectedAppointment._id}/rescheduleappointment`, rescheduleData)
-      .then((response) => {
-        setAllAppointments(prevAppointments =>
-          prevAppointments.map(appointment =>
-            appointment._id === selectedAppointment._id ? response.data : appointment
-          )
-        );
-        handleCloseRescheduleModal();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <Container>

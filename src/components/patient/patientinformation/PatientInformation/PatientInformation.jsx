@@ -1,24 +1,22 @@
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Container, Row, Col, Button, Navbar, Nav, Form } from 'react-bootstrap';
+import { useNavigate, useParams, } from "react-router-dom";
+import {  Row, Col,  Form } from 'react-bootstrap';
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PatientNavBar from "../../PatientNavBar/PatientNavBar";
-import './PatientInformation.css'
 
+import './PatientInformation.css'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function PatientInformation() {
     
     const { pid } = useParams(); 
-    const navigate = useNavigate();
-    const defaultImage = "images/NoProfile.jpg";
+
     const [thePatient, setThePatient] = useState();
-    const [showModal, setShowModal] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
+
 
    
-    const [theId, setTheId] = useState("");
+
     const [theName, setTheName] = useState("");
-    const [theImage, setTheImage] = useState("");
+  
     const [theLastName, setTheLastName] = useState("");
     const [theMI, setTheMI] = useState("");
     const [email, setEmail] = useState("");
@@ -52,7 +50,10 @@ function PatientInformation() {
  
     return (
         <>
-          
+          <div style={{ width: '100%', height: '100vh' }}>
+          <Scrollbars style={{ width: '100%', height: '100%' }} className="pp-scrollbar">
+
+         
            <div className="pi-main">
                 <h1>Patient Account Details</h1>
            </div>
@@ -107,6 +108,8 @@ function PatientInformation() {
               </div>
             </Form>
             </div>
+          </div>
+          </Scrollbars>
           </div>
         </>
     );
